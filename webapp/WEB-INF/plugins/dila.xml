@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
+
+    <!-- Plugin Informations -->
+    <name>dila</name>
+    <class>fr.paris.lutece.plugins.dila.service.DilaPlugin</class>
+    <version>1.0.0</version>
+    <description>dila.plugin.description</description>
+    <documentation/>
+    <installation/>
+    <changes/>
+    <user-guide/>
+    <description>dila.plugin.description</description>
+    <provider>dila.plugin.provider</provider>
+    <provider-url>http://lutece.paris.fr</provider-url>
+    <icon-url>images/admin/skin/plugins/dila/dila.png</icon-url>
+    <copyright>Copyright 2001-2012 Mairie de Paris</copyright>
+    <core-version-dependency>
+        <min-core-version>4.0.0</min-core-version>
+        <max-core-version/>
+    </core-version-dependency>
+    <db-pool-required>1</db-pool-required>
+
+    <!-- Specific plugin js file -->
+    <javascript-files>
+        <javascript-files-scope>portal</javascript-files-scope>
+        <javascript-file>dila/xtcore.js</javascript-file>
+    </javascript-files>
+    
+    <!-- Xpage configuration -->
+    <applications>
+        <application>
+            <application-id>dila</application-id>
+            <application-class>fr.paris.lutece.plugins.dila.web.DilaApp</application-class>
+        </application>
+        <application>
+            <application-id>dilaLocal</application-id>
+            <application-class>fr.paris.lutece.plugins.dila.web.DilaLocalApp</application-class>
+        </application>
+    </applications>
+
+    <!--Administration interface parameters -->
+    <admin-features>
+        <admin-feature>
+            <feature-id>DILA_LOCAL_CARD_MANAGEMENT</feature-id>
+            <feature-title>dila.adminFeature.fiche-locale_management.name</feature-title>
+            <feature-description>dila.adminFeature.fiche-locale_management.description</feature-description>
+            <feature-level>2</feature-level>
+            <feature-url>jsp/admin/plugins/dila/ManageFicheLocale.jsp</feature-url>
+            <feature-icon-url>images/admin/skin/plugins/dila/dila.png</feature-icon-url>
+            <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=dila</feature-documentation-url>
+        </admin-feature>
+        <admin-feature>
+            <feature-id>DILA_COMPLEMENTARY_DATA_MANAGEMENT</feature-id>
+            <feature-title>dila.adminFeature.donnee-complementaire_management.name</feature-title>
+            <feature-description>dila.adminFeature.donnee-complementaire_management.description</feature-description>
+            <feature-level>2</feature-level>
+            <feature-url>jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp</feature-url>
+            <feature-icon-url>images/admin/skin/plugins/dila/dila.png</feature-icon-url>
+            <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=dila</feature-documentation-url>
+        </admin-feature>
+         <admin-feature>
+            <feature-id>DILA_STYLESHEET_MANAGEMENT</feature-id>
+            <feature-title>dila.adminFeature.stylesheetmanagement.name</feature-title>
+            <feature-description>dila.adminFeature.stylesheetmanagement.description</feature-description>
+            <feature-level>2</feature-level>
+            <feature-url>jsp/admin/plugins/dila/ManageStyleSheets.jsp</feature-url>
+           	<feature-icon-url>images/admin/skin/plugins/dila/manage_stylesheets.png</feature-icon-url>
+        </admin-feature>
+    </admin-features>
+    
+    <!-- RBAC Resources -->
+    <rbac-resource-types>
+        <rbac-resource-type>
+            <rbac-resource-type-class>
+                fr.paris.lutece.plugins.dila.service.DilaStyleSheetResourceIdService
+			</rbac-resource-type-class>
+        </rbac-resource-type>
+    </rbac-resource-types>
+    
+        <!-- Search indexers -->
+    <search-indexers>
+        <search-indexer>
+            <search-indexer-class>fr.paris.lutece.plugins.dila.service.search.DilaXMLIndexer</search-indexer-class>
+        </search-indexer>
+        <search-indexer>
+            <search-indexer-class>fr.paris.lutece.plugins.dila.service.search.DilaLocalIndexer</search-indexer-class>
+        </search-indexer>
+    </search-indexers>
+    
+        <!-- Daemons -->
+    <daemons>
+        <daemon>
+            <daemon-id>dilaXmlDaemon</daemon-id>
+            <daemon-name>dila.daemon.dilaXml.name</daemon-name>
+            <daemon-description>dila.daemon.dilaXml.description</daemon-description>
+            <daemon-class>fr.paris.lutece.plugins.dila.daemon.DilaXmlDaemon</daemon-class>
+        </daemon>
+    </daemons>
+    
+</plug-in>

@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+    <tx:annotation-driven/>
+	<context:annotation-config />
+	
+	<!-- Services -->
+    <bean id="dilaStyleSheetService"  class="fr.paris.lutece.plugins.dila.service.impl.DilaStyleSheetService" />
+    <bean id="dilaStyleSheetActionService"  class="fr.paris.lutece.plugins.dila.service.impl.DilaStyleSheetActionService" />
+    <bean id="contentTypeService"  class="fr.paris.lutece.plugins.dila.service.impl.ContentTypeService" />
+	<bean id="dilaCacheService" class="fr.paris.lutece.plugins.dila.service.impl.DilaCacheService" />
+    <bean id="dilaLocalFolderService" class="fr.paris.lutece.plugins.dila.service.impl.DilaLocalFolderService" />
+    <bean id="dilaLocalService" class="fr.paris.lutece.plugins.dila.service.impl.DilaLocalService" />
+    <bean id="dilaXmlService" class="fr.paris.lutece.plugins.dila.service.impl.DilaXmlService" />
+    <bean id="dilaLocalCardService" class="fr.paris.lutece.plugins.dila.service.impl.DilaLocalCardService" />
+    <bean id="dilaAudienceService" class="fr.paris.lutece.plugins.dila.service.impl.DilaAudienceService" />
+    <bean id="dilaLocalCardChapterService" class="fr.paris.lutece.plugins.dila.service.impl.DilaLocalCardChapterService" />
+    <bean id="dilaLocalFolderLinkService" class="fr.paris.lutece.plugins.dila.service.impl.DilaLocalFolderLinkService" />
+    <bean id="dilaPivotLocalService" class="fr.paris.lutece.plugins.dila.service.impl.DilaPivotLocalService" />
+    <bean id="dilaComplementaryDataService" class="fr.paris.lutece.plugins.dila.service.impl.DilaComplementaryDataService" />
+    <bean id="dilaComplementaryDataLinkService" class="fr.paris.lutece.plugins.dila.service.impl.DilaComplementaryDataLinkService" />
+    <bean id="dilaValidationService" class="fr.paris.lutece.plugins.dila.service.impl.DilaValidationService" />
+    <bean id="dilaDownloadService" class="fr.paris.lutece.plugins.dila.service.impl.DilaDownloadService" />
+    <bean id="dilaExtractService" class="fr.paris.lutece.plugins.dila.service.impl.DilaExtractService" />
+    <bean id="dilaIndexationService" class="fr.paris.lutece.plugins.dila.service.impl.DilaIndexationService" />
+    <bean id="dilaBatchXmlService" class="fr.paris.lutece.plugins.dila.service.impl.DilaBatchXMLService" />
+	<!-- DAO -->
+    <bean id="dilaStyleSheetDAO"  class="fr.paris.lutece.plugins.dila.business.stylesheet.dao.impl.DilaStyleSheetDAO" />
+    <bean id="dilaStyleSheetActionDAO"  class="fr.paris.lutece.plugins.dila.business.stylesheet.dao.impl.DilaStyleSheetActionDAO" />
+    <bean id="contentTypeDAO"  class="fr.paris.lutece.plugins.dila.business.stylesheet.dao.impl.ContentTypeDAO" />
+    <bean id="dilaLocalFolderDAO"  class="fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl.LocalFolderDAO" />
+    <bean id="dilaLocalDAO"  class="fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl.LocalDAO" />
+    <bean id="dilaXmlDAO"  class="fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl.XmlDAO" />
+    <bean id="dilaLocalCardDAO"  class="fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl.LocalCardDAO" />
+    <bean id="dilaAudienceDAO"  class="fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl.AudienceDAO" />
+    <bean id="dilaLocalCardChapterDAO"  class="fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl.LocalCardChapterDAO" />
+    <bean id="dilaLocalFolderLinkDAO"  class="fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl.LocalFolderLinkDAO" />
+    <bean id="dilaComplementaryDataDAO"  class="fr.paris.lutece.plugins.dila.business.donneescomplementaires.dao.impl.ComplementaryDataDAO" />
+    <bean id="dilaComplementaryDataLinkDAO"  class="fr.paris.lutece.plugins.dila.business.donneescomplementaires.dao.impl.ComplementaryDataLinkDAO" />
+    
+</beans>

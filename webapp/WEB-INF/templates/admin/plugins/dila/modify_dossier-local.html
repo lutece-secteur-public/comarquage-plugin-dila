@@ -1,0 +1,189 @@
+<#macro columnActionsFicheLocale item >
+        <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/dila/ModifyDossierLocal.jsp?id_fiche_locale=${item.id!}" title="modifier">
+            <i class="icon-edit icon-white"></i>
+        </a>
+        <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/dila/DeleteDossierLocal.jsp?id_fiche_locale=${item.id!}" title="supprimer">
+            <i class="icon-trash icon-white"></i>
+        </a>
+</#macro>
+
+<script type="text/javascript">
+function doVerifyThemeParent (dossierId)
+{
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyThemeParent.jsp");
+    $("#dossierForm").submit();
+}
+
+function doVerifyDossierFrere (dossierId)
+{
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyDossierFrere.jsp");
+    $("#dossierForm").submit();
+}
+
+function doAddLink ()
+{
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoAddLien.jsp");
+    $("#dossierForm").submit();
+}
+
+function doDeleteLink ()
+{
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoDeleteLien.jsp");
+    $("#dossierForm").submit();
+}
+
+function doVerifyFicheLink (refId)
+{
+    var value = $("#link_reference_"+refId).val();
+    $("#referenceId").val(value);
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyFicheLien.jsp");
+    $("#dossierForm").submit();
+}
+
+</script>
+
+<div class="container-fluid">
+
+<div class="row-fluid">
+    <div class="span12">
+        <form id="dossierForm" action="jsp/admin/plugins/dila/DoModifyDossierLocal.jsp" class="form-horizontal" method="post">
+        <input type="hidden" name="linkId" id="linkId" value="${linkId}" />
+        <input type="hidden" name="referenceId" id="referenceId" />
+        
+        <fieldset>
+            <legend>#i18n{dila.dossierLocal.modifierDossierLocal}</legend>
+            <div class="control-group">
+            <label class="control-label">#i18n{dila.dossierLocal.idDossierLocal} :</label>
+            <div class="controls" style="padding-top: 5px;">${dossierLocal.id!}</div>
+            </div>
+        </fieldset>
+        
+         <fieldset>
+            <legend>#i18n{dila.dossierLocal.emplacement}</legend>
+                <div class="control-group">
+                    <label for="parentThemeId" class="control-label">#i18n{dila.dossierLocal.themeParent} * :</label>
+                    <div class="controls">
+                        <div class="input-prepend input-append">
+                            <span class="add-on">#i18n{dila.common.id} : </span>
+                            <input id="parentThemeId" name="parentThemeId" type="text"  value="${dossierLocal.parentThemeId!}">
+                            <button class="btn" type="button" onclick="doVerifyThemeParent();">#i18n{dila.common.verifier}</button>
+                        </div>
+                       <#if dossierLocal.parentThemeTitle?has_content>
+                           <span class="label label-success">${dossierLocal.parentThemeTitle}</span>
+                       </#if>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="siblingFolderId" class="control-label">#i18n{dila.dossierLocal.dossierFrere} :</label>
+                    <div class="controls">
+                            <select name="position" id="position">
+                                <#if !dossierLocal.position?has_content || dossierLocal.position == 1>
+                                    <option value="1" selected="selected">#i18n{dila.common.position.before}</option>
+                                    <option value="2">#i18n{dila.common.position.after}</option>
+                                <#else>
+                                    <option value="1">#i18n{dila.common.position.before}</option>
+                                    <option value="2" selected="selected">#i18n{dila.common.position.after}</option>
+                                </#if>
+                            </select>
+                        <div class="input-prepend input-append">
+                            <span class="add-on">#i18n{dila.common.id} : </span>
+                            <input id="siblingFolderId" name="siblingFolderId"  type="text" value="${dossierLocal.siblingFolderId!}">
+                            <button class="btn" type="button" onclick="doVerifyDossierFrere();">#i18n{dila.common.verifier}</button>
+                        </div>
+                            <#if dossierLocal.siblingFolderTitle?has_content>
+                                <span class="label label-success">${dossierLocal.siblingFolderTitle}</span>
+                            </#if>
+                    </div>
+                </div>
+        </fieldset>
+        
+         <fieldset>
+            <legend>#i18n{dila.dossierLocal.infosGenerales}</legend>
+                <div class="control-group">
+                    <label for="title" class="control-label">#i18n{dila.dossierLocal.titre} * :</label>
+                    <div class="controls">
+                        <input maxlength="255" size="100" value="${dossierLocal.localDTO.title!}"
+                            id="localDTO.title" name="localDTO.title" type="text">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="author">#i18n{dila.dossierLocal.createur} * :</label>
+                    <div class="controls">
+                        <input id="localDTO.author" name="localDTO.author" size="60" value="${dossierLocal.localDTO.author!}"
+                            maxlength="100" type="text">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="workgroup" class="control-label">#i18n{dila.dossierLocal.audience} * :</label>
+                    <div class="controls">
+                        <#if audiences?has_content>
+                            <@comboSorted name="localDTO.idAudience" default_value="${dossierLocal.localDTO.idAudience!}" items=audiences />
+                        </#if>
+                    </div>
+                </div>
+                    <div class="control-group">
+                        <label for="presentation" class="control-label">#i18n{dila.dossierLocal.presentationDossier} * :</label> 
+                        
+                        <div class="controls">
+                            <textarea name="presentation" id="presentation" rows="10" cols="60">${dossierLocal.presentation!}</textarea>
+                        </div>
+                    </div>
+            </fieldset>
+                        
+            <fieldset>
+                <legend>#i18n{dila.dossierLocal.ajoutLiensVersFiches}</legend>
+            
+                 <#list links_list as link>
+                    <div class="control-group">
+                        <label for="link_title_${link.position}" class="control-label">#i18n{dila.dossierLocal.titreLien} :</label>
+                        <div class="controls">
+                            <input id="link_title_${link.position}" name="link_title_${link.position}" size="60"
+                                maxlength="100" type="text" value="${link.title!}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="link_reference_${link.position}" class="control-label">#i18n{dila.dossierLocal.fiche} :</label>
+                        <div class="controls">
+                            <div class="input-prepend input-append">
+                                <span class="add-on">#i18n{dila.common.id} : </span>
+                                <input name="link_reference_${link.position}" id="link_reference_${link.position}" value="${link.cardId!}" type="text">
+                                <button class="btn" type="button" onclick="doVerifyFicheLink(${link.position});">#i18n{dila.common.verifier}</button>
+                            </div>
+                            <#if link.cardTitle?has_content>
+                                <span class="label label-success">${link.cardTitle}</span>
+                            </#if>
+                        </div>
+
+                    </div>
+                </#list>
+                <div class="span8">
+                    <button class="btn btn-primary btn-small" type="button" onclick="doAddLink();">
+                        <i class="icon-plus-sign icon-white"></i>
+                        <span class="hidden-phone">#i18n{dila.dossierLocal.ajouterLien}</span>
+                    </button>
+                
+                    <#if links_list?has_content >
+                        <button class="btn btn-danger btn-small" type="button" onclick="doDeleteLink();">
+                            <i class="icon-remove icon-white"></i>
+                            <span class="hidden-phone">#i18n{dila.dossierLocal.supprimerLien}</span>
+                        </button>
+                    </#if>
+                </div>
+        </fieldset>
+            <br />
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok icon-white"></i>
+                    <span class="hidden-phone">#i18n{portal.util.labelValidate}</span>
+                </button>                       
+                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageFicheLocale.jsp">            
+                    <i class="icon-remove-circle"></i>
+                    <span class="hidden-phone">#i18n{portal.util.labelBack}</span>
+                </a>                          
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+ 

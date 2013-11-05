@@ -1,0 +1,170 @@
+<#include "/admin/util/editor/editor.html" />
+
+<#macro columnActionsFicheLocale item >
+        <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/dila/ModifyFicheLocale.jsp?id_fiche_locale=${item.id!}" title="modifier">
+            <i class="icon-edit icon-white"></i>
+        </a>
+        <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/dila/DeleteFicheLocale.jsp?id_fiche_locale=${item.id!}" title="supprimer">
+            <i class="icon-trash icon-white"></i>
+        </a>
+</#macro>
+
+<script type="text/javascript">
+function doVerifyDossierParent (dossierId)
+{
+    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoVerifyDossierParent.jsp");
+    $("#ficheLocaleForm").submit();
+}
+    
+function doVerifyFicheSoeur (ficheId)
+{
+    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoVerifyFicheSoeur.jsp");
+    $("#ficheLocaleForm").submit();
+}
+
+function doAddChapter ()
+{
+    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoAddChapter.jsp");
+    $("#ficheLocaleForm").submit();
+}
+
+function doDeleteChapter ()
+{
+    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoDeleteChapter.jsp");
+    $("#ficheLocaleForm").submit();
+}
+</script>
+
+<div class="container-fluid">
+
+<div class="row-fluid">
+    <div class="span12">
+        <form id="ficheLocaleForm" action="jsp/admin/plugins/dila/DoModifyFicheLocale.jsp" class="form-horizontal" method="post">
+        <input type="hidden" name="chapterId" id="chapterId" value="${chapterId}" />
+        
+        <fieldset>
+            <legend>#i18n{dila.modify_fichelocale.modifierFicheLocale}</legend>
+            <div class="control-group">
+            <label class="control-label">#i18n{dila.modify_fichelocale.idFicheLocale} :</label>
+            <div class="controls" style="padding-top: 5px;">${ficheLocale.id!}</div>
+            </div>
+        </fieldset>
+        
+         <fieldset>
+            <legend>#i18n{dila.create_fichelocale.emplacementFiche}</legend>
+                <div class="control-group">
+                    <label for="parentFolderId" class="control-label">#i18n{dila.create_fichelocale.dossierParent} * :</label>
+                    <div class="controls">
+                        <div class="input-prepend input-append">
+                            <span class="add-on">#i18n{dila.create_fichelocale.id} :</span>
+                            <input  name="parentFolderId" id="parentFolderId" type="text" value="${ficheLocale.parentFolderId!}">
+                            <button class="btn" type="button" onclick="doVerifyDossierParent();">#i18n{dila.create_fichelocale.verifier}</button>
+                        </div>
+                        <#if ficheLocale.parentFolderTitle?has_content>
+                            <span class="label label-success">${ficheLocale.parentFolderTitle}</span>
+                        </#if>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="position" class="control-label">#i18n{dila.create_fichelocale.ficheSoeur} :</label>
+                    <div class="controls">
+                            <select name="position" id="position">
+                                <#if !ficheLocale.position?has_content || ficheLocale.position == 1>
+                                    <option value="1" selected="selected">#i18n{dila.common.position.before}</option>
+                                    <option value="2">#i18n{dila.common.position.after}</option>
+                                <#else>
+                                    <option value="1">#i18n{dila.common.position.before}</option>
+                                    <option value="2" selected="selected">#i18n{dila.common.position.after}</option>
+                                </#if>
+                            </select>
+                        <div class="input-prepend input-append">
+                            <span class="add-on">#i18n{dila.create_fichelocale.id} :</span>
+                            <input  name="siblingCardId" id="siblingCardId"  id="appendedPrependedInput" type="text" value=${ficheLocale.siblingCardId!}>
+                            <button class="btn" type="button" onclick="doVerifyFicheSoeur();">#i18n{dila.create_fichelocale.verifier}</button>
+                        </div>
+                            <#if ficheLocale.siblingCardTitle?has_content>
+                                <span class="label label-success">${ficheLocale.siblingCardTitle}</span>
+                            </#if>
+                    </div>
+                </div>
+        </fieldset>
+        
+         <fieldset>
+            <legend>#i18n{dila.create_fichelocale.infoGenerales}</legend>
+                <div class="control-group">
+                    <label for="title" class="control-label">#i18n{dila.create_fichelocale.titre} * :</label>
+                    <div class="controls">
+                        <input maxlength="100" size="100" name="localDTO.title" value="${ficheLocale.localDTO.title!}"
+                            id="localDTO.title" type="text">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="author">#i18n{dila.create_fichelocale.createur} * :</label>
+                    <div class="controls">
+                        <input id="localDTO.author" name="localDTO.author" size="60" value="${ficheLocale.localDTO.author!}"
+                            maxlength="100" type="text">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="workgroup" class="control-label">#i18n{dila.create_fichelocale.audience} * :</label>
+                    <div class="controls">
+                        <#if audiences?has_content>
+                            <@comboSorted name="localDTO.idAudience" default_value="${ficheLocale.localDTO.idAudience!}" items=audiences />
+                        </#if>
+                    </div>
+                </div>
+            </fieldset>
+                        
+            <fieldset>
+                <legend>#i18n{dila.create_fichelocale.chapitres}</legend>
+                <#list chapters_list as chapter>
+                    <div id="chapter_div_${chapter.position}">
+                        <div class="span8">
+                            <div class="control-group">
+                                <label for="chapter_title_${chapter.position}" class="control-label">#i18n{dila.create_fichelocale.titreChapitre} * :</label> 
+                                <div class="controls">
+                                    <input maxlength="50" size="60" name="chapter_title_${chapter.position}" id="chapter_title_${chapter.position}" type="text" value="${chapter.title!}">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="chapter_content_${chapter.position}" class="control-label">#i18n{dila.create_fichelocale.contenuChapitre} * :</label> 
+                                
+                                <div class="controls">
+                                <textarea id="chapter_content_${chapter.position}" class="richtext" name="chapter_content_${chapter.position}" rows="20" cols="90">${chapter.content!}</textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </#list>
+                
+                <div class="span8">
+                    <button class="btn btn-primary btn-small" type="button" onclick="doAddChapter();">
+                        <i class="icon-plus-sign icon-white"></i>
+                        <span class="hidden-phone">#i18n{dila.create_fichelocale.addChapter}</span>
+                    </button>
+                    
+                    <button class="btn btn-danger btn-small" type="button" onclick="doDeleteChapter();">
+                        <i class="icon-remove icon-white"></i>
+                        <span class="hidden-phone">#i18n{dila.create_fichelocale.deleteChapter}</span>
+                    </button>
+                </div>
+        </fieldset>
+            <br />
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok icon-white"></i>
+                    <span class="hidden-phone">#i18n{portal.util.labelValidate}</span>
+                </button>                       
+                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageFicheLocale.jsp">            
+                    <i class="icon-remove-circle"></i>
+                    <span class="hidden-phone">#i18n{portal.util.labelBack}</span>
+                </a>                          
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+<@initEditor />
+ 

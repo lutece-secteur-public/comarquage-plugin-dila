@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>Plugin DILA Comarquage</title>
+	</properties>
+	<body>
+		<section name="Plugin DILA">
+			<subsection name="Introduction">
+			Le plugin DILA Cormarquage permet d'intégrer le contenu fourni par la Direction de l'information légale et administrative dans un site Lutece.
+			</subsection>
+		</section>
+	</body>
+</document>

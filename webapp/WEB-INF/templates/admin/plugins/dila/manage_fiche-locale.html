@@ -1,0 +1,117 @@
+<#macro columnActionsFicheLocale item >
+    <#if item.type.id = 1>
+    <span>
+        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/dila/ModifyFicheLocale.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.modify}">
+            <i class="icon-edit icon-white"></i>
+        </a>
+        <a class="btn btn-danger btn-small" href="jsp/admin/plugins/dila/DeleteFicheLocale.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.delete}">
+            <i class="icon-trash icon-white"></i>
+        </a>
+        </span>
+     <#else>
+    <span>
+        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/dila/ModifyDossierLocal.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.modify}">
+            <i class="icon-edit icon-white"></i>
+        </a>
+        <a class="btn btn-danger btn-small" href="jsp/admin/plugins/dila/DeleteDossierLocal.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.delete}">
+            <i class="icon-trash icon-white"></i>
+        </a>
+        </span>
+     </#if>
+</#macro>
+
+<style type="text/css" media="screen">
+    th {
+        white-space:nowrap;
+    }
+</style>
+
+
+<div class="container-fluid">
+
+    <fieldset>
+        <legend>#i18n{dila.manage_local.form.title}
+        
+        <form action="jsp/admin/plugins/dila/CreateDossierLocal.jsp" method="post" class="form-inline pull-right spaced">
+            <button type="submit" class="btn btn-primary btn-small">
+                <i class="icon-plus icon-white"></i>
+                <span class="hidden-phone">
+                    #i18n{dila.manage_localcard.addfolder}
+                </span>
+            </button>
+        </form>
+        <form action="jsp/admin/plugins/dila/CreateFicheLocale.jsp" method="post" class="form-inline pull-right spaced">
+            <button type="submit" class="btn btn-primary btn-small">
+                <i class="icon-plus icon-white"></i>
+                <span class="hidden-phone">
+                    #i18n{dila.manage_localcard.addcard}
+                </span>
+            </button>
+        </form>
+        </legend>
+<form action="jsp/admin/plugins/dila/ManageFicheLocale.jsp" method="post" class="form-inline">
+<div class="row-fluid">
+    <div class="span3 well">
+        <div class="control-group">
+            <label for="type" class="control-label">#i18n{dila.manage_localcard.type} :</label>
+            <div class="controls">
+                <select name="type">
+                    <#if !type?has_content || type == '0'>
+                        <option value="0" selected="selected"></option>
+                        <option value="1">#i18n{dila.manage_localcard.card}</option>
+                        <option value="2">#i18n{dila.manage_localcard.folder}</option>
+                    <#elseif type == '1'>
+                        <option value="0"></option>
+                        <option value="1" selected="selected">#i18n{dila.manage_localcard.card}</option>
+                        <option value="2">#i18n{dila.manage_localcard.folder}</option>
+                    <#else>
+                        <option value="0"></option>
+                        <option value="1">#i18n{dila.manage_localcard.card}</option>
+                        <option value="2" selected="selected">#i18n{dila.manage_localcard.folder}</option>
+                    </#if>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="id" class="control-label">#i18n{dila.manage_localcard.id} :</label>
+            <div class="controls">
+                <input type="text" size="20" maxlength="255" value="${id!}"
+                    name="id">
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="nomFicheLocale" class="control-label">#i18n{dila.manage_localcard.title} :</label>
+            <div class="controls">
+                <input type="text" size="20" maxlength="255" value="${nomFicheLocale!}"
+                    name="nomFicheLocale">
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="auteurFicheLocale" class="control-label">#i18n{dila.manage_localcard.author} :</label>
+            <div class="controls">
+                <input type="text" size="20" maxlength="255" value="${auteurFicheLocale!}"
+                    name="auteurFicheLocale">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-primary btn-small" value="#i18n{dila.manage_localcard.search}"
+                name="search" type="submit">
+                <i class="icon-search icon-white">&nbsp;</i>&nbsp;#i18n{dila.manage_localcard.search}
+            </button>
+        </div>
+    </div>
+
+        <div class="span9">
+        <@dataTable dataTableManager=dataTableFicheLocale />
+        </div>
+            
+</div>
+</form>
+    </fieldset>
+</div>
+<br />
+<br />
+
+ 
+
+ 

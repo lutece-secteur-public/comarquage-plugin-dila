@@ -1,0 +1,71 @@
+<div class="container-fluid">
+
+    <fieldset>
+        <legend>#i18n{dila.manage_donnee-complementaire.form.title}
+        
+        <form action="jsp/admin/plugins/dila/CreateDonneeComplementaire.jsp" method="post" class="form-inline pull-right spaced">
+            <button type="submit" class="btn btn-primary btn-small">
+                <i class="icon-plus icon-white"></i>
+                <span class="hidden-phone">
+                    #i18n{dila.manage_complementarydata.complete}
+                </span>
+            </button>
+        </form>
+        </legend>
+        <div class="row-fluid">
+        <form action="jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp" method="post" class="form-inline">
+          
+            <div class="span3 well">
+                <div class="control-group">
+                    <label for="nomFicheLocale" class="control-label">#i18n{dila.manage_complementarydata.id} :</label>
+                    <div class="controls">
+                        <input type="text" size="20" maxlength="255" value="${id!}"
+                            name="id" id="id">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="nomFicheLocale" class="control-label">#i18n{dila.manage_complementarydata.title} :</label>
+                    <div class="controls">
+                        <input type="text" size="20" maxlength="255" value="${name!}"
+                            name="name" id="name">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary btn-small" value="Rechercher"
+                        name="search" type="submit">
+                        <i class="icon-search icon-white">&nbsp;</i>&nbsp;#i18n{dila.manage_complementarydata.search}
+                    </button>
+                </div>
+            </div>
+          </form>
+            <div class="span9">
+                <@paginationAdmin paginator=paginator combo=1 />
+                <table class="table table-striped table-condensed">
+                    <tr>
+                        <th>#i18n{dila.manage_donnee-complementaire.row_id}<@sort jsp_url="jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp" attribute="cardIdXml" /></th>
+                        <th>#i18n{dila.manage_donnee-complementaire.row_titre}<@sort jsp_url="jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp" attribute="cardTitle" /></th>
+                        <th>#i18n{dila.manage_donnee-complementaire.row_actions}</th>
+                    </tr>            
+                    <#list donnees_list as donnee >
+                    <tr>
+                        <td>${donnee.card.idXml}</td>
+                        <td>${donnee.card.title}</td>
+                        <td>
+                        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/dila/ModifyDonneeComplementaire.jsp?id=${donnee.id}" title="#i18n{dila.manage_complementarydata.modify}">
+                            <i class="icon-edit icon-white"></i>
+                        </a>
+                        <a class="btn btn-danger btn-small" href="jsp/admin/plugins/dila/DeleteDonneeComplementaire.jsp?id=${donnee.id}" title="#i18n{dila.manage_complementarydata.delete}">
+                            <i class="icon-trash icon-white"></i>
+                        </a>
+                        </td>
+                    </tr>
+                    </#list>       
+                </table>
+                <@paginationAdmin paginator=paginator combo=0 />
+            </div>
+                    
+        </div>
+    </fieldset>
+</div>
+<br />
+<br />

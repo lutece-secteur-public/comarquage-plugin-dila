@@ -1,0 +1,64 @@
+<div id="xiti-logo">
+    <script type="text/javascript">
+    <!--
+        xtnv = document; //parent.document or top.document or document
+        xtsd = "http://logi3";
+        xtsite = "257817";
+        xtn2 = "17"; // level 2 site
+        xtpage = "${insee}::"; // page name - laisser les :: (creation de chapitres)
+        xtdi = ""; //implication degree
+    //-->
+    </script>
+    <noscript>
+        <div id="xiti-logo-noscript">
+            <img width="1" height="1"
+                src="http://logi3.xiti.com/hit.xiti?s=257817&amp;s2=17&amp;p=#INSEE#::&amp;di=&amp;"
+                alt="XiTi" />
+        </div>
+    </noscript>
+</div>
+<div class="well">
+    <ul>
+        <li><a href="${urlParticuliers}"
+            title="#i18n{dila.title.particuliers}"> <#if
+                categorie!?has_content && categorie == 'Particuliers'> <b
+                style="color: #1F4772;">#i18n{dila.title.particuliers}</b> <#else>
+                #i18n{dila.title.particuliers} </#if> </a>
+        </li>
+        <li><a href="${urlAssociations}"
+            title="#i18n{dila.title.associations}"> <#if
+                categorie!?has_content && categorie == 'Associations'> <b
+                style="color: #1F4772;">#i18n{dila.title.associations}</b> <#else>
+                #i18n{dila.title.associations} </#if> </a>
+        </li>
+        <li><a href="${urlPME}" title="#i18n{dila.title.pme}"> <#if
+                categorie!?has_content && categorie == 'Professionnels'> <b
+                style="color: #1F4772;">#i18n{dila.title.pme}</b> <#else>
+                #i18n{dila.title.pme} </#if> </a>
+        </li>
+    </ul>
+</div>
+<#if dila_data?has_content> ${dila_data} <#else> <#if
+!noData?has_content || !noData>
+<div class="alert alert-error">#i18n{dila.error.unavailableCard}</div>
+</#if> </#if>
+<script type="text/javascript">
+    function toggleList(idList) {
+        var list = document.getElementById(idList);
+        var display;
+        
+        if($.browser.msie){
+            display = list.currentStyle.display;
+        } else {
+            display = window.getComputedStyle(list).getPropertyValue('display');
+        }
+        
+        if (display == 'none') {
+            list.setAttribute('style', 'list-style:none;cursor:pointer;');
+            document.getElementById(idList + 'span').innerHTML = '-';
+        } else {
+            list.setAttribute('style', 'display:none;list-style:none;cursor:pointer;');
+            document.getElementById(idList + 'span').innerHTML = '+';
+        }
+    }
+</script>

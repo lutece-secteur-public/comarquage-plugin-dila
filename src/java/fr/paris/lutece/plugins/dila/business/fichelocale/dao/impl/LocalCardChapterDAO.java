@@ -1,0 +1,104 @@
+package fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl;
+
+import fr.paris.lutece.plugins.dila.business.fichelocale.dao.ILocalCardChapterDAO;
+import fr.paris.lutece.plugins.dila.business.fichelocale.dto.LocalCardChapterDTO;
+import fr.paris.lutece.plugins.dila.service.DilaPlugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.util.sql.DAOUtil;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * Implementation of IChapitreFicheLocaleDAO
+ * @author rputegnat
+ */
+public class LocalCardChapterDAO implements ILocalCardChapterDAO, Serializable
+{
+    /** Serial ID */
+    private static final long serialVersionUID = 1871080044687399057L;
+
+    private static final String SQL_QUERY_NEW_PK = "SELECT max(id_chapitre_fiche_local) FROM dila_chapitre_fiche_locale";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_chapitre_fiche_locale "
+            + "( id_chapitre_fiche_local, titre, contenu, position, fk_fiche_locale_id ) VALUES ( ?, ? ,?, ?, ?)";
+    private static final String SQL_QUERY_DELETE_BY_CARD_ID = " DELETE FROM dila_chapitre_fiche_locale "
+            + "WHERE fk_fiche_locale_id = ?";
+    private static final String SQL_QUERY_FIND_BY_CARD_ID = " SELECT id_chapitre_fiche_local, titre, contenu, position from dila_chapitre_fiche_locale WHERE fk_fiche_locale_id = ? ORDER BY id_chapitre_fiche_local ASC";
+
+    /**
+     * Generates a new primary key
+     * @return The new primary key
+     */
+    private Long newPrimaryKey( )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
+        daoUtil.executeQuery( );
+
+        Long nKey = 1L;
+
+        if ( daoUtil.next( ) )
+        {
+            nKey = daoUtil.getLong( 1 ) + 1L;
+        }
+
+        daoUtil.free( );
+
+        return nKey;
+    }
+
+    @Override
+    public void create( LocalCardChapterDTO chapter )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
+
+        chapter.setLocalCardChapterId( newPrimaryKey( ) );
+
+        daoUtil.setLong( 1, chapter.getLocalCardChapterId( ) );
+        daoUtil.setString( 2, chapter.getTitle( ) );
+        daoUtil.setString( 3, chapter.getContent( ) );
+        daoUtil.setInt( 4, chapter.getPosition( ) );
+        daoUtil.setLong( 5, chapter.getLocalCard( ).getId( ) );
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
+
+    @Override
+    public void deleteByCardId( Long ficheId )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_CARD_ID, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
+
+        daoUtil.setLong( 1, ficheId );
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
+    }
+
+    @Override
+    public List<LocalCardChapterDTO> findByCardId( Long cardId )
+    {
+        List<LocalCardChapterDTO> results = new ArrayList<LocalCardChapterDTO>( );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_CARD_ID, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
+
+        daoUtil.setLong( 1, cardId );
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            LocalCardChapterDTO chapter = new LocalCardChapterDTO( );
+
+            chapter.setLocalCardChapterId( daoUtil.getLong( 1 ) );
+            chapter.setTitle( daoUtil.getString( 2 ) );
+            chapter.setContent( daoUtil.getString( 3 ) );
+            chapter.setPosition( daoUtil.getInt( 4 ) );
+
+            results.add( chapter );
+        }
+
+        daoUtil.free( );
+
+        return results;
+    }
+}

@@ -1,0 +1,60 @@
+<div class="row-fluid">
+    <div class="span12">
+            <fieldset>
+                <legend>
+                	<#if (stylesheet.id)!?has_content>
+                		<#-- MODIFICATION -->
+                		#i18n{dila.modify_stylesheets.title}
+                       	<#if (stylesheet.listActions)!?exists>
+                       		<#list stylesheet.listActions as action>
+                       			<#if (action.permission == permission_view_stylesheet) >
+				                    <div class="pull-right">
+				                        <form class="form-inline" method="post"  action="${action.url!}" enctype="multipart/form-data" name="modify_stylesheet">
+				                            <input type="hidden" name="stylesheet_id" value="${(stylesheet.id)!}" />
+				                            <button class="btn btn-primary btn-small" type="submit" ><i class="${action.iconUrl!} icon-white"></i>&nbsp;<span class="hidden-phone">#i18n{dila.modify_stylesheet.buttonView}</span></button>
+				                        </form>
+				                    </div>
+				                </#if>
+				            </#list>
+		                </#if>
+                    <#else>
+                    	<#-- CREATION -->
+                    	#i18n{dila.create_stylesheets.title}
+                    </#if>
+                </legend>
+                <form class="form-horizontal" method="post" action="jsp/admin/plugins/dila/DoSaveStyleSheet.jsp" enctype="multipart/form-data" name="create_stylesheet">
+                <input type="hidden" name="stylesheet_id" value="${(stylesheet.id)!}" />
+                    <div class="control-group">
+                        <label class="control-label" for="name" >#i18n{dila.create_stylesheet.labelName}&nbsp;:&nbsp;*</label>
+                        <div class="controls">
+                            <input class="focused" type="text" id="name" value="${(stylesheet.description)!}" name="name" maxlength="255" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="source" >#i18n{dila.create_stylesheet.labelFilename}&nbsp;:&nbsp;*</label>
+                        <div class="controls">
+                            <input type="file" id="source" name="source" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="type_contenu_id">#i18n{dila.create_stylesheet.labelTypeContenu}&nbsp;:&nbsp;*</label>
+                        <div class="controls">
+                            <@comboSorted name="type_contenu_id" default_value="${(stylesheet.typeContenu.id)!}" items=type_contenu_list />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary btn-small" type="submit" >
+							<#if (stylesheet.id)!?has_content>
+								#i18n{dila.modify_stylesheet.buttonModify}
+							<#else>
+								#i18n{dila.create_stylesheet.buttonCreate}
+							</#if>
+						</button>
+                        <a href="jsp/admin/plugins/dila/ManageStyleSheets.jsp" class="btn btn-small" type="button" >
+							<i class="icon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+						</a>
+                    </div>
+            </fieldset>
+            </form>
+    </div>
+</div>

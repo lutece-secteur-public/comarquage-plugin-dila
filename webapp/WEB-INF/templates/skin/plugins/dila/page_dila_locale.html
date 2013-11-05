@@ -1,0 +1,41 @@
+<div class="well">
+    <ul>
+        <li><a href="${urlParticuliers}"
+            title="#i18n{dila.title.particuliers}"> <#if
+                categorie!?has_content && categorie == 'Particuliers'> <b
+                style="color: #1F4772;">#i18n{dila.title.particuliers}</b> <#else>
+                #i18n{dila.title.particuliers} </#if> </a></li>
+        <li><a href="${urlAssociations}"
+            title="#i18n{dila.title.associations}"> <#if
+                categorie!?has_content && categorie == 'Associations'> <b
+                style="color: #1F4772;">#i18n{dila.title.associations}</b> <#else>
+                #i18n{dila.title.associations} </#if> </a></li>
+        <li><a href="${urlPME}" title="#i18n{dila.title.pme}"> <#if
+                categorie!?has_content && categorie == 'Professionnels'> <b
+                style="color: #1F4772;">#i18n{dila.title.pme}</b> <#else>
+                #i18n{dila.title.pme} </#if> </a></li>
+    </ul>
+</div>
+<div class="well">
+       <fieldset>
+           <legend>#i18n{dila.page.dilalocal.cards}</legend>
+           <#if error?has_content>
+               <div class="alert alert-error">${error}</div>
+           <#else>
+               <label>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong></label>
+               <label>#i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></label>
+               <@pagination paginator=paginator/>
+               <hr>
+               <ul class="nav nav-pills nav-stacked">
+                   <#list results_list as result>
+                       <li>
+                           <a href="jsp/site/Portal.jsp?page=dila&categorie=${categorie}&xmlFile=${result.id}">
+                               [ ${result.type.label} ] ${result.title}
+                           </a>
+                       <li>
+                   </#list>
+               </ul>
+           </#if>
+       </fieldset>
+ </div>
+ 

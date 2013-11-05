@@ -1,0 +1,167 @@
+<#include "/admin/util/editor/editor.html" />
+
+<script type="text/javascript">
+    function doVerifyFiche ()
+    {
+        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoVerifyFiche.jsp");
+        $("#donneesForm").submit();
+    }
+    
+    function doAddTeleservice ()
+    {
+        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoAddTeleservice.jsp");
+        $("#donneesForm").submit();
+    }
+    
+    function doAddLien ()
+    {
+        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoAddEnSavoirPlus.jsp");
+        $("#donneesForm").submit();
+    }
+    
+    function doDeleteTeleservice ()
+    {
+        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoDeleteTeleservice.jsp");
+        $("#donneesForm").submit();
+    }
+    
+    function doDeleteLien ()
+    {
+        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoDeleteEnSavoirPlus.jsp");
+        $("#donneesForm").submit();
+    }
+</script>
+
+<div class="container-fluid">
+
+<div class="row-fluid">
+    <div class="span12">
+        <form id="donneesForm" action="jsp/admin/plugins/dila/DoCreateDonneeComplementaire.jsp" class="form-horizontal" method="post">
+        <input type="hidden" name="id_teleservice" id="id_teleservice" value="${id_teleservice}"/>
+        <input type="hidden" name="id_lien" id="id_lien" value="${id_lien}"/>
+         <fieldset>
+            <legend>#i18n{dila.donneeComplementaire.fiche}</legend>
+                <div class="control-group">
+                    <label for="workgroup" class="control-label">#i18n{dila.donneeComplementaire.audience} * :</label>
+                    <div class="controls">
+                        <#if audiences?has_content>
+                            <@comboSorted name="idAudience" default_value="${donneesComplementaires.idAudience!}" items=audiences />
+                        </#if>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="card.idXml" class="control-label">#i18n{dila.donneeComplementaire.ficheNationale} * :</label>
+                    <div class="controls">
+                        <div class="input-prepend input-append">
+                            <span class="add-on">#i18n{dila.common.id} : </span>
+                            <input name="card.idXml" id="card.idXml" type="text" value="${donneesComplementaires.card.idXml!}">
+                            <button class="btn" type="button" onclick="doVerifyFiche();">#i18n{dila.common.verifier}</button>
+                        </div>
+                        <#if donneesComplementaires.card.title?has_content>
+                            <span class="label label-success">${donneesComplementaires.card.title}</span>
+                        </#if>
+                    </div>
+                </div>
+        </fieldset>
+        
+         <fieldset>
+            <legend>#i18n{dila.donneeComplementaire.complementInfo}</legend>
+                
+                    <div class="control-group">
+                        <label for="bottomBlock" class="control-label">#i18n{dila.donneeComplementaire.complementBlocBas} * :</label> 
+                        
+                        <div class="controls">
+                        <textarea id="bottomBlock" class="richtext" name="bottomBlock" rows="20" cols="90">${donneesComplementaires.bottomBlock!}</textarea>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="columnBlock" class="control-label">#i18n{dila.donneeComplementaire.complementBlocColonne} * :</label> 
+                        
+                        <div class="controls">
+                        <textarea id="columnBlock" class="richtext" name="columnBlock" rows="20" cols="90">${donneesComplementaires.columnBlock!}</textarea>
+                        </div>
+                    </div>
+            </fieldset>
+                        
+            <fieldset>
+                <legend>#i18n{dila.donneeComplementaire.teleservicesLocaux}</legend>
+            
+                 <#list list_teleservices as teleservice>
+                    <div class="span8">
+                        <div class="control-group">
+                            <label for="teleservice_title_${teleservice.position}" class="control-label">#i18n{dila.donneeComplementaire.teleserviceTitre} :</label> 
+                            <div class="controls">
+                                <input maxlength="50" size="60" name="teleservice_title_${teleservice.position}" id="teleservice_title_${teleservice.position}" value="${teleservice.title!}" type="text">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="teleservice_url_${teleservice.position}" class="control-label">#i18n{dila.donneeComplementaire.teleserviceUrl} :</label> 
+                            <div class="controls">
+                                <input maxlength="50" size="60" name="teleservice_url_${teleservice.position}" id="teleservice_url_${teleservice.position}" value="${teleservice.URL!}" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </#list>
+                <div class="span8">
+                    <button class="btn btn-primary btn-small" type="button" onclick="doAddTeleservice();">
+                        <i class="icon-plus-sign icon-white"></i>
+                        <span class="hidden-phone">#i18n{dila.donneeComplementaire.ajouterTeleservice}</span>
+                    </button>
+                    <#if list_teleservices?has_content >
+                        <button class="btn btn-danger btn-small" type="button" onclick="doDeleteTeleservice();">
+                            <i class="icon-remove icon-white"></i>
+                            <span class="hidden-phone">#i18n{dila.donneeComplementaire.supprimerTeleservice}</span>
+                        </button>
+                    </#if>
+                </div>
+        </fieldset>
+            <fieldset>
+                <legend>#i18n{dila.donneeComplementaire.savoirPlus}</legend>
+            
+                <#list list_liens as lien>
+                    <div class="span8">
+                        <div class="control-group">
+                            <label for="lien_title_${lien.position}" class="control-label">#i18n{dila.donneeComplementaire.lienTitre} :</label> 
+                            <div class="controls">
+                                <input maxlength="50" size="60" name="lien_title_${lien.position}" id="lien_title_${lien.position}" value="${lien.title!}" type="text">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="lien_url_${lien.position}" class="control-label">#i18n{dila.donneeComplementaire.lienUrl} :</label> 
+                            <div class="controls">
+                                <input maxlength="50" size="60" name="lien_url_${lien.position}" id="lien_url_${lien.position}" value="${lien.URL!}" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </#list>
+                <div class="span8">
+                    <button class="btn btn-primary btn-small" type="button" onclick="doAddLien();">
+                        <i class="icon-plus-sign icon-white"></i>
+                        <span class="hidden-phone">#i18n{dila.donneeComplementaire.ajouterLien}</span>
+                    </button>
+                    <#if list_liens?has_content >
+                        <button class="btn btn-danger btn-small" type="button" onclick="doDeleteLien();">
+                            <i class="icon-remove icon-white"></i>
+                            <span class="hidden-phone">#i18n{dila.donneeComplementaire.supprimerLien}</span>
+                        </button>
+                    </#if>
+                </div>
+                
+        </fieldset>
+            <br />
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">
+                    <i class="icon-ok icon-white"></i>
+                    <span class="hidden-phone">#i18n{portal.util.labelValidate}</span>
+                </button>                       
+                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp">            
+                    <i class="icon-remove-circle"></i>
+                    <span class="hidden-phone">#i18n{portal.util.labelBack}</span>
+                </a>                          
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+<@initEditor />
