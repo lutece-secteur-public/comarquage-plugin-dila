@@ -70,9 +70,9 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/applications/dila/trunk/plugin-dila</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/applications/dila/trunk/plugin-dila</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/applications/dila/trunk/plugin-dila</url>
+        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-dila</connection>
+        <developerConnection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-dila</developerConnection>
+        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/cms/plugin-dila</url>
     </scm>
 
 </project>
