@@ -45,10 +45,10 @@ public interface IContentTypeDAO
 {
     /**
      * Return all contentType
-     * 
+     *
      * @return a list of contentType
      */
-    List<ContentType> getContentTypes( );
+    List<ContentType> getContentTypes(  );
 
     /**
      * Return the ContentType by id
@@ -59,7 +59,7 @@ public interface IContentTypeDAO
 
     /**
      * Return the list of all ContentType without associated stylesheet
-     * 
+     *
      * @param nIdStylesheet stylesheet id, if != 0 the method will return all
      *            ContentType without associated stylesheet plus the ContentType
      *            associated to the specific stylesheet id

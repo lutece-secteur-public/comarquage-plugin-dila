@@ -45,7 +45,7 @@ public interface IDilaStyleSheetService
 {
     /**
      * Returns a collection of Dila StyleSheet object
-     * 
+     *
      * @param nTypeContenuId The typeContenu identifier
      * @param strStyleSheetName The Dila StyleSheet name
      * @return A list of Dila StyleSheet object
@@ -55,7 +55,7 @@ public interface IDilaStyleSheetService
     /**
      * Returns the number of dila stylesheets associated to the typeContenu
      * specified in parameter
-     * 
+     *
      * @param nTypeContenuId the typeContenu id
      * @return the number of dila stylesheet associated
      */
@@ -63,7 +63,7 @@ public interface IDilaStyleSheetService
 
     /**
      * Creation of an instance of a Dila Stylesheet file in the database
-     * 
+     *
      * @param stylesheet An instance of a dila stylesheet which contains the
      *            informations to store
      */
@@ -71,7 +71,7 @@ public interface IDilaStyleSheetService
 
     /**
      * Return the dila style sheet by his id
-     * 
+     *
      * @param nIdStyleSheet the stylesheet id
      * @return DilaStyleSheet
      */
@@ -79,21 +79,21 @@ public interface IDilaStyleSheetService
 
     /**
      * Update the dila stylesheet
-     * 
+     *
      * @param stylesheet the stylesheet
      */
     void update( DilaStyleSheet stylesheet );
 
     /**
      * Delete a styleSheet.
-     * 
+     *
      * @param nIdStyleSheet this "dilaStyleSheet" id
      */
     void doDeleteStyleSheet( Integer nIdStyleSheet );
 
     /**
      * Return the source for specific stylesheet
-     * 
+     *
      * @param nIdStyleSheet stylesheet id
      * @return byte[] source
      */

@@ -31,61 +31,64 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.plugins.dila.utils;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 
+import org.apache.commons.beanutils.BeanUtils;
+
+import org.apache.log4j.Logger;
+
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
 
 
 /**
  * Utilitaire servant à la manipulation des listes
- * 
+ *
  */
 public final class ListUtils
 {
-
     private static final Logger LOGGER = Logger.getLogger( ListUtils.class );
     private static final String PROPERTY_LIST_SEPARATOR = ";";
 
     /**
      * Instantiates a new list utils.
      */
-    private ListUtils( )
+    private ListUtils(  )
     {
         // does nothing
     }
 
     /**
      * Return.
-     * 
+     *
      * @param propertyKey the property key
      * @return the property list
      */
     public static List<String> getPropertyList( String propertyKey )
     {
         String property = AppPropertiesService.getProperty( propertyKey );
+
         if ( property != null )
         {
             String[] items = property.split( PROPERTY_LIST_SEPARATOR );
+
             if ( items != null )
             {
                 return Arrays.asList( items );
             }
         }
+
         return null;
     }
 
     /**
      * Convert a {@link List} to a {@link ReferenceList}
-     * 
+     *
      * @param list
      *            list to convert
      * @param key
@@ -98,7 +101,7 @@ public final class ListUtils
      */
     public static ReferenceList toReferenceList( List<?> list, String key, String value, String firstItem )
     {
-        ReferenceList referenceList = new ReferenceList( );
+        ReferenceList referenceList = new ReferenceList(  );
         String valueKey;
         String valueValue;
 
@@ -118,19 +121,19 @@ public final class ListUtils
         }
         catch ( IllegalAccessException e )
         {
-            LOGGER.warn( "Error creating a combo list : " + e.getMessage( ), e );
+            LOGGER.warn( "Error creating a combo list : " + e.getMessage(  ), e );
         }
         catch ( InvocationTargetException e )
         {
-            LOGGER.warn( "Error creating a combo list : " + e.getMessage( ), e );
+            LOGGER.warn( "Error creating a combo list : " + e.getMessage(  ), e );
         }
         catch ( NoSuchMethodException e )
         {
-            LOGGER.warn( "Error creating a combo list : " + e.getMessage( ), e );
+            LOGGER.warn( "Error creating a combo list : " + e.getMessage(  ), e );
         }
         catch ( Exception e )
         {
-            LOGGER.warn( "Error creating a combo list : " + e.getMessage( ), e );
+            LOGGER.warn( "Error creating a combo list : " + e.getMessage(  ), e );
         }
 
         return referenceList;

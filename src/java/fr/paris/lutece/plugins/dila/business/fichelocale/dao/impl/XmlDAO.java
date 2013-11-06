@@ -1,3 +1,36 @@
+/*
+ * Copyright (c) 2002-2013, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.plugins.dila.business.fichelocale.dao.impl;
 
 import fr.paris.lutece.plugins.dila.business.enums.ResourceTypeEnum;
@@ -8,7 +41,9 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.io.Serializable;
+
 import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,24 +55,23 @@ public class XmlDAO implements IXmlDAO, Serializable
 {
     /** Serial ID */
     private static final long serialVersionUID = -907799297326123041L;
-
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id) FROM dila_xml";
     private static final String SQL_QUERY_FIND_TITLE_BY_ID = "SELECT title FROM dila_xml WHERE id_xml = ? ";
     private static final String SQL_QUERY_FIND_FOLDER_BY_ID = "SELECT title, breadcrumb FROM dila_xml WHERE id_xml = ? ";
-    private static final String SQL_QUERY_FIND_TITLE_BY_ID_AND_TYPES_AND_AUDIENCE = "SELECT title FROM dila_xml "
-            + "WHERE id_xml = ? AND fk_audience_id = ? ";
-    private static final String SQL_QUERY_FIND_FODLER_BY_ID_AND_TYPES_AND_AUDIENCE = "SELECT id, title, breadcrumb FROM dila_xml "
-            + "WHERE id_xml = ? AND fk_audience_id = ? ";
+    private static final String SQL_QUERY_FIND_TITLE_BY_ID_AND_TYPES_AND_AUDIENCE = "SELECT title FROM dila_xml " +
+        "WHERE id_xml = ? AND fk_audience_id = ? ";
+    private static final String SQL_QUERY_FIND_FODLER_BY_ID_AND_TYPES_AND_AUDIENCE = "SELECT id, title, breadcrumb FROM dila_xml " +
+        "WHERE id_xml = ? AND fk_audience_id = ? ";
     private static final String SQL_QUERY_AND_RESOURCE_TYPE = "AND type_resource IN ";
-    private static final String SQL_QUERY_FIND_RESOURCE_TYPE_BY_IDXML_AND_AUDIENCE = "SELECT type_resource FROM dila_xml"
-            + " WHERE id_xml = ? AND fk_audience_id = ?";
+    private static final String SQL_QUERY_FIND_RESOURCE_TYPE_BY_IDXML_AND_AUDIENCE = "SELECT type_resource FROM dila_xml" +
+        " WHERE id_xml = ? AND fk_audience_id = ?";
     private static final String SQL_QUERY_FIND_ALL = "SELECT id, id_xml, title, breadcrumb, fk_audience_id, type_resource, date_creation, date_modification FROM dila_xml ";
-    private static final String SQL_QUERY_FIND_HOW_TO_BY_AUDIENCE = "SELECT id_xml, title FROM dila_xml "
-            + "WHERE fk_audience_id = ? AND type_resource = ? ORDER BY date_modification DESC";
-    private static final String SQL_QUERY_FIND_ID_BY_XML_AND_AUDIENCE = "SELECT id FROM dila_xml "
-            + "WHERE id_xml = ? AND fk_audience_id = ?";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_xml ( id, id_xml , title , type_resource, breadcrumb, fk_audience_id, date_creation, date_modification ) "
-            + " VALUES ( ?, ? ,?, ?, ?, ?, ?, ? )";
+    private static final String SQL_QUERY_FIND_HOW_TO_BY_AUDIENCE = "SELECT id_xml, title FROM dila_xml " +
+        "WHERE fk_audience_id = ? AND type_resource = ? ORDER BY date_modification DESC";
+    private static final String SQL_QUERY_FIND_ID_BY_XML_AND_AUDIENCE = "SELECT id FROM dila_xml " +
+        "WHERE id_xml = ? AND fk_audience_id = ?";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_xml ( id, id_xml , title , type_resource, breadcrumb, fk_audience_id, date_creation, date_modification ) " +
+        " VALUES ( ?, ? ,?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_UPDATE = " UPDATE dila_xml SET title = ?, type_resource = ?, breadcrumb = ?, date_modification = ? WHERE id_xml = ? AND fk_audience_id = ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM dila_xml WHERE date_modification < ?";
 
@@ -45,19 +79,19 @@ public class XmlDAO implements IXmlDAO, Serializable
      * Generates a new primary key
      * @return The new primary key
      */
-    private Long newPrimaryKey( )
+    private Long newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         Long nKey = 1L;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
             nKey = daoUtil.getLong( 1 ) + 1L;
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return nKey;
     }
@@ -68,16 +102,16 @@ public class XmlDAO implements IXmlDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_TITLE_BY_ID, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, id );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         String title = null;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
             title = daoUtil.getString( 1 );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return title;
     }
@@ -88,20 +122,20 @@ public class XmlDAO implements IXmlDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_FOLDER_BY_ID, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, id );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         XmlDTO xml = null;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
-            xml = new XmlDTO( );
+            xml = new XmlDTO(  );
 
             xml.setIdXml( id );
             xml.setTitle( daoUtil.getString( 1 ) );
             xml.setBreadcrumb( daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return xml;
     }
@@ -116,10 +150,12 @@ public class XmlDAO implements IXmlDAO, Serializable
         sbSQL.append( "(" );
 
         int count = 0;
+
         for ( String type : availableTypes )
         {
             count++;
-            if ( count < availableTypes.size( ) )
+
+            if ( count < availableTypes.size(  ) )
             {
                 sbSQL.append( "'" + type + "'," );
             }
@@ -131,20 +167,20 @@ public class XmlDAO implements IXmlDAO, Serializable
 
         sbSQL.append( ")" );
 
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ), PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
+        DAOUtil daoUtil = new DAOUtil( sbSQL.toString(  ), PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, idDossierFrere );
         daoUtil.setLong( 2, idAudience );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         String title = null;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
             title = daoUtil.getString( 1 );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return title;
     }
@@ -159,10 +195,12 @@ public class XmlDAO implements IXmlDAO, Serializable
         sbSQL.append( "(" );
 
         int count = 0;
+
         for ( String type : availableTypes )
         {
             count++;
-            if ( count < availableTypes.size( ) )
+
+            if ( count < availableTypes.size(  ) )
             {
                 sbSQL.append( "'" + type + "'," );
             }
@@ -174,21 +212,22 @@ public class XmlDAO implements IXmlDAO, Serializable
 
         sbSQL.append( ")" );
 
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ), PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
+        DAOUtil daoUtil = new DAOUtil( sbSQL.toString(  ), PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, strId );
         daoUtil.setLong( 2, lIdAudience );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         XmlDTO xml = null;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
-            xml = new XmlDTO( );
+            xml = new XmlDTO(  );
 
             xml.setId( daoUtil.getLong( 1 ) );
             xml.setIdXml( strId );
             xml.setTitle( daoUtil.getString( 2 ) );
+
             if ( daoUtil.getString( 3 ) != null )
             {
                 xml.setBreadcrumb( daoUtil.getString( 3 ) );
@@ -199,7 +238,7 @@ public class XmlDAO implements IXmlDAO, Serializable
             }
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return xml;
     }
@@ -212,32 +251,32 @@ public class XmlDAO implements IXmlDAO, Serializable
         daoUtil.setString( 1, strIdXml );
         daoUtil.setLong( 2, lIdAudience );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
         String typeResource = null;
 
-        if ( daoUtil.next( ) )
+        if ( daoUtil.next(  ) )
         {
             typeResource = daoUtil.getString( 1 );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return typeResource;
     }
 
     @Override
-    public List<XmlDTO> findAll( )
+    public List<XmlDTO> findAll(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_ALL, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
-        List<XmlDTO> result = new ArrayList<XmlDTO>( );
+        List<XmlDTO> result = new ArrayList<XmlDTO>(  );
 
-        while ( daoUtil.next( ) )
+        while ( daoUtil.next(  ) )
         {
-            XmlDTO xml = new XmlDTO( );
+            XmlDTO xml = new XmlDTO(  );
             xml.setId( daoUtil.getLong( 1 ) );
             xml.setIdXml( daoUtil.getString( 2 ) );
             xml.setTitle( daoUtil.getString( 3 ) );
@@ -250,7 +289,7 @@ public class XmlDAO implements IXmlDAO, Serializable
             result.add( xml );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return result;
     }
@@ -261,15 +300,15 @@ public class XmlDAO implements IXmlDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_HOW_TO_BY_AUDIENCE,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setLong( 1, audienceId );
-        daoUtil.setString( 2, ResourceTypeEnum.HOW_TO.getLabel( ) );
+        daoUtil.setString( 2, ResourceTypeEnum.HOW_TO.getLabel(  ) );
 
-        List<XmlDTO> result = new ArrayList<XmlDTO>( );
+        List<XmlDTO> result = new ArrayList<XmlDTO>(  );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
-        while ( daoUtil.next( ) )
+        while ( daoUtil.next(  ) )
         {
-            XmlDTO dto = new XmlDTO( );
+            XmlDTO dto = new XmlDTO(  );
 
             dto.setIdXml( daoUtil.getString( 1 ) );
             dto.setTitle( daoUtil.getString( 2 ) );
@@ -277,7 +316,7 @@ public class XmlDAO implements IXmlDAO, Serializable
             result.add( dto );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return result;
     }
@@ -290,12 +329,15 @@ public class XmlDAO implements IXmlDAO, Serializable
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, xmlName );
         daoUtil.setLong( 2, audienceId );
-        daoUtil.executeQuery( );
-        if ( daoUtil.next( ) )
+        daoUtil.executeQuery(  );
+
+        if ( daoUtil.next(  ) )
         {
             id = daoUtil.getLong( 1 );
         }
-        daoUtil.free( );
+
+        daoUtil.free(  );
+
         return id;
     }
 
@@ -305,17 +347,21 @@ public class XmlDAO implements IXmlDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_HOW_TO_BY_AUDIENCE,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setLong( 1, audienceId );
-        daoUtil.setString( 2, ResourceTypeEnum.HOW_TO_HOME.getLabel( ) );
+        daoUtil.setString( 2, ResourceTypeEnum.HOW_TO_HOME.getLabel(  ) );
 
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
+
         XmlDTO homeHowTo = null;
-        if ( daoUtil.next( ) )
+
+        if ( daoUtil.next(  ) )
         {
-            homeHowTo = new XmlDTO( );
+            homeHowTo = new XmlDTO(  );
             homeHowTo.setIdXml( daoUtil.getString( 1 ) );
             homeHowTo.setTitle( daoUtil.getString( 2 ) );
         }
-        daoUtil.free( );
+
+        daoUtil.free(  );
+
         return homeHowTo;
     }
 
@@ -324,21 +370,21 @@ public class XmlDAO implements IXmlDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        dilaXml.setId( newPrimaryKey( ) );
+        dilaXml.setId( newPrimaryKey(  ) );
 
-        java.util.Date current = new java.util.Date( );
+        java.util.Date current = new java.util.Date(  );
 
-        daoUtil.setLong( 1, dilaXml.getId( ) );
-        daoUtil.setString( 2, dilaXml.getIdXml( ) );
-        daoUtil.setString( 3, dilaXml.getTitle( ) );
-        daoUtil.setString( 4, dilaXml.getResourceType( ) );
-        daoUtil.setString( 5, dilaXml.getBreadcrumb( ) );
-        daoUtil.setLong( 6, dilaXml.getIdAudience( ) );
-        daoUtil.setDate( 7, new Date( current.getTime( ) ) );
-        daoUtil.setDate( 8, new Date( current.getTime( ) ) );
+        daoUtil.setLong( 1, dilaXml.getId(  ) );
+        daoUtil.setString( 2, dilaXml.getIdXml(  ) );
+        daoUtil.setString( 3, dilaXml.getTitle(  ) );
+        daoUtil.setString( 4, dilaXml.getResourceType(  ) );
+        daoUtil.setString( 5, dilaXml.getBreadcrumb(  ) );
+        daoUtil.setLong( 6, dilaXml.getIdAudience(  ) );
+        daoUtil.setDate( 7, new Date( current.getTime(  ) ) );
+        daoUtil.setDate( 8, new Date( current.getTime(  ) ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     @Override
@@ -346,28 +392,28 @@ public class XmlDAO implements IXmlDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        java.util.Date current = new java.util.Date( );
+        java.util.Date current = new java.util.Date(  );
 
-        daoUtil.setString( 1, dilaXml.getTitle( ) );
-        daoUtil.setString( 2, dilaXml.getResourceType( ) );
-        daoUtil.setString( 3, dilaXml.getBreadcrumb( ) );
-        daoUtil.setDate( 4, new Date( current.getTime( ) ) );
-        daoUtil.setString( 5, dilaXml.getIdXml( ) );
-        daoUtil.setLong( 6, dilaXml.getIdAudience( ) );
+        daoUtil.setString( 1, dilaXml.getTitle(  ) );
+        daoUtil.setString( 2, dilaXml.getResourceType(  ) );
+        daoUtil.setString( 3, dilaXml.getBreadcrumb(  ) );
+        daoUtil.setDate( 4, new Date( current.getTime(  ) ) );
+        daoUtil.setString( 5, dilaXml.getIdXml(  ) );
+        daoUtil.setLong( 6, dilaXml.getIdAudience(  ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 
     @Override
-    public void delete( )
+    public void delete(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        java.util.Date current = new java.util.Date( );
-        daoUtil.setDate( 1, new Date( current.getTime( ) ) );
+        java.util.Date current = new java.util.Date(  );
+        daoUtil.setDate( 1, new Date( current.getTime(  ) ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
     }
 }

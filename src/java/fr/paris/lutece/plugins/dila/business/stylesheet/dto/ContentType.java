@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.dila.business.stylesheet.dto;
 
+
 /**
  * This class represents business ContentType objects
  */
@@ -44,17 +45,17 @@ public class ContentType
 
     /**
      * Returns the identifier of this ContentType.
-     * 
+     *
      * @return this ContentType identifier
      */
-    public int getId( )
+    public int getId(  )
     {
         return _nId;
     }
 
     /**
      * Sets this identifier to the int value specified in parameter.
-     * 
+     *
      * @param nId The new identifier value
      */
     public void setId( int nId )
@@ -64,10 +65,10 @@ public class ContentType
 
     /**
      * Returns the label of this ContentType.
-     * 
+     *
      * @return the label of this ContentType
      */
-    public String getLabel( )
+    public String getLabel(  )
     {
         return _strLabel;
     }
@@ -75,7 +76,7 @@ public class ContentType
     /**
      * Sets the label of this ContentType to the String value specified in
      * parameter.
-     * 
+     *
      * @param strLabel The new label value
      */
     public void setLabel( String strLabel )

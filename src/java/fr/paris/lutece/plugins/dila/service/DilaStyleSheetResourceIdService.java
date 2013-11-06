@@ -47,9 +47,9 @@ import java.util.Locale;
 
 
 /**
- * 
+ *
  * class DilaStyleSheetResourceIdService
- * 
+ *
  */
 public class DilaStyleSheetResourceIdService extends ResourceIdService
 {
@@ -64,17 +64,15 @@ public class DilaStyleSheetResourceIdService extends ResourceIdService
 
     /** Permission for viewing a dila stylesheet */
     public static final String PERMISSION_VIEW_STYLESHEET = "VIEW_STYLESHEET";
-
     private static final String PROPERTY_LABEL_RESOURCE_TYPE = "dila.permission.label.resourceType";
     private static final String PROPERTY_LABEL_CREATE_STYLESHEET = "dila.permission.label.create_stylesheet";
     private static final String PROPERTY_LABEL_DELETE_STYLESHEET = "dila.permission.label.delete_stylesheet";
     private static final String PROPERTY_LABEL_MODIFY_STYLESHEET = "dila.permission.label.modify_stylesheet";
     private static final String PROPERTY_LABEL_VIEW_STYLESHEET = "dila.permission.label.view_stylesheet";
-
     private IDilaStyleSheetService _dilaStyleSheetService = SpringContextService.getBean( "dilaStyleSheetService" );
 
     /** Creates a new instance of DilaStyleSheetResourceIdService */
-    public DilaStyleSheetResourceIdService( )
+    public DilaStyleSheetResourceIdService(  )
     {
         setPluginName( DilaPlugin.PLUGIN_NAME );
     }
@@ -82,30 +80,30 @@ public class DilaStyleSheetResourceIdService extends ResourceIdService
     /**
      * Initializes the service
      */
-    public void register( )
+    public void register(  )
     {
-        ResourceType rt = new ResourceType( );
-        rt.setResourceIdServiceClass( DilaStyleSheetResourceIdService.class.getName( ) );
+        ResourceType rt = new ResourceType(  );
+        rt.setResourceIdServiceClass( DilaStyleSheetResourceIdService.class.getName(  ) );
         rt.setPluginName( DilaPlugin.PLUGIN_NAME );
         rt.setResourceTypeKey( DilaStyleSheet.RESOURCE_TYPE );
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
-        Permission p = new Permission( );
+        Permission p = new Permission(  );
         p.setPermissionKey( PERMISSION_CREATE_STYLESHEET );
         p.setPermissionTitleKey( PROPERTY_LABEL_CREATE_STYLESHEET );
         rt.registerPermission( p );
 
-        p = new Permission( );
+        p = new Permission(  );
         p.setPermissionKey( PERMISSION_MODIFY_STYLESHEET );
         p.setPermissionTitleKey( PROPERTY_LABEL_MODIFY_STYLESHEET );
         rt.registerPermission( p );
 
-        p = new Permission( );
+        p = new Permission(  );
         p.setPermissionKey( PERMISSION_VIEW_STYLESHEET );
         p.setPermissionTitleKey( PROPERTY_LABEL_VIEW_STYLESHEET );
         rt.registerPermission( p );
 
-        p = new Permission( );
+        p = new Permission(  );
         p.setPermissionKey( PERMISSION_DELETE_STYLESHEET );
         p.setPermissionTitleKey( PROPERTY_LABEL_DELETE_STYLESHEET );
         rt.registerPermission( p );
@@ -121,7 +119,7 @@ public class DilaStyleSheetResourceIdService extends ResourceIdService
     public ReferenceList getResourceIdList( Locale locale )
     {
         return ListUtils.toReferenceList( _dilaStyleSheetService.getDilaStyleSheetList( null, null ), "id",
-                "description", null );
+            "description", null );
     }
 
     /**
@@ -145,6 +143,6 @@ public class DilaStyleSheetResourceIdService extends ResourceIdService
 
         DilaStyleSheet styleSheet = _dilaStyleSheetService.findByPrimaryKey( nIdStyleSheet );
 
-        return styleSheet.getDescription( );
+        return styleSheet.getDescription(  );
     }
 }

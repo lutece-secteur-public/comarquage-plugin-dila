@@ -1,6 +1,40 @@
+/*
+ * Copyright (c) 2002-2013, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.plugins.dila.business.fichelocale.dto;
 
 import java.io.Serializable;
+
 import java.util.Date;
 
 
@@ -9,7 +43,6 @@ import java.util.Date;
  */
 public class LocalDTO implements Serializable
 {
-
     /** Serial ID */
     private static final long serialVersionUID = -1191940287861319929L;
 
@@ -61,7 +94,7 @@ public class LocalDTO implements Serializable
     /**
      * Default constructor
      */
-    public LocalDTO( )
+    public LocalDTO(  )
     {
     }
 
@@ -77,7 +110,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _lId
      */
-    public Long getId( )
+    public Long getId(  )
     {
         return _lId;
     }
@@ -93,7 +126,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _strTitle
      */
-    public String getTitle( )
+    public String getTitle(  )
     {
         return _strTitle;
     }
@@ -109,7 +142,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _strAuthor
      */
-    public String getAuthor( )
+    public String getAuthor(  )
     {
         return _strAuthor;
     }
@@ -125,7 +158,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _strXml
      */
-    public String getXml( )
+    public String getXml(  )
     {
         return _strXml;
     }
@@ -141,7 +174,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _lIdAudience
      */
-    public Long getIdAudience( )
+    public Long getIdAudience(  )
     {
         return _lIdAudience;
     }
@@ -157,7 +190,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _type
      */
-    public LocalTypeDTO getType( )
+    public LocalTypeDTO getType(  )
     {
         return _type;
     }
@@ -173,7 +206,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _strBreadCrumb
      */
-    public String getBreadCrumb( )
+    public String getBreadCrumb(  )
     {
         return _strBreadCrumb;
     }
@@ -189,7 +222,7 @@ public class LocalDTO implements Serializable
     /**
      * @return the _strDisplayPath
      */
-    public String getDisplayPath( )
+    public String getDisplayPath(  )
     {
         return _strDisplayPath;
     }
@@ -205,9 +238,9 @@ public class LocalDTO implements Serializable
     /**
      * @return the _creationDate
      */
-    public Date getCreationDate( )
+    public Date getCreationDate(  )
     {
-        return (Date) _creationDate.clone( );
+        return (Date) _creationDate.clone(  );
     }
 
     /**
@@ -215,15 +248,15 @@ public class LocalDTO implements Serializable
      */
     public void setCreationDate( Date creationDate )
     {
-        this._creationDate = (Date) creationDate.clone( );
+        this._creationDate = (Date) creationDate.clone(  );
     }
 
     /**
      * Hack to order by type label
      * @return the type label {@link LocalTypeDTO#getLabel()}
      */
-    public String getTypeLabel( )
+    public String getTypeLabel(  )
     {
-        return getType( ).getLabel( );
+        return getType(  ).getLabel(  );
     }
 }

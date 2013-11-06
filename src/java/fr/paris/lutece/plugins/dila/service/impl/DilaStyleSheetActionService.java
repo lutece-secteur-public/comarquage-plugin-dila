@@ -39,6 +39,7 @@ import fr.paris.lutece.plugins.dila.service.IDilaStyleSheetActionService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.io.Serializable;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -54,20 +55,19 @@ public class DilaStyleSheetActionService implements IDilaStyleSheetActionService
 {
     /** Serial ID */
     private static final long serialVersionUID = 4573909087219976434L;
-
     @Inject
     @Named( "dilaStyleSheetActionDAO" )
     private IDilaStyleSheetActionDAO _dilaStyleSheetActionDAO;
 
     /**
      * Load the list of actions
-     * 
+     *
      * @param locale the locale
      * @return The Collection of actions
      */
     public List<DilaStyleSheetAction> selectActions( Locale locale )
     {
-        List<DilaStyleSheetAction> listDilaStyleSheetActions = _dilaStyleSheetActionDAO.selectActions( );
+        List<DilaStyleSheetAction> listDilaStyleSheetActions = _dilaStyleSheetActionDAO.selectActions(  );
 
         return (List<DilaStyleSheetAction>) I18nService.localizeCollection( listDilaStyleSheetActions, locale );
     }

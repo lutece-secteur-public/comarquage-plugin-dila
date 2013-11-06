@@ -62,15 +62,15 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.datatable.DataTableManager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -126,10 +126,10 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     private IDilaLocalService _dilaLocalService = SpringContextService.getBean( "dilaLocalService" );
     private IDilaLocalCardService _dilaLocalCardService = SpringContextService.getBean( "dilaLocalCardService" );
     private IDilaAudienceService _dilaAudienceService = SpringContextService.getBean( "dilaAudienceService" );
-    private IDilaLocalCardChapterService _dilaLocalCardChapterService = SpringContextService
-            .getBean( "dilaLocalCardChapterService" );
-    private IDilaLocalFolderLinkService _dilaLocalFolderLinkService = SpringContextService
-            .getBean( "dilaLocalFolderLinkService" );
+    private IDilaLocalCardChapterService _dilaLocalCardChapterService = SpringContextService.getBean( 
+            "dilaLocalCardChapterService" );
+    private IDilaLocalFolderLinkService _dilaLocalFolderLinkService = SpringContextService.getBean( 
+            "dilaLocalFolderLinkService" );
     private IDilaValidationService _dilaValidationService = SpringContextService.getBean( "dilaValidationService" );
 
     /**
@@ -139,10 +139,11 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     public String getManageFicheLocale( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         String strType = request.getParameter( PARAMETER_TYPE );
         Long lType = 0L;
+
         if ( StringUtils.isNotBlank( strType ) )
         {
             lType = Long.valueOf( strType );
@@ -150,6 +151,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
 
         String strId = request.getParameter( DilaConstants.MARK_ID );
         Long lId = 0L;
+
         if ( StringUtils.isNotBlank( strId ) && StringUtils.isNumeric( strId ) )
         {
             lId = Long.valueOf( strId );
@@ -170,7 +172,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
             _dataTableLocale.addFreeColumn( "dila.manage_local.row_actions", MACRO_COLUMN_ACTIONS_FICHE_LOCALE );
         }
 
-        List<LocalDTO> listLocalCards = _dilaLocalService.findAll( );
+        List<LocalDTO> listLocalCards = _dilaLocalService.findAll(  );
 
         _dataTableLocale.filterSortAndPaginate( request, filterLocal( listLocalCards, lType, lId, strName, strAuthor ) );
         model.put( MARK_DATA_TABLE_FICHE_LOCALE, _dataTableLocale );
@@ -179,9 +181,9 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_NOM, strName );
         model.put( PARAMETER_AUTEUR, strAuthor );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LOCAL, getLocale( ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LOCAL, getLocale(  ), model );
 
-        return getAdminPage( templateList.getHtml( ) );
+        return getAdminPage( templateList.getHtml(  ) );
     }
 
     /**
@@ -191,13 +193,15 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     public String getCreateFicheLocale( HttpServletRequest request )
     {
-        _strAction = ActionTypeEnum.CREATE.getValue( );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        _strAction = ActionTypeEnum.CREATE.getValue(  );
 
-        _cardBean = new LocalCardDTO( );
-        List<LocalCardChapterDTO> chapters = new ArrayList<LocalCardChapterDTO>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
-        LocalCardChapterDTO chapter = new LocalCardChapterDTO( );
+        _cardBean = new LocalCardDTO(  );
+
+        List<LocalCardChapterDTO> chapters = new ArrayList<LocalCardChapterDTO>(  );
+
+        LocalCardChapterDTO chapter = new LocalCardChapterDTO(  );
         chapter.setPosition( 1 );
 
         chapters.add( chapter );
@@ -207,9 +211,9 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_CHAPTERS_LIST, chapters );
         setDataInModel( request, model );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_CARD, getLocale( ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_CARD, getLocale(  ), model );
 
-        return getAdminPage( templateList.getHtml( ) );
+        return getAdminPage( templateList.getHtml(  ) );
     }
 
     /**
@@ -219,39 +223,38 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     public String getModifyFicheLocale( HttpServletRequest request )
     {
-        _strAction = ActionTypeEnum.MODIFY.getValue( );
+        _strAction = ActionTypeEnum.MODIFY.getValue(  );
+
         String strLocalItemId = request.getParameter( DilaConstants.MARK_LOCAL_ID );
 
         if ( StringUtils.isEmpty( strLocalItemId ) || !StringUtils.isNumeric( strLocalItemId ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
         }
 
         _cardBean = _dilaLocalCardService.findCardByLocalId( Long.valueOf( strLocalItemId ) );
 
         if ( _cardBean == null )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
         }
 
         // get father directory infos
-        _dilaValidationService.validateRootFolder( _cardBean, _cardBean.getParentFolderId( ) );
+        _dilaValidationService.validateRootFolder( _cardBean, _cardBean.getParentFolderId(  ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         // find chapters by fiche id
-        List<LocalCardChapterDTO> chapters = _dilaLocalCardChapterService.findByCardId( _cardBean.getId( ) );
+        List<LocalCardChapterDTO> chapters = _dilaLocalCardChapterService.findByCardId( _cardBean.getId(  ) );
 
         model.put( MARK_FICHE_LOCALE, _cardBean );
-        model.put( PARAMETER_CHAPTER_ID, chapters.size( ) );
+        model.put( PARAMETER_CHAPTER_ID, chapters.size(  ) );
         model.put( PARAMETER_CHAPTERS_LIST, chapters );
         setDataInModel( request, model );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_CARD, getLocale( ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_CARD, getLocale(  ), model );
 
-        return getAdminPage( templateList.getHtml( ) );
+        return getAdminPage( templateList.getHtml(  ) );
     }
 
     /**
@@ -261,21 +264,22 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     public String getCreateDossierLocal( HttpServletRequest request )
     {
-        _strAction = ActionTypeEnum.CREATE.getValue( );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        _strAction = ActionTypeEnum.CREATE.getValue(  );
 
-        _folderBean = new LocalFolderDTO( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
-        List<LocalFolderLinkDTO> links = new ArrayList<LocalFolderLinkDTO>( );
+        _folderBean = new LocalFolderDTO(  );
+
+        List<LocalFolderLinkDTO> links = new ArrayList<LocalFolderLinkDTO>(  );
 
         model.put( PARAMETER_LINK_ID, 0 );
         model.put( PARAMETER_LINK_LIST, links );
         model.put( MARK_DOSSIER_LOCAL, _folderBean );
         setDataInModel( request, model );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_FOLDER, getLocale( ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_FOLDER, getLocale(  ), model );
 
-        return getAdminPage( templateList.getHtml( ) );
+        return getAdminPage( templateList.getHtml(  ) );
     }
 
     /**
@@ -285,10 +289,11 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     public String getModifyDossierLocal( HttpServletRequest request )
     {
-        _strAction = ActionTypeEnum.MODIFY.getValue( );
+        _strAction = ActionTypeEnum.MODIFY.getValue(  );
+
         String idLocal = request.getParameter( DilaConstants.MARK_LOCAL_ID );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         // find dossier by local id
         _folderBean = _dilaLocalFolderService.findFolderByLocalId( Long.valueOf( idLocal ) );
@@ -300,23 +305,24 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         _dilaValidationService.validateLinkedFolder( _folderBean );
 
         // find links by dossier id
-        List<LocalFolderLinkDTO> links = _dilaLocalFolderLinkService.findByFolderId( _folderBean.getId( ) );
+        List<LocalFolderLinkDTO> links = _dilaLocalFolderLinkService.findByFolderId( _folderBean.getId(  ) );
+
         if ( CollectionUtils.isNotEmpty( links ) )
         {
             for ( LocalFolderLinkDTO link : links )
             {
-                _dilaValidationService.validateLinkCard( _folderBean, link.getCardId( ), link );
+                _dilaValidationService.validateLinkCard( _folderBean, link.getCardId(  ), link );
             }
         }
 
-        model.put( PARAMETER_LINK_ID, links.size( ) );
+        model.put( PARAMETER_LINK_ID, links.size(  ) );
         model.put( PARAMETER_LINK_LIST, links );
         model.put( MARK_DOSSIER_LOCAL, _folderBean );
         setDataInModel( request, model );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_FOLDER, getLocale( ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_FOLDER, getLocale(  ), model );
 
-        return getAdminPage( templateList.getHtml( ) );
+        return getAdminPage( templateList.getHtml(  ) );
     }
 
     /**
@@ -327,13 +333,13 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doAddChapter( HttpServletRequest request )
     {
         Integer nbChapter = Integer.valueOf( request.getParameter( PARAMETER_CHAPTER_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         populate( _cardBean, request );
 
         List<LocalCardChapterDTO> chapters = generateChapters( model, request );
 
-        LocalCardChapterDTO chapter = new LocalCardChapterDTO( );
+        LocalCardChapterDTO chapter = new LocalCardChapterDTO(  );
         chapter.setPosition( nbChapter + 1 );
         chapters.add( chapter );
 
@@ -353,7 +359,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doDeleteChapter( HttpServletRequest request )
     {
         Integer nbChapter = Integer.valueOf( request.getParameter( PARAMETER_CHAPTER_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         populate( _cardBean, request );
 
@@ -361,7 +367,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
 
         if ( nbChapter > 1 )
         {
-            chapters.remove( chapters.size( ) - 1 );
+            chapters.remove( chapters.size(  ) - 1 );
             nbChapter = nbChapter - 1;
         }
 
@@ -381,12 +387,12 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doAddLien( HttpServletRequest request )
     {
         Integer nbLien = Integer.valueOf( request.getParameter( PARAMETER_LINK_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         populate( _folderBean, request );
 
         List<LocalFolderLinkDTO> links = generateLinks( model, request );
-        LocalFolderLinkDTO link = new LocalFolderLinkDTO( );
+        LocalFolderLinkDTO link = new LocalFolderLinkDTO(  );
         link.setPosition( nbLien + 1 );
         links.add( link );
 
@@ -406,12 +412,12 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doDeleteLien( HttpServletRequest request )
     {
         Integer nbLien = Integer.valueOf( request.getParameter( PARAMETER_LINK_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         populate( _folderBean, request );
 
         List<LocalFolderLinkDTO> links = generateLinks( model, request );
-        links.remove( links.size( ) - 1 );
+        links.remove( links.size(  ) - 1 );
 
         model.put( MARK_DOSSIER_LOCAL, _folderBean );
         model.put( PARAMETER_LINK_ID, nbLien - 1 );
@@ -428,8 +434,8 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     public IPluginActionResult doVerifyThemeParent( HttpServletRequest request )
     {
-        IPluginActionResult result = new DefaultPluginActionResult( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        IPluginActionResult result = new DefaultPluginActionResult(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
         populate( _folderBean, request );
 
@@ -438,6 +444,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         if ( StringUtils.isNotBlank( errorKey ) )
         {
             result.setRedirect( AdminMessageService.getMessageUrl( request, errorKey, AdminMessage.TYPE_STOP ) );
+
             return result;
         }
 
@@ -446,6 +453,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         setDataInModel( request, model );
 
         result.setHtmlContent( getAdminPage( getTemplateDossier( model ) ) );
+
         return result;
     }
 
@@ -456,8 +464,8 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     public IPluginActionResult doVerifyDossierFrere( HttpServletRequest request )
     {
-        IPluginActionResult result = new DefaultPluginActionResult( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        IPluginActionResult result = new DefaultPluginActionResult(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
         populate( _folderBean, request );
 
@@ -466,6 +474,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         if ( StringUtils.isNotBlank( errorKey ) )
         {
             result.setRedirect( AdminMessageService.getMessageUrl( request, errorKey, AdminMessage.TYPE_STOP ) );
+
             return result;
         }
 
@@ -474,6 +483,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         setDataInModel( request, model );
 
         result.setHtmlContent( getAdminPage( getTemplateDossier( model ) ) );
+
         return result;
     }
 
@@ -486,14 +496,16 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     {
         String referenceId = request.getParameter( PARAMETER_REFERENCE_ID );
         populate( _folderBean, request );
-        IPluginActionResult result = new DefaultPluginActionResult( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
-        LocalFolderLinkDTO link = new LocalFolderLinkDTO( );
+
+        IPluginActionResult result = new DefaultPluginActionResult(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        LocalFolderLinkDTO link = new LocalFolderLinkDTO(  );
         String errorKey = _dilaValidationService.validateLinkCard( _folderBean, referenceId, link );
 
         if ( StringUtils.isNotBlank( errorKey ) )
         {
             result.setRedirect( AdminMessageService.getMessageUrl( request, errorKey, AdminMessage.TYPE_STOP ) );
+
             return result;
         }
 
@@ -502,6 +514,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         setDataInModel( request, model );
 
         result.setHtmlContent( getAdminPage( getTemplateDossier( model ) ) );
+
         return result;
     }
 
@@ -514,14 +527,15 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     {
         populate( _cardBean, request );
 
-        IPluginActionResult result = new DefaultPluginActionResult( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        IPluginActionResult result = new DefaultPluginActionResult(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
 
-        String errorKey = _dilaValidationService.validateRootFolder( _cardBean, _cardBean.getParentFolderId( ) );
+        String errorKey = _dilaValidationService.validateRootFolder( _cardBean, _cardBean.getParentFolderId(  ) );
 
         if ( StringUtils.isNotBlank( errorKey ) )
         {
             result.setRedirect( AdminMessageService.getMessageUrl( request, errorKey, AdminMessage.TYPE_STOP ) );
+
             return result;
         }
 
@@ -531,6 +545,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         setDataInModel( request, model );
 
         result.setHtmlContent( getAdminPage( getTemplateFiche( model ) ) );
+
         return result;
     }
 
@@ -542,14 +557,16 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public IPluginActionResult doVerifyFicheSoeur( HttpServletRequest request )
     {
         populate( _cardBean, request );
-        IPluginActionResult result = new DefaultPluginActionResult( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
 
-        String errorKey = _dilaValidationService.validateLinkedCard( _cardBean, _cardBean.getSiblingCardId( ) );
+        IPluginActionResult result = new DefaultPluginActionResult(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
+
+        String errorKey = _dilaValidationService.validateLinkedCard( _cardBean, _cardBean.getSiblingCardId(  ) );
 
         if ( StringUtils.isNotBlank( errorKey ) )
         {
             result.setRedirect( AdminMessageService.getMessageUrl( request, errorKey, AdminMessage.TYPE_STOP ) );
+
             return result;
         }
 
@@ -557,6 +574,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         model.put( MARK_FICHE_LOCALE, _cardBean );
         setDataInModel( request, model );
         result.setHtmlContent( getAdminPage( getTemplateFiche( model ) ) );
+
         return result;
     }
 
@@ -568,6 +586,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doCreateFicheLocale( HttpServletRequest request )
     {
         populate( _cardBean, request );
+
         List<LocalCardChapterDTO> chapters = generateChapters( null, request );
 
         String errorKey = _dilaValidationService.validateLocalCard( _cardBean, chapters );
@@ -578,19 +597,19 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         }
 
         // Create the fiche locale
-        if ( StringUtils.isNumeric( _cardBean.getParentFolderId( ) ) )
+        if ( StringUtils.isNumeric( _cardBean.getParentFolderId(  ) ) )
         {
-            _cardBean.getLocalDTO( ).setBreadCrumb( _cardBean.getLocalParentFolder( ).getLocalDTO( ).getBreadCrumb( ) );
-
+            _cardBean.getLocalDTO(  ).setBreadCrumb( _cardBean.getLocalParentFolder(  ).getLocalDTO(  ).getBreadCrumb(  ) );
         }
         else
         {
-            _cardBean.getLocalDTO( ).setBreadCrumb( _cardBean.getNationalParentFolder( ).getBreadcrumb( ) );
+            _cardBean.getLocalDTO(  ).setBreadCrumb( _cardBean.getNationalParentFolder(  ).getBreadcrumb(  ) );
         }
 
-        _cardBean.getLocalDTO( ).setXml( XMLConvertor.convertCardToXML( _cardBean, chapters ) );
-        Long localId = _dilaLocalService.create( _cardBean.getLocalDTO( ), false );
-        _cardBean.getLocalDTO( ).setId( localId );
+        _cardBean.getLocalDTO(  ).setXml( XMLConvertor.convertCardToXML( _cardBean, chapters ) );
+
+        Long localId = _dilaLocalService.create( _cardBean.getLocalDTO(  ), false );
+        _cardBean.getLocalDTO(  ).setId( localId );
 
         Long ficheId = _dilaLocalCardService.create( _cardBean );
         _cardBean.setId( ficheId );
@@ -613,6 +632,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doModifyFicheLocale( HttpServletRequest request )
     {
         populate( _cardBean, request );
+
         List<LocalCardChapterDTO> chapters = generateChapters( null, request );
 
         String errorKey = _dilaValidationService.validateLocalCard( _cardBean, chapters );
@@ -623,23 +643,23 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         }
 
         // Create the fiche locale
-        if ( StringUtils.isNumeric( _cardBean.getParentFolderId( ) ) )
+        if ( StringUtils.isNumeric( _cardBean.getParentFolderId(  ) ) )
         {
-            _cardBean.getLocalDTO( ).setBreadCrumb( _cardBean.getLocalParentFolder( ).getLocalDTO( ).getBreadCrumb( ) );
+            _cardBean.getLocalDTO(  ).setBreadCrumb( _cardBean.getLocalParentFolder(  ).getLocalDTO(  ).getBreadCrumb(  ) );
         }
         else
         {
-            _cardBean.getLocalDTO( ).setBreadCrumb( _cardBean.getNationalParentFolder( ).getBreadcrumb( ) );
+            _cardBean.getLocalDTO(  ).setBreadCrumb( _cardBean.getNationalParentFolder(  ).getBreadcrumb(  ) );
         }
 
-        _cardBean.getLocalDTO( ).setXml( XMLConvertor.convertCardToXML( _cardBean, chapters ) );
-        _dilaLocalService.update( _cardBean.getLocalDTO( ), false );
+        _cardBean.getLocalDTO(  ).setXml( XMLConvertor.convertCardToXML( _cardBean, chapters ) );
+        _dilaLocalService.update( _cardBean.getLocalDTO(  ), false );
 
         // Update fiche
         _dilaLocalCardService.update( _cardBean );
 
         // Delete old chapters
-        _dilaLocalCardChapterService.deleteByCardId( _cardBean.getId( ) );
+        _dilaLocalCardChapterService.deleteByCardId( _cardBean.getId(  ) );
 
         // Create chapters
         for ( LocalCardChapterDTO chapitre : chapters )
@@ -659,6 +679,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doCreateDossierLocal( HttpServletRequest request )
     {
         populate( _folderBean, request );
+
         List<LocalFolderLinkDTO> links = generateLinks( null, request );
 
         String errorKey = _dilaValidationService.validateLocalFolder( _folderBean, links );
@@ -669,16 +690,17 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         }
 
         // generate XML 
-        _folderBean.getLocalDTO( ).setXml( XMLConvertor.convertDossierInXML( _folderBean, links ) );
-        Long localId = _dilaLocalService.create( _folderBean.getLocalDTO( ), true );
-        _folderBean.getLocalDTO( ).setId( localId );
+        _folderBean.getLocalDTO(  ).setXml( XMLConvertor.convertDossierInXML( _folderBean, links ) );
+
+        Long localId = _dilaLocalService.create( _folderBean.getLocalDTO(  ), true );
+        _folderBean.getLocalDTO(  ).setId( localId );
 
         Long dossierId = _dilaLocalFolderService.create( _folderBean );
         _folderBean.setId( dossierId );
 
         for ( LocalFolderLinkDTO link : links )
         {
-            link.setLocalFolderId( _folderBean.getId( ) );
+            link.setLocalFolderId( _folderBean.getId(  ) );
             _dilaLocalFolderLinkService.create( link );
         }
 
@@ -693,6 +715,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     public String doModifyDossierLocal( HttpServletRequest request )
     {
         populate( _folderBean, request );
+
         List<LocalFolderLinkDTO> links = generateLinks( null, request );
 
         String errorKey = _dilaValidationService.validateLocalFolder( _folderBean, links );
@@ -703,21 +726,21 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         }
 
         // generate XML 
-        _folderBean.getLocalDTO( ).setXml( XMLConvertor.convertDossierInXML( _folderBean, links ) );
+        _folderBean.getLocalDTO(  ).setXml( XMLConvertor.convertDossierInXML( _folderBean, links ) );
 
         // update local
-        _dilaLocalService.update( _folderBean.getLocalDTO( ), true );
+        _dilaLocalService.update( _folderBean.getLocalDTO(  ), true );
 
         // update dossier local
         _dilaLocalFolderService.update( _folderBean );
 
         // delete old links
-        _dilaLocalFolderLinkService.deleteByFolderId( _folderBean.getId( ) );
+        _dilaLocalFolderLinkService.deleteByFolderId( _folderBean.getId(  ) );
 
         // create new links
         for ( LocalFolderLinkDTO link : links )
         {
-            link.setLocalFolderId( _folderBean.getId( ) );
+            link.setLocalFolderId( _folderBean.getId(  ) );
             _dilaLocalFolderLinkService.create( link );
         }
 
@@ -735,16 +758,15 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isEmpty( idLocal ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
         }
 
-        Map<String, Object> urlParam = new HashMap<String, Object>( );
+        Map<String, Object> urlParam = new HashMap<String, Object>(  );
         urlParam.put( DilaConstants.MARK_LOCAL_ID, idLocal );
 
         return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_CONFIRMATION_DELETE_FICHE, null,
-                DilaConstants.MESSAGE_TITLE_DELETE_FICHE, DilaConstants.JSP_DELETE_FICHE, "_self",
-                AdminMessage.TYPE_CONFIRMATION, urlParam, DilaConstants.JSP_MANAGE_LOCAL );
+            DilaConstants.MESSAGE_TITLE_DELETE_FICHE, DilaConstants.JSP_DELETE_FICHE, "_self",
+            AdminMessage.TYPE_CONFIRMATION, urlParam, DilaConstants.JSP_MANAGE_LOCAL );
     }
 
     /**
@@ -758,8 +780,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isEmpty( idLocal ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
         }
 
         Long ficheLocalId = _dilaLocalCardService.findCardIdByLocalId( idLocal );
@@ -782,23 +803,22 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isEmpty( idLocal ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
         }
 
         // Check if can delete dossier
         if ( _dilaLocalCardService.isCardWithParentId( idLocal ) )
         {
             return AdminMessageService.getMessageUrl( request, "dila.message.impossible.delete_dossierlocal",
-                    AdminMessage.TYPE_STOP );
+                AdminMessage.TYPE_STOP );
         }
 
-        Map<String, Object> urlParam = new HashMap<String, Object>( );
+        Map<String, Object> urlParam = new HashMap<String, Object>(  );
         urlParam.put( DilaConstants.MARK_LOCAL_ID, idLocal );
 
         return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_CONFIRMATION_DELETE_DOSSIER, null,
-                DilaConstants.MESSAGE_TITLE_DELETE_DOSSIER, DilaConstants.JSP_DELETE_DOSSIER, "_self",
-                AdminMessage.TYPE_CONFIRMATION, urlParam, DilaConstants.JSP_MANAGE_STYLESHEET );
+            DilaConstants.MESSAGE_TITLE_DELETE_DOSSIER, DilaConstants.JSP_DELETE_DOSSIER, "_self",
+            AdminMessage.TYPE_CONFIRMATION, urlParam, DilaConstants.JSP_MANAGE_STYLESHEET );
     }
 
     /**
@@ -812,8 +832,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isEmpty( idLocal ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
         }
 
         Long dossierLocalId = _dilaLocalFolderService.findFolderIdByLocalId( idLocal );
@@ -832,10 +851,10 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     private void setDataInModel( HttpServletRequest request, Map<String, Object> model )
     {
-        List<AudienceDTO> audienceList = _dilaAudienceService.findAll( );
+        List<AudienceDTO> audienceList = _dilaAudienceService.findAll(  );
         ReferenceList listTypeContenu = ListUtils.toReferenceList( audienceList, "id", "label", null );
         model.put( MARK_AUDIENCE, listTypeContenu );
-        model.put( MARK_LOCALE, getLocale( ) );
+        model.put( MARK_LOCALE, getLocale(  ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
     }
 
@@ -849,14 +868,14 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     {
         Integer nbChapter = Integer.valueOf( request.getParameter( PARAMETER_CHAPTER_ID ) );
 
-        List<LocalCardChapterDTO> chapters = new ArrayList<LocalCardChapterDTO>( );
+        List<LocalCardChapterDTO> chapters = new ArrayList<LocalCardChapterDTO>(  );
 
         for ( int i = 1; i <= nbChapter; i++ )
         {
             String titre = request.getParameter( "chapter_title_" + i );
             String contenu = request.getParameter( "chapter_content_" + i );
 
-            LocalCardChapterDTO chapter = new LocalCardChapterDTO( );
+            LocalCardChapterDTO chapter = new LocalCardChapterDTO(  );
             chapter.setTitle( titre );
             chapter.setContent( contenu );
             chapter.setPosition( i );
@@ -883,14 +902,14 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     {
         Integer nbLinks = Integer.valueOf( request.getParameter( PARAMETER_LINK_ID ) );
 
-        List<LocalFolderLinkDTO> liens = new ArrayList<LocalFolderLinkDTO>( );
+        List<LocalFolderLinkDTO> liens = new ArrayList<LocalFolderLinkDTO>(  );
 
         for ( int i = 1; i <= nbLinks; i++ )
         {
             String titre = request.getParameter( "link_title_" + i );
             String referenceId = request.getParameter( "link_reference_" + i );
 
-            LocalFolderLinkDTO lien = new LocalFolderLinkDTO( );
+            LocalFolderLinkDTO lien = new LocalFolderLinkDTO(  );
             lien.setTitle( titre );
             lien.setCardId( referenceId );
             lien.setPosition( i );
@@ -918,26 +937,30 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     private List<LocalDTO> filterLocal( List<LocalDTO> initList, Long type, Long id, String name, String author )
     {
-        List<LocalDTO> result = new ArrayList<LocalDTO>( );
+        List<LocalDTO> result = new ArrayList<LocalDTO>(  );
 
         for ( LocalDTO local : initList )
         {
-            if ( !type.equals( 0L ) && !local.getType( ).getId( ).equals( type ) )
+            if ( !type.equals( 0L ) && !local.getType(  ).getId(  ).equals( type ) )
             {
                 continue;
             }
-            if ( !id.equals( 0L ) && !local.getId( ).equals( id ) )
+
+            if ( !id.equals( 0L ) && !local.getId(  ).equals( id ) )
             {
                 continue;
             }
-            if ( StringUtils.isNotBlank( name ) && !local.getTitle( ).equals( name ) )
+
+            if ( StringUtils.isNotBlank( name ) && !local.getTitle(  ).equals( name ) )
             {
                 continue;
             }
-            if ( StringUtils.isNotBlank( author ) && !local.getAuthor( ).equals( author ) )
+
+            if ( StringUtils.isNotBlank( author ) && !local.getAuthor(  ).equals( author ) )
             {
                 continue;
             }
+
             result.add( local );
         }
 
@@ -951,13 +974,13 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     private String getTemplateFiche( Map<String, Object> model )
     {
-        if ( ActionTypeEnum.CREATE.getValue( ).equals( _strAction ) )
+        if ( ActionTypeEnum.CREATE.getValue(  ).equals( _strAction ) )
         {
-            return AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_CARD, getLocale( ), model ).getHtml( );
+            return AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_CARD, getLocale(  ), model ).getHtml(  );
         }
         else
         {
-            return AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_CARD, getLocale( ), model ).getHtml( );
+            return AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_CARD, getLocale(  ), model ).getHtml(  );
         }
     }
 
@@ -968,13 +991,13 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
      */
     private String getTemplateDossier( Map<String, Object> model )
     {
-        if ( ActionTypeEnum.CREATE.getValue( ).equals( _strAction ) )
+        if ( ActionTypeEnum.CREATE.getValue(  ).equals( _strAction ) )
         {
-            return AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_FOLDER, getLocale( ), model ).getHtml( );
+            return AppTemplateService.getTemplate( TEMPLATE_CREATE_LOCAL_FOLDER, getLocale(  ), model ).getHtml(  );
         }
         else
         {
-            return AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_FOLDER, getLocale( ), model ).getHtml( );
+            return AppTemplateService.getTemplate( TEMPLATE_MODIFY_LOCAL_FOLDER, getLocale(  ), model ).getHtml(  );
         }
     }
 }

@@ -1,16 +1,21 @@
 /**
- * 
+ *
  */
 package fr.paris.lutece.plugins.dila.business.enums;
 
+
 /**
  * Enum for all content type
- * 
+ *
  */
 public enum ContentTypeEnum
-{
-
-    CARD( 1L ), NODE( 2L ), RESOURCES( 3L ), THEMES( 4L ), PROFESSIONAL_THEMES( 5L ), PIVOT( 6L ), LOCAL( 7L );
+{CARD( 1L ),
+    NODE( 2L ),
+    RESOURCES( 3L ),
+    THEMES( 4L ),
+    PROFESSIONAL_THEMES( 5L ),
+    PIVOT( 6L ),
+    LOCAL( 7L );
 
     /**
      * The content type id
@@ -29,7 +34,7 @@ public enum ContentTypeEnum
     /**
      * @return the _lId
      */
-    public Long getId( )
+    public Long getId(  )
     {
         return _lId;
     }
@@ -41,14 +46,14 @@ public enum ContentTypeEnum
      */
     public static ContentTypeEnum fromId( Long id )
     {
-        for ( ContentTypeEnum e : ContentTypeEnum.values( ) )
+        for ( ContentTypeEnum e : ContentTypeEnum.values(  ) )
         {
-            if ( e.getId( ).equals( id ) )
+            if ( e.getId(  ).equals( id ) )
             {
                 return e;
             }
         }
+
         return null;
     }
-
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.paris.lutece.plugins.dila.service;
 
@@ -11,7 +11,6 @@ import java.util.Locale;
  */
 public interface IDilaCacheService
 {
-
     /**
      * Get html page for give key
      * @param strCacheKey the cache key

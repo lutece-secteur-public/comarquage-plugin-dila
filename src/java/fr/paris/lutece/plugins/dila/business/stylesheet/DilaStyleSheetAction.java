@@ -57,7 +57,7 @@ public class DilaStyleSheetAction implements RBACAction, Localizable
      * Returns the URL
      * @return The URL
      */
-    public String getURL( )
+    public String getURL(  )
     {
         return _strURL;
     }
@@ -73,27 +73,27 @@ public class DilaStyleSheetAction implements RBACAction, Localizable
 
     /**
      * Returns the NameKey
-     * 
+     *
      * @return The NameKey
      */
-    public String getNameKey( )
+    public String getNameKey(  )
     {
         return _strNameKey;
     }
 
     /**
      * Returns the Name
-     * 
+     *
      * @return The Name
      */
-    public String getName( )
+    public String getName(  )
     {
         return I18nService.getLocalizedString( _strNameKey, _locale );
     }
 
     /**
      * Sets the NameKey
-     * 
+     *
      * @param strNameKey The NameKey
      */
     public void setNameKey( String strNameKey )
@@ -103,27 +103,27 @@ public class DilaStyleSheetAction implements RBACAction, Localizable
 
     /**
      * Returns the DescriptionKey
-     * 
+     *
      * @return The DescriptionKey
      */
-    public String getDescriptionKey( )
+    public String getDescriptionKey(  )
     {
         return _strDescriptionKey;
     }
 
     /**
      * Returns the Description
-     * 
+     *
      * @return The Description
      */
-    public String getDescription( )
+    public String getDescription(  )
     {
         return I18nService.getLocalizedString( _strDescriptionKey, _locale );
     }
 
     /**
      * Sets the DescriptionKey
-     * 
+     *
      * @param strDescriptionKey The DescriptionKey
      */
     public void setDescriptionKey( String strDescriptionKey )
@@ -133,17 +133,17 @@ public class DilaStyleSheetAction implements RBACAction, Localizable
 
     /**
      * Returns the IconUrl
-     * 
+     *
      * @return The IconUrl
      */
-    public String getIconUrl( )
+    public String getIconUrl(  )
     {
         return _strIconUrl;
     }
 
     /**
      * Sets the IconUrl
-     * 
+     *
      * @param strIconUrl The IconUrl
      */
     public void setIconUrl( String strIconUrl )
@@ -155,14 +155,14 @@ public class DilaStyleSheetAction implements RBACAction, Localizable
      * Returns the permission associated to the action
      * @return The permission
      */
-    public String getPermission( )
+    public String getPermission(  )
     {
         return _strPermission;
     }
 
     /**
      * Sets the Permission
-     * 
+     *
      * @param strPermission The Permission
      */
     public void setPermission( String strPermission )

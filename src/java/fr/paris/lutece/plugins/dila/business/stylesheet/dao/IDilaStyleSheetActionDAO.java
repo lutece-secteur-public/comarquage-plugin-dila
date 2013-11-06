@@ -45,8 +45,8 @@ public interface IDilaStyleSheetActionDAO
 {
     /**
      * Return the list of actions for a dila stylesheets
-     * 
+     *
      * @return collection of actions
      */
-    List<DilaStyleSheetAction> selectActions( );
+    List<DilaStyleSheetAction> selectActions(  );
 }

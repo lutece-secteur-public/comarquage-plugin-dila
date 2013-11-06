@@ -46,7 +46,7 @@ import java.util.List;
 public class DilaStyleSheet extends StyleSheet implements RBACResource
 {
     public static final String RESOURCE_TYPE = "DILA_STYLESHEET";
-    private ContentType _contentType = new ContentType( );
+    private ContentType _contentType = new ContentType(  );
     private List<DilaStyleSheetAction> _listActions;
 
     /**
@@ -60,19 +60,19 @@ public class DilaStyleSheet extends StyleSheet implements RBACResource
     /**
      * @return the _contentType
      */
-    public ContentType getContentType( )
+    public ContentType getContentType(  )
     {
         return _contentType;
     }
 
     /**
      * Return the contentType label to sort the list
-     * 
+     *
      * @return String label
      */
-    public String getContentTypeLabel( )
+    public String getContentTypeLabel(  )
     {
-        return this._contentType.getLabel( );
+        return this._contentType.getLabel(  );
     }
 
     /**
@@ -86,7 +86,7 @@ public class DilaStyleSheet extends StyleSheet implements RBACResource
     /**
      * @return the _listActions
      */
-    public List<DilaStyleSheetAction> getListActions( )
+    public List<DilaStyleSheetAction> getListActions(  )
     {
         return _listActions;
     }
@@ -95,7 +95,7 @@ public class DilaStyleSheet extends StyleSheet implements RBACResource
      * RBAC resource implementation
      * @return The resource type code
      */
-    public String getResourceTypeCode( )
+    public String getResourceTypeCode(  )
     {
         return RESOURCE_TYPE;
     }
@@ -104,8 +104,8 @@ public class DilaStyleSheet extends StyleSheet implements RBACResource
      * RBAC resource implementation
      * @return The resourceId
      */
-    public String getResourceId( )
+    public String getResourceId(  )
     {
-        return "" + this.getId( );
+        return "" + this.getId(  );
     }
 }

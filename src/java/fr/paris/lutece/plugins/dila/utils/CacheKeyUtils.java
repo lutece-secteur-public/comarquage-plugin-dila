@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.paris.lutece.plugins.dila.utils;
 
@@ -10,16 +10,15 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Class used to generate and decode cache key
- * 
+ *
  */
 public final class CacheKeyUtils
 {
     /**
      * Private constructor
      */
-    private CacheKeyUtils( )
+    private CacheKeyUtils(  )
     {
-
     }
 
     /**
@@ -30,9 +29,10 @@ public final class CacheKeyUtils
      */
     public static String generateCacheKey( Long lCategoryId, String strCardId )
     {
-        StringBuilder sbKey = new StringBuilder( );
+        StringBuilder sbKey = new StringBuilder(  );
         sbKey.append( lCategoryId ).append( DilaConstants.CACHE_KEY_SEPARATOR ).append( strCardId );
-        return sbKey.toString( );
+
+        return sbKey.toString(  );
     }
 
     /**
@@ -43,14 +43,17 @@ public final class CacheKeyUtils
     public static Long getCategoryFromCacheKey( String strKey )
     {
         Long catId = null;
+
         if ( StringUtils.isNotBlank( strKey ) )
         {
             String[] splitKey = strKey.split( DilaConstants.CACHE_KEY_SEPARATOR );
-            if ( splitKey.length >= 1 && StringUtils.isNumeric( splitKey[0] ) )
+
+            if ( ( splitKey.length >= 1 ) && StringUtils.isNumeric( splitKey[0] ) )
             {
                 catId = Long.valueOf( splitKey[0] );
             }
         }
+
         return catId;
     }
 
@@ -62,14 +65,17 @@ public final class CacheKeyUtils
     public static String getCardIdFromCacheKey( String strKey )
     {
         String cardId = null;
+
         if ( StringUtils.isNotBlank( strKey ) )
         {
             String[] splitKey = strKey.split( DilaConstants.CACHE_KEY_SEPARATOR );
+
             if ( splitKey.length == 2 )
             {
                 cardId = splitKey[1];
             }
         }
+
         return cardId;
     }
 }

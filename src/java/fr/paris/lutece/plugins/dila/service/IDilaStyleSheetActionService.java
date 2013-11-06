@@ -46,7 +46,7 @@ public interface IDilaStyleSheetActionService
 {
     /**
      * Return the list of actions for a dila stylesheets
-     * 
+     *
      * @param locale the locale
      * @return collection of actions
      */

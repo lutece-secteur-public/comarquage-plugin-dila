@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,20 +53,19 @@ public class DilaStyleSheetActionDAO implements IDilaStyleSheetActionDAO, Serial
 {
     /** Serial ID */
     private static final long serialVersionUID = -7176177683841731993L;
-
-    private static final String SQL_QUERY_SELECT_ACTIONS = "SELECT a.name_key, a.description_key, a.action_url, a.icon_url, a.action_permission "
-            + " FROM dila_action a ";
+    private static final String SQL_QUERY_SELECT_ACTIONS = "SELECT a.name_key, a.description_key, a.action_url, a.icon_url, a.action_permission " +
+        " FROM dila_action a ";
 
     @Override
-    public List<DilaStyleSheetAction> selectActions( )
+    public List<DilaStyleSheetAction> selectActions(  )
     {
-        List<DilaStyleSheetAction> listActions = new ArrayList<DilaStyleSheetAction>( );
+        List<DilaStyleSheetAction> listActions = new ArrayList<DilaStyleSheetAction>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACTIONS, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
-        daoUtil.executeQuery( );
+        daoUtil.executeQuery(  );
 
-        while ( daoUtil.next( ) )
+        while ( daoUtil.next(  ) )
         {
-            DilaStyleSheetAction action = new DilaStyleSheetAction( );
+            DilaStyleSheetAction action = new DilaStyleSheetAction(  );
             action.setNameKey( daoUtil.getString( 1 ) );
             action.setDescriptionKey( daoUtil.getString( 2 ) );
             action.setURL( daoUtil.getString( 3 ) );
@@ -74,7 +74,7 @@ public class DilaStyleSheetActionDAO implements IDilaStyleSheetActionDAO, Serial
             listActions.add( action );
         }
 
-        daoUtil.free( );
+        daoUtil.free(  );
 
         return listActions;
     }

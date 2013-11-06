@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.plugins.dila.utils.constants;
 
+
 /**
- * 
+ *
  * DilaConstants
- * 
+ *
  */
 public final class DilaConstants
 {
@@ -78,27 +79,22 @@ public final class DilaConstants
     public static final String PROPERTY_XML_DIRECTORY_LOCALES_TOWN = "xmlDirectory.locales.communes";
     public static final String PROPERTY_XML_DIRECTORY_LOCALES_ORGANISMS = "xmlDirectory.locales.organismes";
     public static final String PROPERTY_INSEE = "dila.insee";
-
     public static final String PROPERTY_XML_URL_INDIVIDUALS = "individual.archive.url";
     public static final String PROPERTY_XML_NAME_INDIVIDUALS = "individual.archive.name";
     public static final String PROPERTY_XML_TMP_INDIVIDUALS = "individual.archive.dir.path.extract.tmp";
     public static final String PROPERTY_XML_FINAL_INDIVIDUALS = "individual.archive.dir.path.extract.final";
-
     public static final String PROPERTY_XML_URL_ASSO = "association.archive.url";
     public static final String PROPERTY_XML_NAME_ASSO = "association.archive.name";
     public static final String PROPERTY_XML_TMP_ASSO = "association.archive.dir.path.extract.tmp";
     public static final String PROPERTY_XML_FINAL_ASSO = "association.archive.dir.path.extract.final";
-
     public static final String PROPERTY_XML_URL_PME = "professional.archive.url";
     public static final String PROPERTY_XML_NAME_PME = "professional.archive.name";
     public static final String PROPERTY_XML_TMP_PME = "professional.archive.dir.path.extract.tmp";
     public static final String PROPERTY_XML_FINAL_PME = "professional.archive.dir.path.extract.final";
-
     public static final String PROPERTY_XML_URL_LOCALES = "local.data.archive.url";
     public static final String PROPERTY_XML_NAME_LOCALES = "local.data.archive.name";
     public static final String PROPERTY_XML_TMP_LOCALES = "local.data.archive.dir.path.extract.tmp";
     public static final String PROPERTY_XML_FINAL_LOCALES = "local.data.archive.dir.path.extract.final";
-
     public static final String PROCESS_INDIVIDUAL = "individual";
     public static final String PROCESS_ASSOCIATION = "association";
     public static final String PROCESS_PROFESSIONAL = "professional";
@@ -115,13 +111,10 @@ public final class DilaConstants
     public static final String MESSAGE_ERROR_OCCUR = "dila.message.error.erroroccur";
     public static final String MESSAGE_TITLE_DELETE_STYLESHEET = "dila.message.title.delete_stylesheet";
     public static final String MESSAGE_CONFIRMATION_DELETE_STYLESHEET = "dila.message.confirmation.delete_stylesheet";
-
     public static final String MESSAGE_CONFIRMATION_DELETE_FICHE = "dila.message.confirmation.delete_fichelocale";
     public static final String MESSAGE_TITLE_DELETE_FICHE = "dila.message.title.delete_fichelocale";
-
     public static final String MESSAGE_CONFIRMATION_DELETE_DOSSIER = "dila.message.confirmation.delete_dossierlocal";
     public static final String MESSAGE_TITLE_DELETE_DOSSIER = "dila.message.title.delete_dossierlocal";
-
     public static final String MESSAGE_CONFIRMATION_DELETE_DONNEE = "dila.message.confirmation.delete_donneecomplementaire";
     public static final String MESSAGE_TITLE_DELETE_DONNEE = "dila.message.title.delete_donneecomplementaire";
 
@@ -137,7 +130,6 @@ public final class DilaConstants
     public static final String JSP_DELETE_FICHE = "jsp/admin/plugins/dila/DoDeleteFicheLocale.jsp";
     public static final String JSP_DELETE_DONNEE = "jsp/admin/plugins/dila/DoDeleteDonneeComplementaire.jsp";
     public static final String JSP_MANAGE_DONNEES = "jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp";
-
     public static final String CACHE_KEY_SEPARATOR = "_";
     public static final String DEFAULT_XML = "Themes";
     public static final String XML_EXTENSION = ".xml";
@@ -150,9 +142,8 @@ public final class DilaConstants
     /**
      * Utility class
      */
-    private DilaConstants( )
+    private DilaConstants(  )
     {
         // nothing
     }
-
 }

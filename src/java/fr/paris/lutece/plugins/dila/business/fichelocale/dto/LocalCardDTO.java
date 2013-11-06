@@ -1,3 +1,36 @@
+/*
+ * Copyright (c) 2002-2013, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.plugins.dila.business.fichelocale.dto;
 
 import fr.paris.lutece.plugins.dila.service.DilaLocalTypeEnum;
@@ -43,20 +76,20 @@ public class LocalCardDTO implements Serializable
     /**
      * Default contructor. Init the {@link LocalDTO} with card type
      */
-    public LocalCardDTO( )
+    public LocalCardDTO(  )
     {
-        LocalTypeDTO type = new LocalTypeDTO( );
-        type.setId( DilaLocalTypeEnum.CARD.getId( ) );
+        LocalTypeDTO type = new LocalTypeDTO(  );
+        type.setId( DilaLocalTypeEnum.CARD.getId(  ) );
         _localDTO = new LocalDTO( type );
 
-        _localParentFolder = new LocalFolderDTO( );
-        _nationalParentFolder = new XmlDTO( );
+        _localParentFolder = new LocalFolderDTO(  );
+        _nationalParentFolder = new XmlDTO(  );
     }
 
     /**
      * @return the _lId
      */
-    public Long getId( )
+    public Long getId(  )
     {
         return _lId;
     }
@@ -72,7 +105,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the _strParentFolderId
      */
-    public String getParentFolderId( )
+    public String getParentFolderId(  )
     {
         return _strParentFolderId;
     }
@@ -88,7 +121,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the _strSiblingCardId
      */
-    public String getSiblingCardId( )
+    public String getSiblingCardId(  )
     {
         return _strSiblingCardId;
     }
@@ -104,7 +137,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the position
      */
-    public Integer getPosition( )
+    public Integer getPosition(  )
     {
         return _nPosition;
     }
@@ -120,7 +153,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the _localDTO
      */
-    public LocalDTO getLocalDTO( )
+    public LocalDTO getLocalDTO(  )
     {
         return _localDTO;
     }
@@ -136,7 +169,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the _localParentFolder
      */
-    public LocalFolderDTO getLocalParentFolder( )
+    public LocalFolderDTO getLocalParentFolder(  )
     {
         return _localParentFolder;
     }
@@ -152,7 +185,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the _nationalParentFolder
      */
-    public XmlDTO getNationalParentFolder( )
+    public XmlDTO getNationalParentFolder(  )
     {
         return _nationalParentFolder;
     }
@@ -168,7 +201,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the _strParentFolderTitle
      */
-    public String getParentFolderTitle( )
+    public String getParentFolderTitle(  )
     {
         return _strParentFolderTitle;
     }
@@ -184,7 +217,7 @@ public class LocalCardDTO implements Serializable
     /**
      * @return the _strSiblingCardTitle
      */
-    public String getSiblingCardTitle( )
+    public String getSiblingCardTitle(  )
     {
         return _strSiblingCardTitle;
     }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fr.paris.lutece.plugins.dila.web;
 
@@ -19,6 +19,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.WordUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,17 +28,15 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.WordUtils;
-
 
 /**
  * Dila page for local cards
- * 
+ *
  */
 public class DilaLocalApp implements XPageApplication
 {
-
     private static final String PROPERTY_ERROR_NOCATEGORY = "dila.page.dilalocal.error.nocategory";
+
     // Parameters
     private static final String DEFAULT_RESULTS_PER_PAGE = "20";
     private static final String DEFAULT_PAGE_INDEX = "1";
@@ -53,33 +53,33 @@ public class DilaLocalApp implements XPageApplication
     private static final String MARK_URL_INDIVIDUALS = "urlParticuliers";
     private static final String MARK_URL_PROFESSIONALS = "urlPME";
     private static final String MARK_URL_ASSOCIATIONS = "urlAssociations";
-
     private static final String TEMPLATE_RESULTS = "skin/plugins/dila/page_dila_locale.html";
     private static final String PROPERTY_PATH_LABEL = "portal.search.search_results.pathLabel";
     private static final String PROPERTY_PAGE_TITLE = "portal.search.search_results.pageTitle";
-
     private IDilaLocalService _dilaLocalService = SpringContextService.getBean( "dilaLocalService" );
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws UserNotSignedException,
-            SiteMessageException
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
+        throws UserNotSignedException, SiteMessageException
     {
-        XPage page = new XPage( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        XPage page = new XPage(  );
+        HashMap<String, Object> model = new HashMap<String, Object>(  );
         String strAudience = request.getParameter( MARK_CATEGORIE );
         model.put( MARK_URL_ASSOCIATIONS, DilaConstants.XPAGE_ASSO );
         model.put( MARK_URL_INDIVIDUALS, DilaConstants.XPAGE_PARTICULIERS );
         model.put( MARK_URL_PROFESSIONALS, DilaConstants.XPAGE_PME );
+
         if ( strAudience == null )
         {
-            model.put( MARK_ERROR, I18nService.getLocalizedString( PROPERTY_ERROR_NOCATEGORY, request.getLocale( ) ) );
+            model.put( MARK_ERROR, I18nService.getLocalizedString( PROPERTY_ERROR_NOCATEGORY, request.getLocale(  ) ) );
         }
         else
         {
             model.put( MARK_CATEGORIE, WordUtils.capitalize( strAudience ) );
+
             String strSearchPageUrl = PROPERTY_SEARCH_PAGE_URL;
 
             String strNbItemPerPage = request.getParameter( PARAMETER_NB_ITEMS_PER_PAGE );
@@ -90,29 +90,31 @@ public class DilaLocalApp implements XPageApplication
             strCurrentPageIndex = ( strCurrentPageIndex != null ) ? strCurrentPageIndex : DEFAULT_PAGE_INDEX;
 
             AudienceCategoryEnum audienceEnum = AudienceCategoryEnum.fromLabel( strAudience );
-            List<LocalDTO> listResults = new ArrayList<LocalDTO>( );
+            List<LocalDTO> listResults = new ArrayList<LocalDTO>(  );
+
             if ( audienceEnum != null )
             {
-                listResults = _dilaLocalService.findAllByAudienceId( audienceEnum.getId( ) );
+                listResults = _dilaLocalService.findAllByAudienceId( audienceEnum.getId(  ) );
             }
 
             UrlItem url = new UrlItem( strSearchPageUrl );
             url.addParameter( MARK_CATEGORIE, strAudience );
             url.addParameter( PARAMETER_NB_ITEMS_PER_PAGE, nNbItemsPerPage );
 
-            Paginator<LocalDTO> paginator = new Paginator<LocalDTO>( listResults, nNbItemsPerPage, url.getUrl( ),
+            Paginator<LocalDTO> paginator = new Paginator<LocalDTO>( listResults, nNbItemsPerPage, url.getUrl(  ),
                     PARAMETER_PAGE_INDEX, strCurrentPageIndex );
-            model.put( MARK_RESULTS_LIST, paginator.getPageItems( ) );
+            model.put( MARK_RESULTS_LIST, paginator.getPageItems(  ) );
             model.put( MARK_PAGINATOR, paginator );
             model.put( MARK_NB_ITEMS_PER_PAGE, strNbItemPerPage );
-
         }
-        Locale locale = request.getLocale( );
+
+        Locale locale = request.getLocale(  );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESULTS, locale, model );
 
         page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PATH_LABEL, locale ) );
         page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, locale ) );
-        page.setContent( template.getHtml( ) );
+        page.setContent( template.getHtml(  ) );
+
         return page;
     }
 }

@@ -1,14 +1,16 @@
 /**
- * 
+ *
  */
 package fr.paris.lutece.plugins.dila.business.enums;
 
+
 /**
- * 
+ *
  */
 public enum AudienceCategoryEnum
-{
-    INDIVIDUALS( 1L, "Particuliers" ), ASSOCIATIONS( 2L, "Associations" ), PROFESSIONNALS( 3L, "Professionnels" );
+{INDIVIDUALS( 1L, "Particuliers" ),
+    ASSOCIATIONS( 2L, "Associations" ),
+    PROFESSIONNALS( 3L, "Professionnels" );
 
     private Long _lId;
     private String _strLabel;
@@ -31,20 +33,21 @@ public enum AudienceCategoryEnum
      */
     public static AudienceCategoryEnum fromId( Long lId )
     {
-        for ( AudienceCategoryEnum e : AudienceCategoryEnum.values( ) )
+        for ( AudienceCategoryEnum e : AudienceCategoryEnum.values(  ) )
         {
-            if ( e.getId( ).equals( lId ) )
+            if ( e.getId(  ).equals( lId ) )
             {
                 return e;
             }
         }
+
         return null;
     }
 
     /**
      * @return the _lId
      */
-    public Long getId( )
+    public Long getId(  )
     {
         return _lId;
     }
@@ -52,7 +55,7 @@ public enum AudienceCategoryEnum
     /**
      * @return the _strLabel
      */
-    public String getLabel( )
+    public String getLabel(  )
     {
         return _strLabel;
     }
@@ -64,13 +67,14 @@ public enum AudienceCategoryEnum
      */
     public static AudienceCategoryEnum fromLabel( String strLabel )
     {
-        for ( AudienceCategoryEnum e : AudienceCategoryEnum.values( ) )
+        for ( AudienceCategoryEnum e : AudienceCategoryEnum.values(  ) )
         {
-            if ( e.getLabel( ).equalsIgnoreCase( strLabel ) )
+            if ( e.getLabel(  ).equalsIgnoreCase( strLabel ) )
             {
                 return e;
             }
         }
+
         return null;
     }
 }

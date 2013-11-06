@@ -1,3 +1,36 @@
+/*
+ * Copyright (c) 2002-2013, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.plugins.dila.service.impl;
 
 import fr.paris.lutece.plugins.dila.business.fichelocale.dao.IXmlDAO;
@@ -7,21 +40,9 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import java.util.List;
-import java.util.Locale;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.xml.parsers.DocumentBuilder;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -34,11 +55,29 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import org.xml.sax.SAXException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.io.StringWriter;
+
+import java.net.HttpURLConnection;
+
+import java.util.List;
+import java.util.Locale;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import javax.xml.parsers.DocumentBuilder;
 
 
 /**
@@ -47,34 +86,21 @@ import org.xml.sax.SAXException;
 public class DilaXmlService implements IDilaXmlService, Serializable
 {
     private static final String ID_ATTRIBUTE = "ID";
-
     private static final String HOW_TO_TAG = "CommentFaire";
-
     private static final String ERROR_RSS_FEED = "dila.error.rssFeed";
-
     private static final String ITEM_TAG = "item";
-
     private static final String HTTP_ACCESS_PROXY_PASSWORD = "httpAccess.proxyPassword";
-
     private static final String HTTP_ACCESS_PROXY_USERNAME = "httpAccess.proxyUserName";
-
     private static final String HTTP_ACCESS_PROXY_PORT = "httpAccess.proxyPort";
-
     private static final String URL_ATTR = "URL";
-
     private static final String TYPE_ATTR_FIL = "Fil";
-
     private static final String TYPE_ATTR = "type";
-
     private static final String ACTUALITE_TAG = "Actualite";
-
     private static final String ERROR_TAG = "Error";
-
     private static final String HTTP_ACCESS_PROXY_HOST = "httpAccess.proxyHost";
 
     /** Serial ID */
     private static final long serialVersionUID = 3901887734209752792L;
-
     @Inject
     @Named( "dilaXmlDAO" )
     private IXmlDAO _dilaXmlDAO;
@@ -102,7 +128,7 @@ public class DilaXmlService implements IDilaXmlService, Serializable
      */
     @Override
     public String findTitleByIdAndTypesAndAudience( String strIdDossierFrere, List<String> listAvailableTypes,
-            Long lIdAudience )
+        Long lIdAudience )
     {
         return _dilaXmlDAO.findTitleByIdAndTypesAndAudience( strIdDossierFrere, listAvailableTypes, lIdAudience );
     }
@@ -129,9 +155,9 @@ public class DilaXmlService implements IDilaXmlService, Serializable
      * {@inheritDoc}
      */
     @Override
-    public List<XmlDTO> findAll( )
+    public List<XmlDTO> findAll(  )
     {
-        return _dilaXmlDAO.findAll( );
+        return _dilaXmlDAO.findAll(  );
     }
 
     /**
@@ -141,13 +167,14 @@ public class DilaXmlService implements IDilaXmlService, Serializable
     public Document insertHowToLinks( Long lAudienceId, DocumentBuilder builder, Document document )
     {
         List<XmlDTO> xmlList = this.findHowToByAudience( lAudienceId );
+
         for ( XmlDTO currentXML : xmlList )
         {
             Element newCard = document.createElement( HOW_TO_TAG );
-            newCard.setAttribute( ID_ATTRIBUTE, currentXML.getIdXml( ) );
-            newCard.setTextContent( currentXML.getTitle( ) );
-            document.getDocumentElement( ).appendChild( newCard );
-            document.getDocumentElement( ).normalize( );
+            newCard.setAttribute( ID_ATTRIBUTE, currentXML.getIdXml(  ) );
+            newCard.setTextContent( currentXML.getTitle(  ) );
+            document.getDocumentElement(  ).appendChild( newCard );
+            document.getDocumentElement(  ).normalize(  );
         }
 
         return document;
@@ -178,18 +205,22 @@ public class DilaXmlService implements IDilaXmlService, Serializable
     public Document insertRssLinks( DocumentBuilder builder, Document document, Locale locale )
     {
         CloseableHttpClient client = null;
-        HttpClientBuilder clientBuilder = HttpClients.custom( );
+        HttpClientBuilder clientBuilder = HttpClients.custom(  );
         String proxyHost = AppPropertiesService.getProperty( HTTP_ACCESS_PROXY_HOST );
         Node errorNode = document.createElement( ERROR_TAG );
         errorNode.setTextContent( I18nService.getLocalizedString( ERROR_RSS_FEED, locale ) );
+
         NodeList news = document.getElementsByTagName( ACTUALITE_TAG );
-        for ( int i = 0; i < news.getLength( ); i++ )
+
+        for ( int i = 0; i < news.getLength(  ); i++ )
         {
             Element newsElement = (Element) news.item( i );
-            if ( newsElement != null && newsElement.getAttribute( TYPE_ATTR ).contains( TYPE_ATTR_FIL ) )
+
+            if ( ( newsElement != null ) && newsElement.getAttribute( TYPE_ATTR ).contains( TYPE_ATTR_FIL ) )
             {
                 String rssUrl = newsElement.getAttribute( URL_ATTR );
                 HttpGet request = new HttpGet( rssUrl );
+
                 // Connection through proxy
                 if ( StringUtils.isNotBlank( proxyHost ) )
                 {
@@ -200,70 +231,86 @@ public class DilaXmlService implements IDilaXmlService, Serializable
                     //Proxy authentication
                     if ( StringUtils.isNotBlank( proxyUser ) )
                     {
-                        CredentialsProvider credsProvider = new BasicCredentialsProvider( );
+                        CredentialsProvider credsProvider = new BasicCredentialsProvider(  );
                         credsProvider.setCredentials( new AuthScope( proxyHost, Integer.parseInt( proxyPort ) ),
-                                new UsernamePasswordCredentials( proxyUser, proxyPassword ) );
+                            new UsernamePasswordCredentials( proxyUser, proxyPassword ) );
                         clientBuilder.setDefaultCredentialsProvider( credsProvider );
                     }
-                    String strSchema = request.getURI( ).getScheme( );
+
+                    String strSchema = request.getURI(  ).getScheme(  );
                     HttpHost proxy = new HttpHost( proxyHost, Integer.parseInt( proxyPort ), strSchema );
-                    RequestConfig config = RequestConfig.custom( ).setProxy( proxy ).build( );
+                    RequestConfig config = RequestConfig.custom(  ).setProxy( proxy ).build(  );
                     request.setConfig( config );
                 }
-                client = clientBuilder.build( );
+
+                client = clientBuilder.build(  );
+
                 CloseableHttpResponse response = null;
+
                 try
                 {
                     response = client.execute( request );
-                    int nResponseStatusCode = response.getStatusLine( ).getStatusCode( );
+
+                    int nResponseStatusCode = response.getStatusLine(  ).getStatusCode(  );
+
                     if ( nResponseStatusCode != HttpURLConnection.HTTP_OK )
                     {
                         newsElement.appendChild( errorNode );
+
                         continue;
                     }
-                    InputStream rssFeed = response.getEntity( ).getContent( );
-                    StringWriter writer = new StringWriter( );
+
+                    InputStream rssFeed = response.getEntity(  ).getContent(  );
+                    StringWriter writer = new StringWriter(  );
                     IOUtils.copy( rssFeed, writer );
-                    rssFeed = new ByteArrayInputStream( writer.toString( ).getBytes( ) );
+                    rssFeed = new ByteArrayInputStream( writer.toString(  ).getBytes(  ) );
+
                     Document rssDoc = builder.parse( rssFeed );
                     NodeList items = rssDoc.getElementsByTagName( ITEM_TAG );
-                    for ( int j = 0; j < items.getLength( ) && j < 4; j++ )
+
+                    for ( int j = 0; ( j < items.getLength(  ) ) && ( j < 4 ); j++ )
                     {
                         Node currentItem = items.item( j );
                         Node importedNode = document.importNode( currentItem, true );
                         newsElement.appendChild( importedNode );
-                        document.getDocumentElement( ).normalize( );
+                        document.getDocumentElement(  ).normalize(  );
                     }
                 }
                 catch ( ClientProtocolException e )
                 {
                     AppLogService.error( "Error on HTTP protocol", e );
                     newsElement.appendChild( errorNode );
+
                     continue;
                 }
                 catch ( IOException e )
                 {
                     AppLogService.error( "Error on execute request", e );
                     newsElement.appendChild( errorNode );
+
                     continue;
                 }
                 catch ( SAXException e )
                 {
                     AppLogService.error( "Error parsing feed", e );
                     newsElement.appendChild( errorNode );
+
                     continue;
                 }
+
                 try
                 {
-                    response.close( );
+                    response.close(  );
                 }
                 catch ( IOException e )
                 {
                     AppLogService.error( "Error closing response", e );
+
                     continue;
                 }
             }
         }
+
         return document;
     }
 

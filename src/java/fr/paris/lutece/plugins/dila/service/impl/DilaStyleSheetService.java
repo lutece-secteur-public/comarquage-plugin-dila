@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.dila.business.stylesheet.dto.DilaStyleSheet;
 import fr.paris.lutece.plugins.dila.service.IDilaStyleSheetService;
 
 import java.io.Serializable;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,7 +52,6 @@ public class DilaStyleSheetService implements IDilaStyleSheetService, Serializab
 {
     /** Serial ID */
     private static final long serialVersionUID = 4629086502913437438L;
-
     @Inject
     @Named( "dilaStyleSheetDAO" )
     private IDilaStyleSheetDAO _dilaStyleSheetDAO;
