@@ -41,7 +41,6 @@ import java.util.List;
 
 /**
  * DAO for {@link ComplementaryDataLinkDTO}
- * @author rputegnat
  */
 public interface IComplementaryDataLinkDAO
 {

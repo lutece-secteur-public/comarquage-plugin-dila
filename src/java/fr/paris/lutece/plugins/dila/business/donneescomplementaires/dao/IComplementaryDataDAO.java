@@ -40,7 +40,6 @@ import java.util.List;
 
 /**
  * DAO for {@link ComplementaryDataDTO}
- * @author rputegnat
  */
 public interface IComplementaryDataDAO
 {
@@ -48,7 +47,7 @@ public interface IComplementaryDataDAO
      * Method to get all {@link ComplementaryDataDTO}
      * @return list of all {@link ComplementaryDataDTO}
      */
-    List<ComplementaryDataDTO> findAll(  );
+    List<ComplementaryDataDTO> findAll( );
 
     /**
      * Create a new {@link ComplementaryDataDTO}

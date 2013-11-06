@@ -33,10 +33,8 @@
  */
 package fr.paris.lutece.plugins.dila.business.fichelocale.dto;
 
-
 /**
  * DTO for Chapitre Fiche Locale object
- * @author rputegnat
  */
 public class LocalCardChapterDTO
 {
@@ -68,7 +66,7 @@ public class LocalCardChapterDTO
     /**
      * @return the _lLocalCardChapterId
      */
-    public Long getLocalCardChapterId(  )
+    public Long getLocalCardChapterId( )
     {
         return _lLocalCardChapterId;
     }
@@ -84,7 +82,7 @@ public class LocalCardChapterDTO
     /**
      * @return the _strTitle
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
@@ -100,7 +98,7 @@ public class LocalCardChapterDTO
     /**
      * @return the _strContent
      */
-    public String getContent(  )
+    public String getContent( )
     {
         return _strContent;
     }
@@ -116,7 +114,7 @@ public class LocalCardChapterDTO
     /**
      * @return the position
      */
-    public int getPosition(  )
+    public int getPosition( )
     {
         return _nPosition;
     }
@@ -132,7 +130,7 @@ public class LocalCardChapterDTO
     /**
      * @return the _localCard
      */
-    public LocalCardDTO getLocalCard(  )
+    public LocalCardDTO getLocalCard( )
     {
         return _localCard;
     }

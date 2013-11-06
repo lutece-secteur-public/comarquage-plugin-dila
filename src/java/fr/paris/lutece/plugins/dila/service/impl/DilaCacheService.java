@@ -24,20 +24,12 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-
-import org.w3c.dom.Document;
-
-import org.xml.sax.SAXException;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.StringWriter;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -45,7 +37,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -57,9 +48,14 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
 
 /**
- * @author seblopez
+ * Class managing Dila cache
  */
 public class DilaCacheService extends AbstractCacheableService implements IDilaCacheService, Serializable
 {
@@ -94,13 +90,13 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
     /**
      * Default constructor
      */
-    public DilaCacheService(  )
+    public DilaCacheService( )
     {
-        initCache(  );
+        initCache( );
     }
 
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return SERVICE_NAME;
     }
@@ -136,25 +132,25 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
 
         switch ( audienceEnum )
         {
-            case ASSOCIATIONS:
-                xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY_ASSO );
+        case ASSOCIATIONS:
+            xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY_ASSO );
 
-                break;
+            break;
 
-            case INDIVIDUALS:
-                xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY_INDIVIDUALS );
+        case INDIVIDUALS:
+            xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY_INDIVIDUALS );
 
-                break;
+            break;
 
-            case PROFESSIONNALS:
-                xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY_PROFESSIONALS );
+        case PROFESSIONNALS:
+            xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY_PROFESSIONALS );
 
-                break;
+            break;
 
-            default:
-                xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY );
+        default:
+            xmlDirectory = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_DIRECTORY );
 
-                break;
+            break;
         }
 
         String resourceType = null;
@@ -168,8 +164,8 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
         if ( StringUtils.isNumeric( cardId ) )
         {
             String xml = _dilaLocalService.findXmlById( Long.valueOf( cardId ) );
-            xmlStream = new ByteArrayInputStream( xml.getBytes(  ) );
-            contentType = ContentTypeEnum.LOCAL.getId(  );
+            xmlStream = new ByteArrayInputStream( xml.getBytes( ) );
+            contentType = ContentTypeEnum.LOCAL.getId( );
         }
         else
         {
@@ -177,11 +173,11 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
             {
                 if ( audienceEnum.equals( AudienceCategoryEnum.PROFESSIONNALS ) )
                 {
-                    contentType = ContentTypeEnum.PROFESSIONAL_THEMES.getId(  );
+                    contentType = ContentTypeEnum.PROFESSIONAL_THEMES.getId( );
                 }
                 else
                 {
-                    contentType = ContentTypeEnum.THEMES.getId(  );
+                    contentType = ContentTypeEnum.THEMES.getId( );
                 }
             }
             else
@@ -194,26 +190,26 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
                 }
 
                 ResourceTypeEnum resourceTypeEnum = ResourceTypeEnum.fromLabel( resourceType );
-                contentType = resourceTypeEnum.getContentType(  );
+                contentType = resourceTypeEnum.getContentType( );
             }
 
             xmlFile = new File( xmlDirectory + cardId + DilaConstants.XML_EXTENSION );
         }
 
-        List<DilaStyleSheet> dilaStyleSheets = _dilaStyleSheetService.getDilaStyleSheetList( contentType.intValue(  ),
+        List<DilaStyleSheet> dilaStyleSheets = _dilaStyleSheetService.getDilaStyleSheetList( contentType.intValue( ),
                 null );
 
         if ( CollectionUtils.isNotEmpty( dilaStyleSheets ) )
         {
-            xslName = dilaStyleSheets.get( 0 ).getFile(  );
+            xslName = dilaStyleSheets.get( 0 ).getFile( );
         }
 
         File styleSheet = new File( AppPathService.getPath( DilaConstants.PROPERTY_PATH_XSL ) + xslName );
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(  );
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance( );
 
         try
         {
-            DocumentBuilder builder = factory.newDocumentBuilder(  );
+            DocumentBuilder builder = factory.newDocumentBuilder( );
             Document document = null;
 
             if ( xmlFile != null )
@@ -225,43 +221,42 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
                 document = builder.parse( xmlStream );
             }
 
-            document.getDocumentElement(  ).normalize(  );
+            document.getDocumentElement( ).normalize( );
             document = _dilaPivotLocalService.insertPivots( builder, document );
 
             switch ( ContentTypeEnum.fromId( contentType ) )
             {
-                case NODE:
-                    document = _dilaLocalCardService.insertCardLinks( cardId, builder, document );
-                    document = _dilaLocalFolderService.insertFolderLinks( cardId, builder, document );
+            case NODE:
+                document = _dilaLocalCardService.insertCardLinks( cardId, builder, document );
+                document = _dilaLocalFolderService.insertFolderLinks( cardId, builder, document );
 
-                    if ( AudienceCategoryEnum.ASSOCIATIONS.equals( audienceEnum ) &&
-                            ASSOCIATIONS_THEMES_ID.equals( cardId ) )
-                    {
-                        document = _dilaLocalService.insertLastCardsLinks( categoryId, builder, document );
-                    }
-
-                    break;
-
-                case THEMES:
-                case PROFESSIONAL_THEMES:
-                    document = _dilaXmlService.insertHowToLinks( categoryId, builder, document );
+                if ( AudienceCategoryEnum.ASSOCIATIONS.equals( audienceEnum ) && ASSOCIATIONS_THEMES_ID.equals( cardId ) )
+                {
                     document = _dilaLocalService.insertLastCardsLinks( categoryId, builder, document );
+                }
 
-                    break;
+                break;
 
-                case CARD:
+            case THEMES:
+            case PROFESSIONAL_THEMES:
+                document = _dilaXmlService.insertHowToLinks( categoryId, builder, document );
+                document = _dilaLocalService.insertLastCardsLinks( categoryId, builder, document );
 
-                    if ( !StringUtils.isNumeric( cardId ) )
-                    {
-                        Long cardTechnicalId = _dilaXmlService.findIdByXmlAndAudience( cardId, categoryId );
-                        document = _dilaComplementaryDataService.insertComplementaryData( cardTechnicalId, categoryId,
-                                builder, document );
-                    }
+                break;
 
-                    break;
+            case CARD:
 
-                default:
-                    break;
+                if ( !StringUtils.isNumeric( cardId ) )
+                {
+                    Long cardTechnicalId = _dilaXmlService.findIdByXmlAndAudience( cardId, categoryId );
+                    document = _dilaComplementaryDataService.insertComplementaryData( cardTechnicalId, categoryId,
+                            builder, document );
+                }
+
+                break;
+
+            default:
+                break;
             }
 
             // Get RSS data for national cards
@@ -271,23 +266,23 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
             }
 
             // Use a Transformer for output
-            TransformerFactory tFactory = TransformerFactory.newInstance(  );
-            Transformer transformer = tFactory.newTransformer(  );
+            TransformerFactory tFactory = TransformerFactory.newInstance( );
+            Transformer transformer = tFactory.newTransformer( );
             DOMSource source = new DOMSource( document );
-            StringWriter writer = new StringWriter(  );
+            StringWriter writer = new StringWriter( );
             StreamResult result = new StreamResult( writer );
             transformer.transform( source, result );
-            htmlCode = writer.toString(  );
+            htmlCode = writer.toString( );
 
-            Map<String, String> params = new HashMap<String, String>(  );
+            Map<String, String> params = new HashMap<String, String>( );
             params.put( DilaConstants.MARK_XMLURL_PARAM, xmlDirectory );
-            params.put( DilaConstants.MARK_CATEGORY_PARAM, audienceEnum.getLabel(  ).toLowerCase(  ) );
+            params.put( DilaConstants.MARK_CATEGORY_PARAM, audienceEnum.getLabel( ).toLowerCase( ) );
 
-            StringBuilder referer = new StringBuilder(  );
+            StringBuilder referer = new StringBuilder( );
             referer.append( DilaConstants.XPAGE_REFERER );
-            referer.append( audienceEnum.getLabel(  ).toLowerCase(  ) );
+            referer.append( audienceEnum.getLabel( ).toLowerCase( ) );
             referer.append( DilaConstants.XPAGE_REFERER_XMLFILE );
-            params.put( DilaConstants.MARK_REFERER_PARAM, referer.toString(  ) );
+            params.put( DilaConstants.MARK_REFERER_PARAM, referer.toString( ) );
             params.put( DilaConstants.MARK_CARDID_PARAM, cardId );
 
             // Set parameters for "how to ..." section link
@@ -295,12 +290,12 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
 
             if ( homeHowTo != null )
             {
-                params.put( DilaConstants.MARK_HOW_TO_ID_PARAM, homeHowTo.getIdXml(  ) );
-                params.put( DilaConstants.MARK_HOW_TO_TITLE_PARAM, homeHowTo.getTitle(  ) );
+                params.put( DilaConstants.MARK_HOW_TO_ID_PARAM, homeHowTo.getIdXml( ) );
+                params.put( DilaConstants.MARK_HOW_TO_TITLE_PARAM, homeHowTo.getTitle( ) );
             }
 
             StreamSource xslSource = new StreamSource( styleSheet );
-            XmlTransformerService trans = new XmlTransformerService(  );
+            XmlTransformerService trans = new XmlTransformerService( );
             htmlCode = trans.transformBySourceWithXslCache( htmlCode, xslSource, xslName, params, null );
 
             if ( htmlCode.startsWith( ERROR ) )

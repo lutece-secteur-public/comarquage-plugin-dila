@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 
 /**
- * @author abataille
  */
 public class ComplementaryDataDTO implements Serializable
 {
@@ -44,15 +43,15 @@ public class ComplementaryDataDTO implements Serializable
     /**
      * Default constructor
      */
-    public ComplementaryDataDTO(  )
+    public ComplementaryDataDTO( )
     {
-        _card = new XmlDTO(  );
+        _card = new XmlDTO( );
     }
 
     /**
      * @return the _lId
      */
-    public Long getId(  )
+    public Long getId( )
     {
         return _lId;
     }
@@ -68,7 +67,7 @@ public class ComplementaryDataDTO implements Serializable
     /**
      * @return the _strBottomBlock
      */
-    public String getBottomBlock(  )
+    public String getBottomBlock( )
     {
         return _strBottomBlock;
     }
@@ -84,7 +83,7 @@ public class ComplementaryDataDTO implements Serializable
     /**
      * @return the _strColumnBlock
      */
-    public String getColumnBlock(  )
+    public String getColumnBlock( )
     {
         return _strColumnBlock;
     }
@@ -100,7 +99,7 @@ public class ComplementaryDataDTO implements Serializable
     /**
      * @return the _card
      */
-    public XmlDTO getCard(  )
+    public XmlDTO getCard( )
     {
         return _card;
     }
@@ -116,7 +115,7 @@ public class ComplementaryDataDTO implements Serializable
     /**
      * @return the _lIdAudience
      */
-    public Long getIdAudience(  )
+    public Long getIdAudience( )
     {
         return _lIdAudience;
     }
@@ -131,21 +130,21 @@ public class ComplementaryDataDTO implements Serializable
 
     /**
      * Hack to order by linked card idXml
-     *
+     * 
      * @return the linked card idXml {@link XmlDTO#getIdXml()}
      */
-    public String getCardIdXml(  )
+    public String getCardIdXml( )
     {
-        return getCard(  ).getIdXml(  );
+        return getCard( ).getIdXml( );
     }
 
     /**
      * Hack to order by linked card title
-     *
+     * 
      * @return the linked card title {@link XmlDTO#getTitle()}
      */
-    public String getCardTitle(  )
+    public String getCardTitle( )
     {
-        return getCard(  ).getTitle(  );
+        return getCard( ).getTitle( );
     }
 }

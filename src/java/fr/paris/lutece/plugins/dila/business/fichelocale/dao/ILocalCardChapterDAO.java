@@ -40,7 +40,6 @@ import java.util.List;
 
 /**
  * DAO for {@link LocalCardChapterDTO}
- * @author rputegnat
  */
 public interface ILocalCardChapterDAO
 {

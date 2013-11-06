@@ -40,7 +40,6 @@ import java.util.List;
 
 /**
  * Service for {@link LocalFolderLinkDTO}
- * @author rputegnat
  */
 public interface IDilaLocalFolderLinkService
 {

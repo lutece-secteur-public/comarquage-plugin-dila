@@ -33,14 +33,12 @@
  */
 package fr.paris.lutece.plugins.dila.service;
 
-
 /**
  * Eunm for type resource
- * @author rputegnat
  */
 public enum DilaLocalTypeEnum
-{CARD( 1L, "Fiche" ),
-    FOLDER( 2L, "Dossier" );
+{
+    CARD( 1L, "Fiche" ), FOLDER( 2L, "Dossier" );
 
     /**
      * The enum id
@@ -66,7 +64,7 @@ public enum DilaLocalTypeEnum
     /**
      * @return the _lId
      */
-    public Long getId(  )
+    public Long getId( )
     {
         return _lId;
     }
@@ -74,7 +72,7 @@ public enum DilaLocalTypeEnum
     /**
      * @return the _strLabel
      */
-    public String getLabel(  )
+    public String getLabel( )
     {
         return _strLabel;
     }
@@ -86,9 +84,9 @@ public enum DilaLocalTypeEnum
      */
     public static DilaLocalTypeEnum fromId( Long lId )
     {
-        for ( DilaLocalTypeEnum e : DilaLocalTypeEnum.values(  ) )
+        for ( DilaLocalTypeEnum e : DilaLocalTypeEnum.values( ) )
         {
-            if ( e.getId(  ).compareTo( lId ) == 0 )
+            if ( e.getId( ).compareTo( lId ) == 0 )
             {
                 return e;
             }
