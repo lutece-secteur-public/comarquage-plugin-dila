@@ -25,7 +25,7 @@
         cdata-section-elements="script" indent="yes" />
 
     <!-- Publication -->
-    <xsl:template match="/Publication">
+    <xsl:template match="/Publication" mode="Fiche">
         <xsl:call-template name="getBarre10Themes" />
         <xsl:apply-templates select="FilDAriane" />
         <xsl:call-template name="getTitre" />
@@ -101,28 +101,28 @@
             <div class="well">
                 <xsl:apply-templates select="Introduction" />
                 <xsl:apply-templates select="Texte" />
-			</div>
+            </div>
                 <xsl:if
                     test="(count(OuSAdresser)+ count(Reference) + count(Montant) + count(QuestionReponse)+ count(PourEnSavoirPlus) + count(SiteInternetPublic) + count(BlocBas)) > 0">
-					<xsl:call-template name="affOuSAdresser" />
-					<xsl:call-template name="affReference" />
-					<xsl:call-template name="affMontant" />
-					<xsl:call-template name="affQuestionReponse" />
-					<xsl:call-template name="affPourEnSavoirPlus" />
-					<xsl:call-template name="affSiteInternetPublic" />
-					<xsl:call-template name="affBlocBas" />
+                    <xsl:call-template name="affOuSAdresser" />
+                    <xsl:call-template name="affReference" />
+                    <xsl:call-template name="affMontant" />
+                    <xsl:call-template name="affQuestionReponse" />
+                    <xsl:call-template name="affPourEnSavoirPlus" />
+                    <xsl:call-template name="affSiteInternetPublic" />
+                    <xsl:call-template name="affBlocBas" />
                 </xsl:if>
                 <xsl:call-template name="ancreTop" />
         </div>
         <xsl:if
             test="(count(Actualite)+ count(InformationComplementaire) + count(ServiceEnLigne) + count(BlocColonne)) > 0">
             <div class="span3">
-				<div class="spPublicationMenuDroite">
-				    <xsl:call-template name="affActualite" />
-				    <xsl:call-template name="affInformationComplementaire" />
-				    <xsl:call-template name="affServiceEnLigneDroite" />
-				    <xsl:call-template name="affBlocColonne" />
-				</div>
+                <div class="spPublicationMenuDroite">
+                    <xsl:call-template name="affActualite" />
+                    <xsl:call-template name="affInformationComplementaire" />
+                    <xsl:call-template name="affServiceEnLigneDroite" />
+                    <xsl:call-template name="affBlocColonne" />
+                </div>
             </div>
         </xsl:if>
     </xsl:template>

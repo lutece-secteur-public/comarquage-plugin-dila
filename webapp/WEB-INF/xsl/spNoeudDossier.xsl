@@ -74,24 +74,27 @@
                     </div>
                 </xsl:when>
             </xsl:choose>
-			<div class="clearall">
-			    <xsl:call-template name="affQuestionReponse" />
-			    <xsl:call-template name="affServiceEnLigne" />
-			    <xsl:call-template name="affPourEnSavoirPlus" />
-			    <xsl:call-template name="affOuSAdresser" />
-			    <xsl:call-template name="affReference" />
-			    <xsl:call-template name="affPartenaire" />
-			    <xsl:call-template name="affSiteInternetPublic" />
-			</div>
-			<xsl:call-template name="ancreTop" />
-		</div>
+            <xsl:if
+                test="(count(ServiceEnLigne) + count(Partenaire) + count(OuSAdresser) + count(Reference) + count(QuestionReponse)+ count(PourEnSavoirPlus) + count(SiteInternetPublic) ) > 0">
+                <div class="clearall">
+                    <xsl:call-template name="affQuestionReponse" />
+                    <xsl:call-template name="affServiceEnLigne" />
+                    <xsl:call-template name="affPourEnSavoirPlus" />
+                    <xsl:call-template name="affOuSAdresser" />
+                    <xsl:call-template name="affReference" />
+                    <xsl:call-template name="affPartenaire" />
+                    <xsl:call-template name="affSiteInternetPublic" />
+                </div>
+            </xsl:if>
+            <xsl:call-template name="ancreTop" />
+        </div>
 
         <xsl:if
             test="(count(Actualite)+ count(InformationComplementaire) + count(Montant)) > 0">
             <div class="span3 spPublicationMenuDroite">
-	            <xsl:call-template name="affActualite" />
-	            <xsl:call-template name="affInformationComplementaire" />
-	            <xsl:call-template name="affMontant" />
+                <xsl:call-template name="affActualite" />
+                <xsl:call-template name="affInformationComplementaire" />
+                <xsl:call-template name="affMontant" />
             </div>
         </xsl:if>
     </xsl:template>
