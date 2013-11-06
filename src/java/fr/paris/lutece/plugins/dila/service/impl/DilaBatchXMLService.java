@@ -39,26 +39,23 @@ import fr.paris.lutece.plugins.dila.business.fichelocale.dto.XmlDTO;
 import fr.paris.lutece.plugins.dila.service.IDilaBatchXMLService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-
-import org.jdom2.Attribute;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.Namespace;
-
-import org.jdom2.input.SAXBuilder;
-
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+import org.jdom2.input.SAXBuilder;
 
 
 /**
@@ -77,7 +74,7 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
     /**
      * SAX builder
      */
-    private static final SAXBuilder _saxBuilder = new SAXBuilder(  );
+    private static final SAXBuilder _saxBuilder = new SAXBuilder( );
 
     /**
      * URI for namespace "dc"
@@ -108,17 +105,17 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
      * XML child : FilDAriane
      */
     private static final String CHILD_BREADCRUMB = "FilDAriane";
+
     @Inject
     @Named( "dilaXmlDAO" )
     private IXmlDAO _dilaXmlDAO;
 
     @Override
-    public void processXMLFile( File file, AudienceCategoryEnum typeXML )
-        throws JDOMException, IOException
+    public void processXMLFile( File file, AudienceCategoryEnum typeXML ) throws JDOMException, IOException
     {
-        AppLogService.debug( "Processing file : " + file.getName(  ) );
+        AppLogService.debug( "Processing file : " + file.getName( ) );
 
-        if ( DilaBatchXMLService.listXMLNotSupported.contains( file.getName(  ).toLowerCase(  ) ) )
+        if ( DilaBatchXMLService.listXMLNotSupported.contains( file.getName( ).toLowerCase( ) ) )
         {
             AppLogService.debug( "File not indexed" );
         }
@@ -128,7 +125,7 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
             XmlDTO dilaXml = buildDocument( file, typeXML );
 
             // Create or update XML
-            List<XmlDTO> listDilaXmls = _dilaXmlDAO.findAll(  );
+            List<XmlDTO> listDilaXmls = _dilaXmlDAO.findAll( );
             int nIndex = listDilaXmls.indexOf( dilaXml );
 
             if ( nIndex != -1 )
@@ -136,7 +133,7 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
                 XmlDTO dilaXmlExist = listDilaXmls.get( nIndex );
 
                 AppLogService.debug( "Update" );
-                dilaXml.setId( dilaXmlExist.getId(  ) );
+                dilaXml.setId( dilaXmlExist.getId( ) );
                 _dilaXmlDAO.store( dilaXml );
             }
             else
@@ -148,24 +145,23 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
     }
 
     @Override
-    public XmlDTO buildDocument( File file, AudienceCategoryEnum typeXML )
-        throws JDOMException, IOException
+    public XmlDTO buildDocument( File file, AudienceCategoryEnum typeXML ) throws JDOMException, IOException
     {
-        XmlDTO dilaXml = new XmlDTO(  );
-        dilaXml.setIdAudience( typeXML.getId(  ) );
+        XmlDTO dilaXml = new XmlDTO( );
+        dilaXml.setIdAudience( typeXML.getId( ) );
 
         // Convert file to document object
         Document document = _saxBuilder.build( file );
 
         // Get root
-        Element root = document.getRootElement(  );
+        Element root = document.getRootElement( );
 
         // Get attribute ID
         Attribute rootAttrId = root.getAttribute( ATTRIBUTE_ID );
 
         if ( rootAttrId != null )
         {
-            String strId = rootAttrId.getValue(  );
+            String strId = rootAttrId.getValue( );
             dilaXml.setIdXml( strId );
         }
 
@@ -174,7 +170,7 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
 
         if ( title != null )
         {
-            String strTitle = title.getTextTrim(  );
+            String strTitle = title.getTextTrim( );
             dilaXml.setTitle( strTitle );
         }
 
@@ -183,13 +179,13 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
 
         if ( type != null )
         {
-            if ( file.getName(  ).startsWith( "R" ) )
+            if ( file.getName( ).startsWith( "R" ) )
             {
                 dilaXml.setResourceType( RESSOURCE_TYPE );
             }
             else
             {
-                String strType = type.getTextTrim(  );
+                String strType = type.getTextTrim( );
                 dilaXml.setResourceType( strType );
             }
         }
@@ -199,11 +195,11 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
 
         if ( rootBreadcrumb != null )
         {
-            List<Element> listBreadcrumb = rootBreadcrumb.getChildren(  );
+            List<Element> listBreadcrumb = rootBreadcrumb.getChildren( );
 
             if ( CollectionUtils.isNotEmpty( listBreadcrumb ) )
             {
-                List<String> listBreadcrumbId = new ArrayList<String>( listBreadcrumb.size(  ) );
+                List<String> listBreadcrumbId = new ArrayList<String>( listBreadcrumb.size( ) );
 
                 for ( Element elementBreadcrumb : listBreadcrumb )
                 {
@@ -211,7 +207,7 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
                 }
 
                 String strBreadcrumb = StringUtils.join( listBreadcrumbId, ";" );
-                dilaXml.setBreadcrumb( strBreadcrumb );
+                dilaXml.setBreadCrumb( strBreadcrumb );
             }
         }
 
@@ -219,8 +215,8 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
     }
 
     @Override
-    public void delete(  )
+    public void delete( )
     {
-        _dilaXmlDAO.delete(  );
+        _dilaXmlDAO.delete( );
     }
 }

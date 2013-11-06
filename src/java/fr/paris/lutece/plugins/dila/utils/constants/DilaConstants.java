@@ -33,11 +33,10 @@
  */
 package fr.paris.lutece.plugins.dila.utils.constants;
 
-
 /**
- *
+ * 
  * DilaConstants
- *
+ * 
  */
 public final class DilaConstants
 {
@@ -124,12 +123,12 @@ public final class DilaConstants
 
     // Jsp
     public static final String JSP_MANAGE_STYLESHEET = "jsp/admin/plugins/dila/ManageStyleSheets.jsp";
-    public static final String JSP_MANAGE_LOCAL = "jsp/admin/plugins/dila/ManageFicheLocale.jsp";
-    public static final String JSP_DELETE_DOSSIER = "jsp/admin/plugins/dila/DoDeleteDossierLocal.jsp";
+    public static final String JSP_MANAGE_LOCAL = "jsp/admin/plugins/dila/ManageLocalCard.jsp";
+    public static final String JSP_DELETE_DOSSIER = "jsp/admin/plugins/dila/DoDeleteLocalFolder.jsp";
     public static final String JSP_DELETE_STYLESHEET = "jsp/admin/plugins/dila/DoDeleteStyleSheet.jsp";
-    public static final String JSP_DELETE_FICHE = "jsp/admin/plugins/dila/DoDeleteFicheLocale.jsp";
-    public static final String JSP_DELETE_DONNEE = "jsp/admin/plugins/dila/DoDeleteDonneeComplementaire.jsp";
-    public static final String JSP_MANAGE_DONNEES = "jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp";
+    public static final String JSP_DELETE_FICHE = "jsp/admin/plugins/dila/DoDeleteLocalCard.jsp";
+    public static final String JSP_DELETE_DONNEE = "jsp/admin/plugins/dila/DoDeleteComplementaryData.jsp";
+    public static final String JSP_MANAGE_DONNEES = "jsp/admin/plugins/dila/ManageComplementaryData.jsp";
     public static final String CACHE_KEY_SEPARATOR = "_";
     public static final String DEFAULT_XML = "Themes";
     public static final String XML_EXTENSION = ".xml";
@@ -142,7 +141,7 @@ public final class DilaConstants
     /**
      * Utility class
      */
-    private DilaConstants(  )
+    private DilaConstants( )
     {
         // nothing
     }

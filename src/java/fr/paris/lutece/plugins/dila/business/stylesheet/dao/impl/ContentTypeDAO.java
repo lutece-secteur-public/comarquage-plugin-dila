@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,30 +53,30 @@ public class ContentTypeDAO implements IContentTypeDAO, Serializable
     private static final long serialVersionUID = -5939477738412898729L;
 
     /** The Constant SQL_QUERY_SELECT_ALL_TYPE_CONTENU. */
-    private static final String SQL_QUERY_SELECT_ALL_CONTENT_TYPE = "SELECT id_type_contenu, label FROM dila_type_contenu ORDER BY id_type_contenu ASC";
-    private static final String SQL_QUERY_SELECT = "SELECT id_type_contenu, label FROM dila_type_contenu WHERE id_type_contenu = ?";
-    private static final String SQL_QUERY_SELECT_CONTENT_TYPE_WITHOUT_ASSOCIATED_STYLESHEET = "SELECT id_type_contenu, label FROM dila_type_contenu WHERE id_type_contenu NOT IN (SELECT fk_id_type_contenu FROM dila_stylesheet WHERE id_stylesheet <> ? ) ORDER BY id_type_contenu ASC";
+    private static final String SQL_QUERY_SELECT_ALL_CONTENT_TYPE = "SELECT id, label FROM dila_content_type ORDER BY id ASC";
+    private static final String SQL_QUERY_SELECT = "SELECT id, label FROM dila_content_type WHERE id = ?";
+    private static final String SQL_QUERY_SELECT_CONTENT_TYPE_WITHOUT_ASSOCIATED_STYLESHEET = "SELECT id, label FROM dila_content_type WHERE id NOT IN (SELECT content_type_id FROM dila_stylesheet WHERE id_stylesheet <> ? ) ORDER BY id ASC";
 
     @Override
-    public List<ContentType> getContentTypes(  )
+    public List<ContentType> getContentTypes( )
     {
-        List<ContentType> result = new ArrayList<ContentType>(  );
+        List<ContentType> result = new ArrayList<ContentType>( );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL_CONTENT_TYPE,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            ContentType contentType = new ContentType(  );
+            ContentType contentType = new ContentType( );
             contentType.setId( daoUtil.getInt( 1 ) );
             contentType.setLabel( daoUtil.getString( 2 ) );
 
             result.add( contentType );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return result;
     }
@@ -89,16 +88,16 @@ public class ContentTypeDAO implements IContentTypeDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setInt( 1, nIdTypeContenu );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            contentType = new ContentType(  );
+            contentType = new ContentType( );
             contentType.setId( daoUtil.getInt( 1 ) );
             contentType.setLabel( daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return contentType;
     }
@@ -106,24 +105,24 @@ public class ContentTypeDAO implements IContentTypeDAO, Serializable
     @Override
     public List<ContentType> getContentTypesWithoutAssociatedStyleSheet( Integer nIdStylesheet )
     {
-        List<ContentType> result = new ArrayList<ContentType>(  );
+        List<ContentType> result = new ArrayList<ContentType>( );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CONTENT_TYPE_WITHOUT_ASSOCIATED_STYLESHEET,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setInt( 1, nIdStylesheet );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            ContentType typeContenu = new ContentType(  );
+            ContentType typeContenu = new ContentType( );
             typeContenu.setId( daoUtil.getInt( 1 ) );
             typeContenu.setLabel( daoUtil.getString( 2 ) );
 
             result.add( typeContenu );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return result;
     }

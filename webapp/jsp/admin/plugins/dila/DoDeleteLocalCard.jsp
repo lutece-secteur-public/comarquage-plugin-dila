@@ -4,5 +4,5 @@
 
 <%
     dilaFicheLocale.init(request,  dilaFicheLocale.RIGHT_MANAGE_LOCAL_CARD  );
-    response.sendRedirect( dilaFicheLocale.getDeleteFicheLocale( request ) );
+    response.sendRedirect( dilaFicheLocale.doDeleteLocalCard( request ));
 %>

@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,40 +54,40 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
     private static final long serialVersionUID = 1687246174844997810L;
 
     // QUERIES
-    private static final String SQL_QUERY_NEW_PK = "SELECT max(id_fiche_locale) FROM dila_fiche_locale";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_fiche_locale " +
-        "( id_fiche_locale, id_dossier_parent, id_fiche_soeur, position, fk_id_local ) " + " VALUES ( ?, ? ,?, ?, ?)";
-    private static final String SQL_QUERY_SELECT_CARD_ID_BY_LOCAL_ID = "SELECT " +
-        "id_fiche_locale  FROM dila_fiche_locale WHERE fk_id_local = ?";
-    private static final String SQL_QUERY_SELECT_CARD_BY_LOCAL_ID = "SELECT " +
-        "fiche.id_fiche_locale, fiche.id_dossier_parent, fiche.id_fiche_soeur, fiche.position, local.titre, local.auteur, local.fk_audience_id FROM dila_fiche_locale fiche, dila_local local " +
-        "WHERE fiche.fk_id_local = ? AND fiche.fk_id_local = local.id_local";
-    private static final String SQL_QUERY_DELETE = "DELETE FROM dila_fiche_locale WHERE id_fiche_locale = ?";
-    private static final String SQL_QUERY_UPDATE = " UPDATE dila_fiche_locale " +
-        "set id_dossier_parent = ?, id_fiche_soeur = ?, position = ?  WHERE id_fiche_locale = ?";
-    private static final String SQL_QUERY_SELECT_CARD_ID_BY_PARENT_ID = "SELECT " +
-        "id_fiche_locale FROM dila_fiche_locale WHERE id_dossier_parent = ?";
-    private static final String SQL_QUERY_FIND_CARDS_BY_PARENT_ID = "SELECT l.id_local, l.titre, f.id_fiche_soeur, f.position" +
-        " FROM dila_fiche_locale f JOIN dila_local l ON f.fk_id_local = l.id_local" + " WHERE f.id_dossier_parent = ?";
+    private static final String SQL_QUERY_NEW_PK = "SELECT max(id) FROM dila_local_card";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_local_card "
+            + "( id, parent_folder_id, sibling_card_id, position, local_id ) " + " VALUES ( ?, ? ,?, ?, ?)";
+    private static final String SQL_QUERY_SELECT_CARD_ID_BY_LOCAL_ID = "SELECT "
+            + "id  FROM dila_local_card WHERE local_id = ?";
+    private static final String SQL_QUERY_SELECT_CARD_BY_LOCAL_ID = "SELECT "
+            + "fiche.id, fiche.parent_folder_id, fiche.sibling_card_id, fiche.position, local.title, local.author, local.audience_id FROM dila_local_card fiche, dila_local local "
+            + "WHERE fiche.local_id = ? AND fiche.local_id = local.id";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM dila_local_card WHERE id = ?";
+    private static final String SQL_QUERY_UPDATE = " UPDATE dila_local_card "
+            + "set parent_folder_id = ?, sibling_card_id = ?, position = ?  WHERE id = ?";
+    private static final String SQL_QUERY_SELECT_CARD_ID_BY_PARENT_ID = "SELECT "
+            + "id FROM dila_local_card WHERE parent_folder_id = ?";
+    private static final String SQL_QUERY_FIND_CARDS_BY_PARENT_ID = "SELECT l.id, l.title, f.sibling_card_id, f.position"
+            + " FROM dila_local_card f JOIN dila_local l ON f.local_id = l.id" + " WHERE f.parent_folder_id = ?";
 
     /**
      * Generates a new primary key
      * @return The new primary key
      */
-    private Long newPrimaryKey(  )
+    private Long newPrimaryKey( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         Long nKey = 1L;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             // if the table is empty
             nKey = daoUtil.getLong( 1 ) + 1L;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -98,27 +97,27 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        card.setId( newPrimaryKey(  ) );
+        card.setId( newPrimaryKey( ) );
 
-        daoUtil.setLong( 1, card.getId(  ) );
-        daoUtil.setString( 2, card.getParentFolderId(  ) );
-        daoUtil.setString( 3, card.getSiblingCardId(  ) );
+        daoUtil.setLong( 1, card.getId( ) );
+        daoUtil.setString( 2, card.getParentFolderId( ) );
+        daoUtil.setString( 3, card.getSiblingCardId( ) );
 
-        if ( card.getPosition(  ) != null )
+        if ( card.getPosition( ) != null )
         {
-            daoUtil.setInt( 4, card.getPosition(  ) );
+            daoUtil.setInt( 4, card.getPosition( ) );
         }
         else
         {
             daoUtil.setIntNull( 4 );
         }
 
-        daoUtil.setLong( 5, card.getLocalDTO(  ).getId(  ) );
+        daoUtil.setLong( 5, card.getLocalDTO( ).getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
 
-        return card.getId(  );
+        return card.getId( );
     }
 
     @Override
@@ -127,16 +126,16 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CARD_ID_BY_LOCAL_ID,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, localId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         Long result = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             result = daoUtil.getLong( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return result;
     }
@@ -146,8 +145,8 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setLong( 1, ficheLocalId );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -156,14 +155,14 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CARD_BY_LOCAL_ID,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setLong( 1, idLocal );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         LocalCardDTO card = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            card = new LocalCardDTO(  );
-            card.getLocalDTO(  ).setId( idLocal );
+            card = new LocalCardDTO( );
+            card.getLocalDTO( ).setId( idLocal );
             card.setId( daoUtil.getLong( 1 ) );
             card.setParentFolderId( daoUtil.getString( 2 ) );
 
@@ -173,12 +172,12 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
                 card.setPosition( daoUtil.getInt( 4 ) );
             }
 
-            card.getLocalDTO(  ).setTitle( daoUtil.getString( 5 ) );
-            card.getLocalDTO(  ).setAuthor( daoUtil.getString( 6 ) );
-            card.getLocalDTO(  ).setIdAudience( daoUtil.getLong( 7 ) );
+            card.getLocalDTO( ).setTitle( daoUtil.getString( 5 ) );
+            card.getLocalDTO( ).setAuthor( daoUtil.getString( 6 ) );
+            card.getLocalDTO( ).setIdAudience( daoUtil.getLong( 7 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return card;
     }
@@ -187,22 +186,22 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
     public void store( LocalCardDTO card )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
-        daoUtil.setString( 1, card.getParentFolderId(  ) );
-        daoUtil.setString( 2, card.getSiblingCardId(  ) );
+        daoUtil.setString( 1, card.getParentFolderId( ) );
+        daoUtil.setString( 2, card.getSiblingCardId( ) );
 
-        if ( card.getPosition(  ) != null )
+        if ( card.getPosition( ) != null )
         {
-            daoUtil.setInt( 3, card.getPosition(  ) );
+            daoUtil.setInt( 3, card.getPosition( ) );
         }
         else
         {
             daoUtil.setIntNull( 3 );
         }
 
-        daoUtil.setLong( 4, card.getId(  ) );
+        daoUtil.setLong( 4, card.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -211,16 +210,16 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CARD_ID_BY_PARENT_ID,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, localId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         boolean result = false;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             result = true;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return result;
     }
@@ -231,14 +230,14 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_CARDS_BY_PARENT_ID,
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setString( 1, parentId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<LocalCardDTO> resultList = new ArrayList<LocalCardDTO>(  );
+        List<LocalCardDTO> resultList = new ArrayList<LocalCardDTO>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            LocalCardDTO localCard = new LocalCardDTO(  );
-            LocalDTO local = new LocalDTO(  );
+            LocalCardDTO localCard = new LocalCardDTO( );
+            LocalDTO local = new LocalDTO( );
             local.setId( daoUtil.getLong( 1 ) );
             local.setTitle( daoUtil.getString( 2 ) );
             localCard.setLocalDTO( local );
@@ -247,7 +246,7 @@ public class LocalCardDAO implements ILocalCardDAO, Serializable
             resultList.add( localCard );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return resultList;
     }

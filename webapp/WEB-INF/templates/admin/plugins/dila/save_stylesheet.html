@@ -39,7 +39,7 @@
                     <div class="control-group">
                         <label class="control-label" for="type_contenu_id">#i18n{dila.create_stylesheet.labelTypeContenu}&nbsp;:&nbsp;*</label>
                         <div class="controls">
-                            <@comboSorted name="type_contenu_id" default_value="${(stylesheet.typeContenu.id)!}" items=type_contenu_list />
+                            <@comboSorted name="type_contenu_id" default_value="${(stylesheet.contentType.id)!}" items=type_contenu_list />
                         </div>
                     </div>
                     <div class="form-actions">

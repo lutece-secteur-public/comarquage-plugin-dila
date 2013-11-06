@@ -1,8 +1,8 @@
 <%@page import="fr.paris.lutece.portal.web.pluginaction.IPluginActionResult"%>
-<jsp:useBean id="dilaFicheLocale" scope="session" class="fr.paris.lutece.plugins.dila.web.LocalCardJspBean" />
+<jsp:useBean id="dilaDonneeComplementaire" scope="session" class="fr.paris.lutece.plugins.dila.web.ComplementaryDataJspBean" />
 <%
-    dilaFicheLocale.init( request, fr.paris.lutece.plugins.dila.web.LocalCardJspBean.RIGHT_MANAGE_LOCAL_CARD);
-    IPluginActionResult result = dilaFicheLocale.doVerifyDossierParent( request );
+    dilaDonneeComplementaire.init( request, fr.paris.lutece.plugins.dila.web.ComplementaryDataJspBean.RIGHT_MANAGE_COMPLEMENTARY_DATA);
+    IPluginActionResult result = dilaDonneeComplementaire.doVerifyCard( request );
     if ( result.getRedirect(  ) != null )
     {
         response.sendRedirect( result.getRedirect(  ) );

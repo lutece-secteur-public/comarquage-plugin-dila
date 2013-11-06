@@ -43,13 +43,12 @@ import fr.paris.lutece.plugins.dila.service.IDilaLocalService;
 import fr.paris.lutece.plugins.dila.service.IDilaXmlService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -104,7 +103,7 @@ public final class XMLConvertor
     /**
      * Private constructor
      */
-    private XMLConvertor(  )
+    private XMLConvertor( )
     {
     }
 
@@ -118,36 +117,29 @@ public final class XMLConvertor
     public static String convertCardToXML( LocalCardDTO card, List<LocalCardChapterDTO> chapters )
     {
         SimpleDateFormat formatDate = new SimpleDateFormat( "yyyy-MM-dd" );
-        String date = formatDate.format( new Date(  ) );
+        String date = formatDate.format( new Date( ) );
 
-        StringBuilder result = new StringBuilder(  );
+        StringBuilder result = new StringBuilder( );
 
         result.append( CARD_HEADER );
         result.append( CARD_LINE_PUBLICATION );
 
         // Construct header
-        result.append( CARD_LINE_TITLE.replace( "<%CARD_TITLE%>", card.getLocalDTO(  ).getTitle(  ) ) );
-        result.append( CARD_LINE_AUTEUR.replace( "<%CARD_AUTEUR%>", card.getLocalDTO(  ).getAuthor(  ) ) );
+        result.append( CARD_LINE_TITLE.replace( "<%CARD_TITLE%>", card.getLocalDTO( ).getTitle( ) ) );
+        result.append( CARD_LINE_AUTEUR.replace( "<%CARD_AUTEUR%>", card.getLocalDTO( ).getAuthor( ) ) );
         result.append( LINE_DATE.replace( "<%DATE%>", date ) );
         result.append( CARD_LINE_TYPE );
         result.append( LINE_FORMAT );
         result.append( LINE_ID );
         result.append( LINE_AUDIENCE.replace( "<%AUDIENCE%>",
-                AudienceCategoryEnum.fromId( card.getLocalDTO(  ).getIdAudience(  ) ).getLabel(  ) ) );
+                AudienceCategoryEnum.fromId( card.getLocalDTO( ).getIdAudience( ) ).getLabel( ) ) );
 
         // Start construct the breadcrumb
         result.append( LINE_BEGIN_FIL_ARIANE );
 
         String strBreadcrumb = "";
 
-        if ( StringUtils.isNumeric( card.getParentFolderId(  ) ) )
-        {
-            strBreadcrumb = card.getLocalParentFolder(  ).getLocalDTO(  ).getBreadCrumb(  );
-        }
-        else
-        {
-            strBreadcrumb = card.getNationalParentFolder(  ).getBreadcrumb(  );
-        }
+        strBreadcrumb = card.getLocalDTO( ).getBreadCrumb( );
 
         String[] breadcrumbs = strBreadcrumb.split( ";" );
 
@@ -167,7 +159,7 @@ public final class XMLConvertor
                 if ( StringUtils.isNumeric( breadcrumb ) )
                 {
                     result.append( _dilaLocalService.findTitleByIdAndTypeAndAudience( Long.valueOf( breadcrumb ),
-                            DilaLocalTypeEnum.FOLDER.getId(  ), card.getLocalDTO(  ).getIdAudience(  ) ) );
+                            DilaLocalTypeEnum.FOLDER.getId( ), card.getLocalDTO( ).getIdAudience( ) ) );
                 }
                 else
                 {
@@ -189,16 +181,16 @@ public final class XMLConvertor
         }
 
         // Start construct the parent folder
-        result.append( CARD_LINE_BEGIN_FOLDER_PERE.replace( "<%CARD_PERE_ID%>", card.getParentFolderId(  ) ) );
+        result.append( CARD_LINE_BEGIN_FOLDER_PERE.replace( "<%CARD_PERE_ID%>", card.getParentFolderId( ) ) );
         result.append( CARD_LINE_BEGIN_TITRE );
 
-        if ( StringUtils.isNumeric( card.getParentFolderId(  ) ) )
+        if ( StringUtils.isNumeric( card.getParentFolderId( ) ) )
         {
-            result.append( card.getLocalParentFolder(  ).getLocalDTO(  ).getTitle(  ) );
+            result.append( card.getLocalParentFolder( ).getLocalDTO( ).getTitle( ) );
         }
         else
         {
-            result.append( card.getNationalParentFolder(  ).getTitle(  ) );
+            result.append( card.getNationalParentFolder( ).getTitle( ) );
         }
 
         result.append( CARD_LINE_END_TITRE );
@@ -214,13 +206,13 @@ public final class XMLConvertor
             // set title
             result.append( CARD_LINE_BEGIN_TITRE );
             result.append( CARD_LINE_BEGIN_PARAGRAPHE );
-            result.append( chapter.getTitle(  ) );
+            result.append( chapter.getTitle( ) );
             result.append( CARD_LINE_END_PARAGRAPHE );
             result.append( CARD_LINE_END_TITRE );
 
             // set content
             result.append( CARD_LINE_BEGIN_PARAGRAPHE );
-            result.append( StringEscapeUtils.unescapeHtml( chapter.getContent(  ) ) );
+            result.append( StringEscapeUtils.unescapeHtml( chapter.getContent( ) ) );
             result.append( CARD_LINE_END_PARAGRAPHE );
 
             result.append( CARD_LINE_END_CHAPITRE );
@@ -230,7 +222,7 @@ public final class XMLConvertor
 
         result.append( CARD_LINE_END_PUBLICATION );
 
-        return result.toString(  );
+        return result.toString( );
     }
 
     /**
@@ -240,30 +232,30 @@ public final class XMLConvertor
      *            {@link LocalFolderDTO}
      * @return the formatted XML
      */
-    public static String convertDossierInXML( LocalFolderDTO folder, List<LocalFolderLinkDTO> links )
+    public static String convertFolderInXML( LocalFolderDTO folder, List<LocalFolderLinkDTO> links )
     {
         SimpleDateFormat formatDate = new SimpleDateFormat( "yyyy-MM-dd" );
-        String date = formatDate.format( new Date(  ) );
+        String date = formatDate.format( new Date( ) );
 
-        StringBuilder result = new StringBuilder(  );
+        StringBuilder result = new StringBuilder( );
 
         result.append( FOLDER_HEADER );
         result.append( FOLDER_LINE_PUBLICATION );
 
         // Construct header
-        result.append( FOLDER_LINE_TITLE.replace( "<%FOLDER_TITLE%>", folder.getLocalDTO(  ).getTitle(  ) ) );
-        result.append( FOLDER_LINE_AUTEUR.replace( "<%FOLDER_AUTEUR%>", folder.getLocalDTO(  ).getAuthor(  ) ) );
+        result.append( FOLDER_LINE_TITLE.replace( "<%FOLDER_TITLE%>", folder.getLocalDTO( ).getTitle( ) ) );
+        result.append( FOLDER_LINE_AUTEUR.replace( "<%FOLDER_AUTEUR%>", folder.getLocalDTO( ).getAuthor( ) ) );
         result.append( LINE_DATE.replace( "<%DATE%>", date ) );
         result.append( FOLDER_LINE_TYPE );
         result.append( LINE_FORMAT );
         result.append( LINE_ID );
         result.append( LINE_AUDIENCE.replace( "<%AUDIENCE%>",
-                AudienceCategoryEnum.fromId( folder.getLocalDTO(  ).getIdAudience(  ) ).getLabel(  ) ) );
+                AudienceCategoryEnum.fromId( folder.getLocalDTO( ).getIdAudience( ) ).getLabel( ) ) );
 
         // Start construct the breadcrumb
         result.append( LINE_BEGIN_FIL_ARIANE );
 
-        String strBreadcrumb = folder.getLocalDTO(  ).getBreadCrumb(  );
+        String strBreadcrumb = folder.getLocalDTO( ).getBreadCrumb( );
         String theme = null;
 
         if ( StringUtils.isNotBlank( strBreadcrumb ) )
@@ -282,7 +274,7 @@ public final class XMLConvertor
                 if ( StringUtils.isNumeric( breadcrumb ) )
                 {
                     result.append( _dilaLocalService.findTitleByIdAndTypeAndAudience( Long.valueOf( breadcrumb ),
-                            DilaLocalTypeEnum.FOLDER.getId(  ), folder.getLocalDTO(  ).getIdAudience(  ) ) );
+                            DilaLocalTypeEnum.FOLDER.getId( ), folder.getLocalDTO( ).getIdAudience( ) ) );
                 }
                 else
                 {
@@ -293,9 +285,6 @@ public final class XMLConvertor
             }
         }
 
-        result.append( LINE_BEGIN_NIVEAU );
-        result.append( folder.getLocalDTO(  ).getTitle(  ) );
-        result.append( LINE_END_NIVEAU );
         result.append( LINE_END_FIL_ARIANE );
 
         // Start construct theme
@@ -307,28 +296,28 @@ public final class XMLConvertor
         }
 
         // Start construct the parent theme
-        result.append( FOLDER_LINE_BEGIN_THEME_PERE.replace( "<%THEME_PERE_ID%>", folder.getParentThemeId(  ) ) );
-        result.append( _dilaXmlService.findTitleById( folder.getParentThemeId(  ) ) );
+        result.append( FOLDER_LINE_BEGIN_THEME_PERE.replace( "<%THEME_PERE_ID%>", folder.getParentThemeId( ) ) );
+        result.append( _dilaXmlService.findTitleById( folder.getParentThemeId( ) ) );
         result.append( FOLDER_LINE_END_THEME_PERE );
 
         result.append( FOLDER_LINE_BEGIN_PRESENTATION );
-        result.append( folder.getPresentation(  ) );
+        result.append( folder.getPresentation( ) );
         result.append( FOLDER_LINE_END_PRESENTATION );
 
         // construct links
-        if ( links.size(  ) > 0 )
+        if ( links.size( ) > 0 )
         {
             for ( LocalFolderLinkDTO link : links )
             {
-                result.append( FOLDER_LINE_BEGIN_CARD.replace( "<%SEQ_ID%>", "" + link.getPosition(  ) )
-                                                     .replace( "<%CARD_ID%>", link.getCardId(  ) ) );
-                result.append( link.getTitle(  ) );
+                result.append( FOLDER_LINE_BEGIN_CARD.replace( "<%SEQ_ID%>", "" + link.getPosition( ) ).replace(
+                        "<%CARD_ID%>", link.getCardId( ) ) );
+                result.append( link.getTitle( ) );
                 result.append( FOLDER_LINE_END_CARD );
             }
         }
 
         result.append( FOLDER_LINE_END_PUBLICATION );
 
-        return result.toString(  );
+        return result.toString( );
     }
 }

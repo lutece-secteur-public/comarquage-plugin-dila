@@ -1,19 +1,19 @@
 <#macro columnActionsFicheLocale item >
     <#if item.type.id = 1>
     <span>
-        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/dila/ModifyFicheLocale.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.modify}">
+        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/dila/ModifyLocalCard.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.modify}">
             <i class="icon-edit icon-white"></i>
         </a>
-        <a class="btn btn-danger btn-small" href="jsp/admin/plugins/dila/DeleteFicheLocale.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.delete}">
+        <a class="btn btn-danger btn-small" href="jsp/admin/plugins/dila/DeleteLocalCard.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.delete}">
             <i class="icon-trash icon-white"></i>
         </a>
         </span>
      <#else>
     <span>
-        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/dila/ModifyDossierLocal.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.modify}">
+        <a class="btn btn-primary btn-small" href="jsp/admin/plugins/dila/ModifyLocalFolder.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.modify}">
             <i class="icon-edit icon-white"></i>
         </a>
-        <a class="btn btn-danger btn-small" href="jsp/admin/plugins/dila/DeleteDossierLocal.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.delete}">
+        <a class="btn btn-danger btn-small" href="jsp/admin/plugins/dila/DeleteLocalFolder.jsp?id_local=${item.id}" title="#i18n{dila.manage_localcard.delete}">
             <i class="icon-trash icon-white"></i>
         </a>
         </span>
@@ -32,7 +32,7 @@
     <fieldset>
         <legend>#i18n{dila.manage_local.form.title}
         
-        <form action="jsp/admin/plugins/dila/CreateDossierLocal.jsp" method="post" class="form-inline pull-right spaced">
+        <form action="jsp/admin/plugins/dila/CreateLocalFolder.jsp" method="post" class="form-inline pull-right spaced">
             <button type="submit" class="btn btn-primary btn-small">
                 <i class="icon-plus icon-white"></i>
                 <span class="hidden-phone">
@@ -40,7 +40,7 @@
                 </span>
             </button>
         </form>
-        <form action="jsp/admin/plugins/dila/CreateFicheLocale.jsp" method="post" class="form-inline pull-right spaced">
+        <form action="jsp/admin/plugins/dila/CreateLocalCard.jsp" method="post" class="form-inline pull-right spaced">
             <button type="submit" class="btn btn-primary btn-small">
                 <i class="icon-plus icon-white"></i>
                 <span class="hidden-phone">
@@ -49,7 +49,7 @@
             </button>
         </form>
         </legend>
-<form action="jsp/admin/plugins/dila/ManageFicheLocale.jsp" method="post" class="form-inline">
+<form action="jsp/admin/plugins/dila/ManageLocalCard.jsp" method="post" class="form-inline">
 <div class="row-fluid">
     <div class="span3 well">
         <div class="control-group">
@@ -87,10 +87,10 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="auteurFicheLocale" class="control-label">#i18n{dila.manage_localcard.author} :</label>
+            <label for="localCardAuthor" class="control-label">#i18n{dila.manage_localcard.author} :</label>
             <div class="controls">
-                <input type="text" size="20" maxlength="255" value="${auteurFicheLocale!}"
-                    name="auteurFicheLocale">
+                <input type="text" size="20" maxlength="255" value="${localCardAuthor!}"
+                    name="localCardAuthor">
             </div>
         </div>
         <div class="form-actions">

@@ -1,28 +1,28 @@
 --
 -- Drop 
 --
-DROP TABLE IF EXISTS dila_type_contenu;
+DROP TABLE IF EXISTS dila_content_type;
 DROP TABLE IF EXISTS dila_stylesheet;
 DROP TABLE IF EXISTS dila_action;
 DROP TABLE IF EXISTS dila_audience;
 DROP TABLE IF EXISTS dila_xml;
 DROP TABLE IF EXISTS dila_type;
 DROP TABLE IF EXISTS dila_local;
-DROP TABLE IF EXISTS dila_dossier_local;
-DROP TABLE IF EXISTS dila_lien_dossier_local;
-DROP TABLE IF EXISTS dila_fiche_locale;
-DROP TABLE IF EXISTS dila_chapitre_fiche_locale;
-DROP TABLE IF EXISTS dila_donnees_complementaires;
-DROP TABLE IF EXISTS dila_donnees_complementaires_teleservice;
-DROP TABLE IF EXISTS dila_donnees_complementaires_savoir_plus;
+DROP TABLE IF EXISTS dila_local_folder;
+DROP TABLE IF EXISTS dila_local_folder_link;
+DROP TABLE IF EXISTS dila_local_card;
+DROP TABLE IF EXISTS dila_local_card_chapter;
+DROP TABLE IF EXISTS dila_complementary_data;
+DROP TABLE IF EXISTS dila_complementary_data_teleservice;
+DROP TABLE IF EXISTS dila_complementary_data_learn_more;
 
 --
--- Table structure for table dila_type_contenu
+-- Table structure for table dila_content_type
 --
-CREATE TABLE dila_type_contenu (
-    id_type_contenu bigint NOT NULL,
+CREATE TABLE dila_content_type (
+    id bigint NOT NULL,
     label character varying(255),
-	CONSTRAINT dila_type_contenu_pk PRIMARY KEY (id_type_contenu)
+	CONSTRAINT dila_content_type_pk PRIMARY KEY (id)
 );
 
 --
@@ -33,8 +33,8 @@ CREATE TABLE dila_stylesheet (
 	description varchar(255),
 	file_name varchar(255),
 	source long varbinary,
-	fk_id_type_contenu bigint,
-	CONSTRAINT dila_stylesheet_pk PRIMARY KEY (id_stylesheet),
+	content_type_id bigint,
+	CONSTRAINT dila_stylesheet_pk PRIMARY KEY (id_stylesheet)
 );
 
 --
@@ -69,116 +69,116 @@ CREATE TABLE dila_xml (
 	title varchar(255) NOT NULL,
     type_resource varchar(255) NOT NULL,
 	breadcrumb varchar(255) DEFAULT NULL,
-	fk_audience_id int NOT NULL,
+	audience_id int NOT NULL,
 	date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	date_modification TIMESTAMP NULL,
 	CONSTRAINT dila_xml_pk PRIMARY KEY (id),
-	CONSTRAINT dila_xml_uq_xml UNIQUE (id_xml, fk_audience_id)
+	CONSTRAINT dila_xml_uq_xml UNIQUE (id_xml, audience_id)
 );
 
 CREATE TABLE dila_type (
-    id_type bigint NOT NULL,
+    id bigint NOT NULL,
     name_key varchar(100) default NULL,
-    CONSTRAINT dila_type_pk PRIMARY KEY (id_type)
+    CONSTRAINT dila_type_pk PRIMARY KEY (id)
 );
 
 --
 -- Table structure local
 --
 CREATE TABLE dila_local (
-    id_local bigint NOT NULL,
-    titre varchar(255) NOT NULL,
-    auteur varchar(255) NOT NULL,
-    chemin varchar(255) NOT NULL,
+    id bigint NOT NULL,
+    title varchar(255) NOT NULL,
+    author varchar(255) NOT NULL,
+    path varchar(255) NOT NULL,
     xml LONG VARCHAR NOT NULL,
-    fk_audience_id bigint NOT NULL,
-    fk_type_id bigint NOT NULL,
+    audience_id bigint NOT NULL,
+    type_id bigint NOT NULL,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT dila_local_pk PRIMARY KEY (id_local),
+    CONSTRAINT dila_local_pk PRIMARY KEY (id)
 );
 
 --
--- Table structure dossier local
+-- Table structure local folder
 --
-CREATE TABLE dila_dossier_local (
-    id_dossier_local bigint NOT NULL,
-    id_theme_parent varchar(255) NOT NULL,
-    id_dossier_frere varchar(255) DEFAULT NULL,
+CREATE TABLE dila_local_folder(
+    id bigint NOT NULL,
+    parent_theme_id varchar(255) NOT NULL,
+    sibling_folder_id varchar(255) DEFAULT NULL,
     position bigint DEFAULT NULL,
     presentation LONG VARCHAR,
-    fk_id_local bigint NOT NULL,
-    CONSTRAINT dila_dossier_local_pk PRIMARY KEY (id_dossier_local),
+    local_id bigint NOT NULL,
+    CONSTRAINT dila_local_folder_pk PRIMARY KEY (id)
 );
 
 --
--- Table structure lien local
+-- Table structure local folder link
 --
-CREATE TABLE dila_lien_dossier_local (
-    id_lien_dossier_local bigint NOT NULL,
-    titre varchar(255) NOT NULL,
+CREATE TABLE dila_local_folder_link (
+    id bigint NOT NULL,
+    title varchar(255) NOT NULL,
     position bigint NOT NULL,
-    id_fiche varchar(255) NOT NULL,
-    fk_dossier_local_id bigint NOT NULL,
-    CONSTRAINT dila_lien_dossier_local_pk PRIMARY KEY (id_lien_dossier_local),
+    card_id varchar(255) NOT NULL,
+    local_folder_id bigint NOT NULL,
+    CONSTRAINT dila_local_folder_link_pk PRIMARY KEY (id)
 );
 
 --
--- Table structure fiche locale
+-- Table structure local card
 --
-CREATE TABLE dila_fiche_locale (
-    id_fiche_locale bigint NOT NULL,
-    id_dossier_parent varchar(255) NOT NULL,
-    id_fiche_soeur varchar(255) DEFAULT NULL,
+CREATE TABLE dila_local_card (
+    id bigint NOT NULL,
+    parent_folder_id varchar(255) NOT NULL,
+    sibling_card_id varchar(255) DEFAULT NULL,
     position bigint DEFAULT NULL,
-    fk_id_local bigint NOT NULL,
-    CONSTRAINT dila_fiche_locale_pk PRIMARY KEY (id_fiche_locale),
+    local_id bigint NOT NULL,
+    CONSTRAINT dila_local_card_pk PRIMARY KEY (id)
 );
 
 --
--- Table structure chapitre fiche locale
+-- Table structure local card chapter
 --
-CREATE TABLE dila_chapitre_fiche_locale (
-    id_chapitre_fiche_local bigint NOT NULL,
-    titre varchar(255) NOT NULL,
-    contenu LONG VARCHAR NOT NULL,
+CREATE TABLE dila_local_card_chapter (
+    id bigint NOT NULL,
+    title varchar(255) NOT NULL,
+    content LONG VARCHAR NOT NULL,
     position bigint NOT NULL,
-    fk_fiche_locale_id bigint NOT NULL,
-    CONSTRAINT dila_chapitre_fiche_locale_pk PRIMARY KEY (id_chapitre_fiche_local),
+    local_card_id bigint NOT NULL,
+    CONSTRAINT dila_local_card_chapter_pk PRIMARY KEY (id)
 );
 
 --
--- Table structure dila_donnees_complementaires
+-- Table structure dila_complementary_data
 --
-CREATE TABLE dila_donnees_complementaires (
+CREATE TABLE dila_complementary_data (
     id bigint NOT NULL,
-    bloc_bas LONG VARCHAR DEFAULT NULL,
-    bloc_colonne LONG VARCHAR DEFAULT NULL,
-    fk_fiche_nationale_id bigint NOT NULL,
-    fk_audience_id bigint NOT NULL,
-    CONSTRAINT dila_donnees_complementaires_pk PRIMARY KEY (id),
+    bottom_block LONG VARCHAR DEFAULT NULL,
+    column_block LONG VARCHAR DEFAULT NULL,
+    xml_id bigint NOT NULL,
+    audience_id bigint NOT NULL,
+    CONSTRAINT dila_complementary_data_pk PRIMARY KEY (id)
 );
 
 --
--- Table structure dila_donnees_complementaires_teleservice
+-- Table structure dila_complementary_data_teleservice
 --
-CREATE TABLE dila_donnees_complementaires_teleservice (
+CREATE TABLE dila_complementary_data_teleservice (
     id bigint NOT NULL,
-    titre varchar(255) NOT NULL, 
+    title varchar(255) NOT NULL, 
     url varchar(255) NOT NULL,
     position bigint NOT NULL,
-    fk_donnees_complementaires_id bigint NOT NULL,
-    CONSTRAINT dila_donnees_complementaires_teleservice_pk PRIMARY KEY (id),
+    complementary_data_id bigint NOT NULL,
+    CONSTRAINT dila_complementary_data_teleservice_pk PRIMARY KEY (id)
 );
 
 --
--- Table structure dila_donnees_complementaires_savoir_plus
+-- Table structure dila_complementary_data_learn_more
 --
-CREATE TABLE dila_donnees_complementaires_savoir_plus (
+CREATE TABLE dila_complementary_data_learn_more (
     id bigint NOT NULL,
-    titre varchar(255) NOT NULL, 
+    title varchar(255) NOT NULL, 
     url varchar(255) NOT NULL,
     position bigint NOT NULL,
-    fk_donnees_complementaires_id bigint NOT NULL,
-    CONSTRAINT dila_donnees_complementaires_savoir_plus_pk PRIMARY KEY (id),
+    complementary_data_id bigint NOT NULL,
+    CONSTRAINT dila_complementary_data_learn_more_pk PRIMARY KEY (id)
 );
 

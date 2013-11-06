@@ -51,12 +51,12 @@ public class LocalCardChapterDAO implements ILocalCardChapterDAO, Serializable
 {
     /** Serial ID */
     private static final long serialVersionUID = 1871080044687399057L;
-    private static final String SQL_QUERY_NEW_PK = "SELECT max(id_chapitre_fiche_local) FROM dila_chapitre_fiche_locale";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_chapitre_fiche_locale "
-            + "( id_chapitre_fiche_local, titre, contenu, position, fk_fiche_locale_id ) VALUES ( ?, ? ,?, ?, ?)";
-    private static final String SQL_QUERY_DELETE_BY_CARD_ID = " DELETE FROM dila_chapitre_fiche_locale "
-            + "WHERE fk_fiche_locale_id = ?";
-    private static final String SQL_QUERY_FIND_BY_CARD_ID = " SELECT id_chapitre_fiche_local, titre, contenu, position from dila_chapitre_fiche_locale WHERE fk_fiche_locale_id = ? ORDER BY id_chapitre_fiche_local ASC";
+    private static final String SQL_QUERY_NEW_PK = "SELECT max(id) FROM dila_local_card_chapter";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_local_card_chapter "
+            + "( id, title, content, position, local_card_id ) VALUES ( ?, ? ,?, ?, ?)";
+    private static final String SQL_QUERY_DELETE_BY_CARD_ID = " DELETE FROM dila_local_card_chapter "
+            + "WHERE local_card_id = ?";
+    private static final String SQL_QUERY_FIND_BY_CARD_ID = " SELECT id, title, content, position from dila_local_card_chapter WHERE local_card_id = ? ORDER BY id ASC";
 
     /**
      * Generates a new primary key

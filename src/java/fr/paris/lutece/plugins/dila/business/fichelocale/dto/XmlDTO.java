@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.dila.business.fichelocale.dto;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
 
@@ -64,7 +63,7 @@ public class XmlDTO implements Serializable
     /**
      * The breadcrumb of resource
      */
-    private String _strBreadcrumb;
+    private String _strBreadCrumb;
 
     /**
      * The id of audience
@@ -89,7 +88,7 @@ public class XmlDTO implements Serializable
     /**
      * @return the _lId
      */
-    public Long getId(  )
+    public Long getId( )
     {
         return _lId;
     }
@@ -105,7 +104,7 @@ public class XmlDTO implements Serializable
     /**
      * @return the _strIdXml
      */
-    public String getIdXml(  )
+    public String getIdXml( )
     {
         return _strIdXml;
     }
@@ -121,7 +120,7 @@ public class XmlDTO implements Serializable
     /**
      * @return the _strTitle
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
@@ -135,25 +134,25 @@ public class XmlDTO implements Serializable
     }
 
     /**
-     * @return the _strBreadcrumb
+     * @return the _strBreadCrumb
      */
-    public String getBreadcrumb(  )
+    public String getBreadCrumb( )
     {
-        return _strBreadcrumb;
+        return _strBreadCrumb;
     }
 
     /**
-     * @param strBreadcrumb the _strBreadcrumb to set
+     * @param strBreadCrumb the _strBreadCrumb to set
      */
-    public void setBreadcrumb( String strBreadcrumb )
+    public void setBreadCrumb( String strBreadCrumb )
     {
-        this._strBreadcrumb = strBreadcrumb;
+        this._strBreadCrumb = strBreadCrumb;
     }
 
     /**
      * @return the _lIdAudience
      */
-    public Long getIdAudience(  )
+    public Long getIdAudience( )
     {
         return _lIdAudience;
     }
@@ -169,7 +168,7 @@ public class XmlDTO implements Serializable
     /**
      * @return the _strResourceType
      */
-    public String getResourceType(  )
+    public String getResourceType( )
     {
         return _strResourceType;
     }
@@ -185,11 +184,11 @@ public class XmlDTO implements Serializable
     /**
      * @return the _modificationDate
      */
-    public Date getModificationDate(  )
+    public Date getModificationDate( )
     {
         if ( _modificationDate != null )
         {
-            return (Date) _modificationDate.clone(  );
+            return (Date) _modificationDate.clone( );
         }
         else
         {
@@ -204,16 +203,16 @@ public class XmlDTO implements Serializable
     {
         if ( modificationDate != null )
         {
-            this._modificationDate = (Date) modificationDate.clone(  );
+            this._modificationDate = (Date) modificationDate.clone( );
         }
     }
 
     /**
      * @return the _creationDate
      */
-    public Date getCreationDate(  )
+    public Date getCreationDate( )
     {
-        return (Date) _creationDate.clone(  );
+        return (Date) _creationDate.clone( );
     }
 
     /**
@@ -221,28 +220,28 @@ public class XmlDTO implements Serializable
      */
     public void setCreationDate( Date creationDate )
     {
-        this._creationDate = (Date) creationDate.clone(  );
+        this._creationDate = (Date) creationDate.clone( );
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode(  )
+    public int hashCode( )
     {
         final int prime = 31;
         int result = 1;
-        result = ( prime * result ) + ( ( _lIdAudience == null ) ? 0 : _lIdAudience.hashCode(  ) );
-        result = ( prime * result ) + ( ( _strIdXml == null ) ? 0 : _strIdXml.hashCode(  ) );
+        result = ( prime * result ) + ( ( _lIdAudience == null ) ? 0 : _lIdAudience.hashCode( ) );
+        result = ( prime * result ) + ( ( _strIdXml == null ) ? 0 : _strIdXml.hashCode( ) );
 
         return result;
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -258,7 +257,7 @@ public class XmlDTO implements Serializable
             return false;
         }
 
-        if ( getClass(  ) != obj.getClass(  ) )
+        if ( getClass( ) != obj.getClass( ) )
         {
             return false;
         }

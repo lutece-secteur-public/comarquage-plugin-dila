@@ -10,7 +10,7 @@
     
     function doAddLien ()
     {
-        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoAddEnSavoirPlus.jsp");
+        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoAddLearnMore.jsp");
         $("#donneesForm").submit();
     }
     
@@ -22,7 +22,7 @@
     
     function doDeleteLien ()
     {
-        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoDeleteEnSavoirPlus.jsp");
+        $("#donneesForm").attr("action", "jsp/admin/plugins/dila/DoDeleteLearnMore.jsp");
         $("#donneesForm").submit();
     }
 </script>
@@ -31,7 +31,7 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <form id="donneesForm" action="jsp/admin/plugins/dila/DoModifyDonneeComplementaire.jsp" class="form-horizontal" method="post">
+        <form id="donneesForm" action="jsp/admin/plugins/dila/DoModifyComplementaryData.jsp" class="form-horizontal" method="post">
         <input type="hidden" name="id_teleservice" id="id_teleservice" value="${id_teleservice}"/>
         <input type="hidden" name="id_lien" id="id_lien" value="${id_lien}"/>
          <fieldset>
@@ -147,7 +147,7 @@
                     <i class="icon-ok icon-white"></i>
                     <span class="hidden-phone">#i18n{portal.util.labelValidate}</span>
                 </button>                       
-                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp">            
+                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageComplementaryData.jsp">            
                     <i class="icon-remove-circle"></i>
                     <span class="hidden-phone">#i18n{portal.util.labelBack}</span>
                 </a>                          

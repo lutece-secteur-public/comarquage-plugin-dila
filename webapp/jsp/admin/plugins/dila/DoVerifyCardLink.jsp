@@ -2,7 +2,7 @@
 <jsp:useBean id="dilaFicheLocale" scope="session" class="fr.paris.lutece.plugins.dila.web.LocalCardJspBean" />
 <%
     dilaFicheLocale.init( request, fr.paris.lutece.plugins.dila.web.LocalCardJspBean.RIGHT_MANAGE_LOCAL_CARD);
-    IPluginActionResult result = dilaFicheLocale.doVerifyDossierFrere( request );
+    IPluginActionResult result = dilaFicheLocale.doVerifyCardLink( request );
     if ( result.getRedirect(  ) != null )
     {
         response.sendRedirect( result.getRedirect(  ) );

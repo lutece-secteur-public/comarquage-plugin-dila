@@ -41,12 +41,11 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.sql.DAOUtil;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -59,14 +58,14 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
 
     /** The Constant SQL_QUERY_NEW_PK. */
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_stylesheet) FROM dila_stylesheet";
-    private static final String SQL_QUERY_SELECT_ALL_STYLE_SHEET = " SELECT a.id_stylesheet , a.description , a.file_name , a.fk_id_type_contenu , b.label, a.source FROM  dila_stylesheet a LEFT OUTER JOIN dila_type_contenu b ON a.fk_id_type_contenu = b.id_type_contenu ";
-    private static final String SQL_QUERY_COUNT_STYLESHEET = " SELECT count(*) FROM dila_stylesheet WHERE fk_id_type_contenu = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_stylesheet ( id_stylesheet , description , file_name, source, fk_id_type_contenu ) " +
-        " VALUES ( ?, ? ,?, ?, ? )";
-    private static final String SQL_QUERY_SELECT = " SELECT a.id_stylesheet , a.description , a.file_name , a.fk_id_type_contenu , b.label FROM  dila_stylesheet a LEFT OUTER JOIN dila_type_contenu b ON a.fk_id_type_contenu = b.id_type_contenu WHERE a.id_stylesheet = ? ";
+    private static final String SQL_QUERY_SELECT_ALL_STYLE_SHEET = " SELECT a.id_stylesheet , a.description , a.file_name , a.content_type_id , b.label, a.source FROM  dila_stylesheet a LEFT OUTER JOIN dila_content_type b ON a.content_type_id = b.id ";
+    private static final String SQL_QUERY_COUNT_STYLESHEET = " SELECT count(*) FROM dila_stylesheet WHERE content_type_id = ? ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_stylesheet ( id_stylesheet , description , file_name, source, content_type_id ) "
+            + " VALUES ( ?, ? ,?, ?, ? )";
+    private static final String SQL_QUERY_SELECT = " SELECT a.id_stylesheet , a.description , a.file_name , a.content_type_id , b.label FROM  dila_stylesheet a LEFT OUTER JOIN dila_content_type b ON a.content_type_id = b.id WHERE a.id_stylesheet = ? ";
     private static final String SQL_QUERY_SELECT_SOURCE = " SELECT source FROM dila_stylesheet WHERE id_stylesheet = ? ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE dila_stylesheet SET id_stylesheet = ?, description = ?, file_name = ?, source = ?, fk_id_type_contenu = ? WHERE id_stylesheet = ?  ";
-    private static final String SQL_QUERY_UPDATE_WITHOUT_FILE = " UPDATE dila_stylesheet SET id_stylesheet = ?, description = ?, fk_id_type_contenu = ? WHERE id_stylesheet = ?  ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE dila_stylesheet SET id_stylesheet = ?, description = ?, file_name = ?, source = ?, content_type_id = ? WHERE id_stylesheet = ?  ";
+    private static final String SQL_QUERY_UPDATE_WITHOUT_FILE = " UPDATE dila_stylesheet SET id_stylesheet = ?, description = ?, content_type_id = ? WHERE id_stylesheet = ?  ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM dila_stylesheet WHERE id_stylesheet = ? ";
     private static final String SQL_AND = " AND ";
     private static final String SQL_WHERE = " WHERE ";
@@ -78,14 +77,14 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
      * Generates a new primary key
      * @return The new primary key
      */
-    int newPrimaryKey(  )
+    int newPrimaryKey( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nKey = 1;
@@ -93,7 +92,7 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
 
         nKey = daoUtil.getInt( 1 ) + 1;
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -101,13 +100,13 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
     @Override
     public List<DilaStyleSheet> getDilaStyleSheetList( Integer nContentTypeId, String strStyleSheetName )
     {
-        List<DilaStyleSheet> dilaStylesheetList = new ArrayList<DilaStyleSheet>(  );
+        List<DilaStyleSheet> dilaStylesheetList = new ArrayList<DilaStyleSheet>( );
         String strQuery = SQL_QUERY_SELECT_ALL_STYLE_SHEET;
         boolean allreadyWhere = false;
 
         if ( ( nContentTypeId != null ) && ( nContentTypeId != 0 ) )
         {
-            strQuery += " WHERE a.fk_id_type_contenu = ? ";
+            strQuery += " WHERE a.content_type_id = ? ";
             allreadyWhere = true;
         }
 
@@ -146,16 +145,16 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
             daoUtil.setString( nIndex, '%' + strStyleSheetName + '%' );
         }
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            DilaStyleSheet dilaStylesheet = new DilaStyleSheet(  );
+            DilaStyleSheet dilaStylesheet = new DilaStyleSheet( );
             dilaStylesheet.setId( daoUtil.getInt( 1 ) );
             dilaStylesheet.setDescription( daoUtil.getString( 2 ) );
             dilaStylesheet.setFile( daoUtil.getString( 3 ) );
 
-            ContentType contentType = new ContentType(  );
+            ContentType contentType = new ContentType( );
             contentType.setId( daoUtil.getInt( 4 ) );
             contentType.setLabel( daoUtil.getString( 5 ) );
             dilaStylesheet.setContentType( contentType );
@@ -163,7 +162,7 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
             dilaStylesheet.setSource( daoUtil.getBytes( 6 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return dilaStylesheetList;
     }
@@ -175,17 +174,17 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
 
         daoUtil.setInt( 1, nContentTypeId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
-            daoUtil.free(  );
+            daoUtil.free( );
             throw new AppException( DAOUtil.MSG_EXCEPTION_SELECT_ERROR + nContentTypeId );
         }
 
         int nCount = ( daoUtil.getInt( 1 ) );
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nCount;
     }
@@ -195,16 +194,16 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        stylesheet.setId( newPrimaryKey(  ) );
+        stylesheet.setId( newPrimaryKey( ) );
 
-        daoUtil.setInt( 1, stylesheet.getId(  ) );
-        daoUtil.setString( 2, stylesheet.getDescription(  ) );
-        daoUtil.setString( 3, stylesheet.getFile(  ) );
-        daoUtil.setBytes( 4, stylesheet.getSource(  ) );
-        daoUtil.setInt( 5, stylesheet.getContentType(  ).getId(  ) );
+        daoUtil.setInt( 1, stylesheet.getId( ) );
+        daoUtil.setString( 2, stylesheet.getDescription( ) );
+        daoUtil.setString( 3, stylesheet.getFile( ) );
+        daoUtil.setBytes( 4, stylesheet.getSource( ) );
+        daoUtil.setInt( 5, stylesheet.getContentType( ).getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -212,23 +211,23 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setInt( 1, nIdStyleSheet );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        DilaStyleSheet dilaStylesheet = new DilaStyleSheet(  );
+        DilaStyleSheet dilaStylesheet = new DilaStyleSheet( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             dilaStylesheet.setId( daoUtil.getInt( 1 ) );
             dilaStylesheet.setDescription( daoUtil.getString( 2 ) );
             dilaStylesheet.setFile( daoUtil.getString( 3 ) );
 
-            ContentType typeContenu = new ContentType(  );
+            ContentType typeContenu = new ContentType( );
             typeContenu.setId( daoUtil.getInt( 4 ) );
             typeContenu.setLabel( daoUtil.getString( 5 ) );
             dilaStylesheet.setContentType( typeContenu );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return dilaStylesheet;
     }
@@ -238,7 +237,7 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
     {
         DAOUtil daoUtil;
 
-        if ( stylesheet.getSource(  ) != null )
+        if ( stylesheet.getSource( ) != null )
         {
             daoUtil = new DAOUtil( SQL_QUERY_UPDATE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         }
@@ -248,20 +247,20 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
         }
 
         Integer nIndex = 1;
-        daoUtil.setInt( nIndex++, stylesheet.getId(  ) );
-        daoUtil.setString( nIndex++, stylesheet.getDescription(  ) );
+        daoUtil.setInt( nIndex++, stylesheet.getId( ) );
+        daoUtil.setString( nIndex++, stylesheet.getDescription( ) );
 
-        if ( stylesheet.getSource(  ) != null )
+        if ( stylesheet.getSource( ) != null )
         {
-            daoUtil.setString( nIndex++, stylesheet.getFile(  ) );
-            daoUtil.setBytes( nIndex++, stylesheet.getSource(  ) );
+            daoUtil.setString( nIndex++, stylesheet.getFile( ) );
+            daoUtil.setBytes( nIndex++, stylesheet.getSource( ) );
         }
 
-        daoUtil.setInt( nIndex++, stylesheet.getContentType(  ).getId(  ) );
-        daoUtil.setInt( nIndex++, stylesheet.getId(  ) );
+        daoUtil.setInt( nIndex++, stylesheet.getContentType( ).getId( ) );
+        daoUtil.setInt( nIndex++, stylesheet.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -269,8 +268,8 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setInt( 1, nIdStyleSheet );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -278,16 +277,16 @@ public class DilaStyleSheetDAO implements IDilaStyleSheetDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_SOURCE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setInt( 1, nIdStyleSheet );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         byte[] source = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             source = daoUtil.getBytes( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return source;
     }

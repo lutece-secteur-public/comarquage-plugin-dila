@@ -66,8 +66,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -75,6 +73,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -90,53 +90,53 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
 
     //templates
     private static final String TEMPLATE_MANAGE_COMPLEMENTARY_DATA = "admin/plugins/dila/manage_donnee-complementaire.html";
-    private static final String TEMPLATE_CREATE_DONNEE_COMPLEMENTAIRE = "admin/plugins/dila/create_donnee-complementaire.html";
-    private static final String TEMPLATE_MODIFY_DONNEE_COMPLEMENTAIRE = "admin/plugins/dila/modify_donnee-complementaire.html";
+    private static final String TEMPLATE_CREATE_COMPLEMENTARY_DATA = "admin/plugins/dila/create_donnee-complementaire.html";
+    private static final String TEMPLATE_MODIFY_COMPLEMENTARY_DATA = "admin/plugins/dila/modify_donnee-complementaire.html";
 
     //jsp
-    private static final String JSP_MANAGE_DONNEE_COMPLEMENTAIRE = "ManageDonneeComplementaire.jsp";
+    private static final String JSP_MANAGE_COMPLEMENTARY_DATA = "ManageComplementaryData.jsp";
 
     // parameters
     private static final String PARAMETER_TELESERVICE_ID = "id_teleservice";
-    private static final String PARAMETER_LIEN_ID = "id_lien";
+    private static final String PARAMETER_LINK_ID = "id_lien";
 
     // marks
-    private static final String MARK_DONNEE_COMPLEMENTAIRE = "donneesComplementaires";
+    private static final String MARK_COMPLEMENTARY_DATA = "donneesComplementaires";
     private static final String MARK_TELESERVICE_LIST = "list_teleservices";
-    private static final String MARK_LIEN_LIST = "list_liens";
+    private static final String MARK_LINK_LIST = "list_liens";
     private static final String MARK_AUDIENCE = "audiences";
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static final String MARK_LOCALE = "locale";
 
     // Beans
-    private ComplementaryDataDTO _donneesComplementaires;
+    private ComplementaryDataDTO _complementaryData;
     private String _strAction;
 
     // Constants
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
-    private IDilaComplementaryDataService _dilaComplementaryDataService = SpringContextService.getBean( 
-            "dilaComplementaryDataService" );
-    private IDilaComplementaryDataLinkService _dilaComplementaryDataLinkService = SpringContextService.getBean( 
-            "dilaComplementaryDataLinkService" );
+    private IDilaComplementaryDataService _dilaComplementaryDataService = SpringContextService
+            .getBean( "dilaComplementaryDataService" );
+    private IDilaComplementaryDataLinkService _dilaComplementaryDataLinkService = SpringContextService
+            .getBean( "dilaComplementaryDataLinkService" );
     private IDilaXmlService _dilaXmlService = SpringContextService.getBean( "dilaXmlService" );
     private IDilaAudienceService _dilaAudienceService = SpringContextService.getBean( "dilaAudienceService" );
 
     /**
-     * Return management donnee complementaire
+     * Return complementary data management
      * @param request The Http request
      * @return Html
      */
-    public String getManageDonneeComplementaire( HttpServletRequest request )
+    public String getManageComplementaryData( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         String strId = request.getParameter( DilaConstants.MARK_ID );
-        String strDonneesName = request.getParameter( DilaConstants.MARK_NAME );
+        String strDataName = request.getParameter( DilaConstants.MARK_NAME );
 
-        //Init fiche locale data table 
-        List<ComplementaryDataDTO> listDonneesComplementaires = _dilaComplementaryDataService.findAll(  );
-        List<ComplementaryDataDTO> listToDisplay = filtrer( listDonneesComplementaires, strDonneesName, strId );
+        //Init completed cards data table 
+        List<ComplementaryDataDTO> listComplementaryData = _dilaComplementaryDataService.findAll( );
+        List<ComplementaryDataDTO> listToDisplay = filtrer( listComplementaryData, strDataName, strId );
 
         // Orders the list of result and add pagination
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -168,118 +168,121 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator<ComplementaryDataDTO> paginator = new LocalizedPaginator<ComplementaryDataDTO>( listToDisplay,
-                _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
+        LocalizedPaginator<ComplementaryDataDTO> paginator = new LocalizedPaginator<ComplementaryDataDTO>(
+                listToDisplay, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
+                getLocale( ) );
 
         model.put( DilaConstants.MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( DilaConstants.MARK_PAGINATOR, paginator );
-        model.put( DilaConstants.MARK_COMP_DATA_LIST, paginator.getPageItems(  ) );
+        model.put( DilaConstants.MARK_COMP_DATA_LIST, paginator.getPageItems( ) );
         model.put( DilaConstants.MARK_ID, strId );
-        model.put( DilaConstants.MARK_NAME, strDonneesName );
+        model.put( DilaConstants.MARK_NAME, strDataName );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_COMPLEMENTARY_DATA, getLocale(  ),
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_COMPLEMENTARY_DATA, getLocale( ),
                 model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
-     * Return management fiche locale
+     * Return complementary data creation page
      * @param request The Http request
      * @return Html
      */
-    public String getCreateDonneeComplementaire( HttpServletRequest request )
+    public String getCreateComplementaryData( HttpServletRequest request )
     {
-        _strAction = ActionTypeEnum.CREATE.getValue(  );
+        _strAction = ActionTypeEnum.CREATE.getValue( );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        _donneesComplementaires = new ComplementaryDataDTO(  );
+        _complementaryData = new ComplementaryDataDTO( );
 
-        List<ComplementaryDataTeleserviceDTO> listTeleservice = new ArrayList<ComplementaryDataTeleserviceDTO>(  );
-        List<ComplementaryDataLearnMoreDTO> listLien = new ArrayList<ComplementaryDataLearnMoreDTO>(  );
+        List<ComplementaryDataTeleserviceDTO> listTeleservice = new ArrayList<ComplementaryDataTeleserviceDTO>( );
+        List<ComplementaryDataLearnMoreDTO> listLink = new ArrayList<ComplementaryDataLearnMoreDTO>( );
 
-        model.put( MARK_DONNEE_COMPLEMENTAIRE, _donneesComplementaires );
+        model.put( MARK_COMPLEMENTARY_DATA, _complementaryData );
         model.put( MARK_TELESERVICE_LIST, listTeleservice );
         model.put( PARAMETER_TELESERVICE_ID, 0 );
-        model.put( MARK_LIEN_LIST, listLien );
-        model.put( PARAMETER_LIEN_ID, 0 );
+        model.put( MARK_LINK_LIST, listLink );
+        model.put( PARAMETER_LINK_ID, 0 );
         setDataInModel( request, model );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_DONNEE_COMPLEMENTAIRE,
-                getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_COMPLEMENTARY_DATA, getLocale( ),
+                model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
-     * Return management fiche locale
+     * Return complementary data modification page
      * @param request The Http request
      * @return Html
      */
-    public String getModifyDonneeComplementaire( HttpServletRequest request )
+    public String getModifyComplementaryData( HttpServletRequest request )
     {
-        _strAction = ActionTypeEnum.MODIFY.getValue(  );
+        _strAction = ActionTypeEnum.MODIFY.getValue( );
 
-        String idDonneeComplementaire = request.getParameter( DilaConstants.MARK_ID );
+        String idComplementaryData = request.getParameter( DilaConstants.MARK_ID );
 
-        if ( StringUtils.isEmpty( idDonneeComplementaire ) || !StringUtils.isNumeric( idDonneeComplementaire ) )
+        if ( StringUtils.isEmpty( idComplementaryData ) || !StringUtils.isNumeric( idComplementaryData ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
+                    AdminMessage.TYPE_STOP );
         }
 
-        _donneesComplementaires = _dilaComplementaryDataService.findById( Long.valueOf( idDonneeComplementaire ) );
+        _complementaryData = _dilaComplementaryDataService.findById( Long.valueOf( idComplementaryData ) );
 
-        // get fiche infos
-        verifyFiche( _donneesComplementaires.getCard(  ).getIdXml(  ) );
-
-        if ( _donneesComplementaires == null )
+        if ( _complementaryData == null )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
+                    AdminMessage.TYPE_STOP );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        // get card infos
+        verifyCard( _complementaryData.getCard( ).getIdXml( ) );
 
-        List<ComplementaryDataLinkDTO> listTeleservice = _dilaComplementaryDataLinkService.findByDataId( Long.valueOf( 
-                    idDonneeComplementaire ), ComplementaryLinkTypeEnum.TELESERVICE );
-        List<ComplementaryDataLinkDTO> listLien = _dilaComplementaryDataLinkService.findByDataId( Long.valueOf( 
-                    idDonneeComplementaire ), ComplementaryLinkTypeEnum.LEARN_MORE );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        model.put( MARK_DONNEE_COMPLEMENTAIRE, _donneesComplementaires );
+        List<ComplementaryDataLinkDTO> listTeleservice = _dilaComplementaryDataLinkService.findByDataId(
+                Long.valueOf( idComplementaryData ), ComplementaryLinkTypeEnum.TELESERVICE );
+        List<ComplementaryDataLinkDTO> listLink = _dilaComplementaryDataLinkService.findByDataId(
+                Long.valueOf( idComplementaryData ), ComplementaryLinkTypeEnum.LEARN_MORE );
+
+        model.put( MARK_COMPLEMENTARY_DATA, _complementaryData );
         model.put( MARK_TELESERVICE_LIST, listTeleservice );
-        model.put( PARAMETER_TELESERVICE_ID, listTeleservice.size(  ) );
-        model.put( MARK_LIEN_LIST, listLien );
-        model.put( PARAMETER_LIEN_ID, listLien.size(  ) );
+        model.put( PARAMETER_TELESERVICE_ID, listTeleservice.size( ) );
+        model.put( MARK_LINK_LIST, listLink );
+        model.put( PARAMETER_LINK_ID, listLink.size( ) );
         setDataInModel( request, model );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_DONNEE_COMPLEMENTAIRE,
-                getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_COMPLEMENTARY_DATA, getLocale( ),
+                model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
-     * Returns the confirmation message to delete a DILA fiche locale
+     * Returns the confirmation message to delete a complementary data
      * @param request The Http request
      * @return the html code message
      * @throws AccessDeniedException AccessDeniedException
      */
-    public String getDeleteDonneeComplementaire( HttpServletRequest request )
-        throws AccessDeniedException
+    public String getDeleteComplementaryData( HttpServletRequest request ) throws AccessDeniedException
     {
         String id = request.getParameter( DilaConstants.MARK_ID );
 
         if ( StringUtils.isEmpty( id ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
+                    AdminMessage.TYPE_STOP );
         }
 
-        Map<String, Object> urlParam = new HashMap<String, Object>(  );
+        Map<String, Object> urlParam = new HashMap<String, Object>( );
         urlParam.put( DilaConstants.MARK_ID, id );
 
         return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_CONFIRMATION_DELETE_DONNEE, null,
-            DilaConstants.MESSAGE_TITLE_DELETE_DONNEE, DilaConstants.JSP_DELETE_DONNEE, "_self",
-            AdminMessage.TYPE_CONFIRMATION, urlParam, DilaConstants.JSP_MANAGE_DONNEES );
+                DilaConstants.MESSAGE_TITLE_DELETE_DONNEE, DilaConstants.JSP_DELETE_DONNEE, "_self",
+                AdminMessage.TYPE_CONFIRMATION, urlParam, DilaConstants.JSP_MANAGE_DONNEES );
     }
 
     /**
@@ -290,121 +293,121 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
     public String doAddTeleservice( HttpServletRequest request )
     {
         Integer nbTeleservice = Integer.valueOf( request.getParameter( PARAMETER_TELESERVICE_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        populate( _donneesComplementaires, request );
+        populate( _complementaryData, request );
 
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
-        List<ComplementaryDataLinkDTO> liens = getExistingLiens( request );
+        List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
 
-        ComplementaryDataTeleserviceDTO teleservice = new ComplementaryDataTeleserviceDTO(  );
+        ComplementaryDataTeleserviceDTO teleservice = new ComplementaryDataTeleserviceDTO( );
         teleservice.setPosition( nbTeleservice + 1 );
         teleservices.add( teleservice );
 
-        model.put( MARK_DONNEE_COMPLEMENTAIRE, _donneesComplementaires );
+        model.put( MARK_COMPLEMENTARY_DATA, _complementaryData );
         model.put( PARAMETER_TELESERVICE_ID, nbTeleservice + 1 );
         model.put( MARK_TELESERVICE_LIST, teleservices );
-        model.put( PARAMETER_LIEN_ID, liens.size(  ) );
-        model.put( MARK_LIEN_LIST, liens );
+        model.put( PARAMETER_LINK_ID, links.size( ) );
+        model.put( MARK_LINK_LIST, links );
         setDataInModel( request, model );
 
         return getAdminPage( getTemplate( model ) );
     }
 
     /**
-     * Delete a lien
+     * Delete a teleservice
      * @param request the page request
      * @return the CreateDonneeComplementaire page
      */
     public String doDeleteTeleservice( HttpServletRequest request )
     {
         Integer nbTeleservice = Integer.valueOf( request.getParameter( PARAMETER_TELESERVICE_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        populate( _donneesComplementaires, request );
+        populate( _complementaryData, request );
 
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
-        List<ComplementaryDataLinkDTO> liens = getExistingLiens( request );
-        teleservices.remove( teleservices.size(  ) - 1 );
+        List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
+        teleservices.remove( teleservices.size( ) - 1 );
 
-        model.put( MARK_DONNEE_COMPLEMENTAIRE, _donneesComplementaires );
+        model.put( MARK_COMPLEMENTARY_DATA, _complementaryData );
         model.put( PARAMETER_TELESERVICE_ID, nbTeleservice - 1 );
         model.put( MARK_TELESERVICE_LIST, teleservices );
-        model.put( PARAMETER_LIEN_ID, liens.size(  ) );
-        model.put( MARK_LIEN_LIST, liens );
+        model.put( PARAMETER_LINK_ID, links.size( ) );
+        model.put( MARK_LINK_LIST, links );
         setDataInModel( request, model );
 
         return getAdminPage( getTemplate( model ) );
     }
 
     /**
-     * Add a lien
+     * Add a link
      * @param request the page request
      * @return the CreateDonneeComplementaire page
      */
-    public String doAddLien( HttpServletRequest request )
+    public String doAddLink( HttpServletRequest request )
     {
-        Integer nbLien = Integer.valueOf( request.getParameter( PARAMETER_LIEN_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Integer nbLink = Integer.valueOf( request.getParameter( PARAMETER_LINK_ID ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        populate( _donneesComplementaires, request );
+        populate( _complementaryData, request );
 
-        List<ComplementaryDataLinkDTO> liens = getExistingLiens( request );
+        List<ComplementaryDataLinkDTO> liens = getExistingLinks( request );
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
 
-        ComplementaryDataLearnMoreDTO lien = new ComplementaryDataLearnMoreDTO(  );
-        lien.setPosition( nbLien + 1 );
+        ComplementaryDataLearnMoreDTO lien = new ComplementaryDataLearnMoreDTO( );
+        lien.setPosition( nbLink + 1 );
         liens.add( lien );
 
-        model.put( MARK_DONNEE_COMPLEMENTAIRE, _donneesComplementaires );
-        model.put( PARAMETER_TELESERVICE_ID, teleservices.size(  ) );
+        model.put( MARK_COMPLEMENTARY_DATA, _complementaryData );
+        model.put( PARAMETER_TELESERVICE_ID, teleservices.size( ) );
         model.put( MARK_TELESERVICE_LIST, teleservices );
-        model.put( PARAMETER_LIEN_ID, nbLien + 1 );
-        model.put( MARK_LIEN_LIST, liens );
+        model.put( PARAMETER_LINK_ID, nbLink + 1 );
+        model.put( MARK_LINK_LIST, liens );
         setDataInModel( request, model );
 
         return getAdminPage( getTemplate( model ) );
     }
 
     /**
-     * Delete a lien
+     * Delete a link
      * @param request the page request
      * @return the CreateDonneeComplementaire page
      */
-    public String doDeleteEnSavoirPlus( HttpServletRequest request )
+    public String doDeleteLink( HttpServletRequest request )
     {
-        Integer nbLien = Integer.valueOf( request.getParameter( PARAMETER_LIEN_ID ) );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Integer nbLink = Integer.valueOf( request.getParameter( PARAMETER_LINK_ID ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        populate( _donneesComplementaires, request );
+        populate( _complementaryData, request );
 
-        List<ComplementaryDataLinkDTO> liens = getExistingLiens( request );
+        List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
-        liens.remove( liens.size(  ) - 1 );
+        links.remove( links.size( ) - 1 );
 
-        model.put( MARK_DONNEE_COMPLEMENTAIRE, _donneesComplementaires );
-        model.put( PARAMETER_TELESERVICE_ID, teleservices.size(  ) );
+        model.put( MARK_COMPLEMENTARY_DATA, _complementaryData );
+        model.put( PARAMETER_TELESERVICE_ID, teleservices.size( ) );
         model.put( MARK_TELESERVICE_LIST, teleservices );
-        model.put( PARAMETER_LIEN_ID, nbLien - 1 );
-        model.put( MARK_LIEN_LIST, liens );
+        model.put( PARAMETER_LINK_ID, nbLink - 1 );
+        model.put( MARK_LINK_LIST, links );
         setDataInModel( request, model );
 
         return getAdminPage( getTemplate( model ) );
     }
 
     /**
-     * Verify if a fiche exists
+     * Verify if a card exists
      * @param request the page request
-     * @return the CreateDossierLocal page or an {@link AdminMessage}
+     * @return the CreateDonneeComplementaire page or an {@link AdminMessage}
      */
-    public IPluginActionResult doVerifyFiche( HttpServletRequest request )
+    public IPluginActionResult doVerifyCard( HttpServletRequest request )
     {
-        populate( _donneesComplementaires, request );
+        populate( _complementaryData, request );
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
 
-        String errorKey = verifyFiche( _donneesComplementaires.getCard(  ).getIdXml(  ) );
+        String errorKey = verifyCard( _complementaryData.getCard( ).getIdXml( ) );
 
         if ( errorKey != null )
         {
@@ -415,66 +418,66 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
         {
             // Else, we display the Create Donnee page
             List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
-            List<ComplementaryDataLinkDTO> liens = getExistingLiens( request );
+            List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
 
-            model.put( MARK_DONNEE_COMPLEMENTAIRE, _donneesComplementaires );
+            model.put( MARK_COMPLEMENTARY_DATA, _complementaryData );
             model.put( MARK_TELESERVICE_LIST, teleservices );
-            model.put( PARAMETER_TELESERVICE_ID, teleservices.size(  ) );
-            model.put( PARAMETER_LIEN_ID, liens.size(  ) );
-            model.put( MARK_LIEN_LIST, liens );
+            model.put( PARAMETER_TELESERVICE_ID, teleservices.size( ) );
+            model.put( PARAMETER_LINK_ID, links.size( ) );
+            model.put( MARK_LINK_LIST, links );
             setDataInModel( request, model );
 
             HtmlTemplate templateList;
-            templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_DONNEE_COMPLEMENTAIRE, getLocale(  ), model );
-            result.setHtmlContent( getAdminPage( templateList.getHtml(  ) ) );
+            templateList = AppTemplateService.getTemplate( TEMPLATE_CREATE_COMPLEMENTARY_DATA, getLocale( ), model );
+            result.setHtmlContent( getAdminPage( templateList.getHtml( ) ) );
         }
 
         return result;
     }
 
     /**
-     * Create a donnees complementaires
+     * Create a complementary data
      * @param request the page request
-     * @return the ManageFicheLocale page or an {@link AdminMessage}
+     * @return the ManageComplementaryData page or an {@link AdminMessage}
      */
-    public String doCreateDonneeComplementaire( HttpServletRequest request )
+    public String doCreateComplementaryData( HttpServletRequest request )
     {
         String result = null;
-        populate( _donneesComplementaires, request );
+        populate( _complementaryData, request );
 
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
-        List<ComplementaryDataLinkDTO> liens = getExistingLiens( request );
+        List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
 
-        if ( StringUtils.isEmpty( _donneesComplementaires.getBottomBlock(  ) ) ||
-                StringUtils.isEmpty( _donneesComplementaires.getColumnBlock(  ) ) )
+        if ( StringUtils.isEmpty( _complementaryData.getBottomBlock( ) )
+                || StringUtils.isEmpty( _complementaryData.getColumnBlock( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        String errorKeyFiche = verifyFiche( _donneesComplementaires.getCard(  ).getIdXml(  ) );
-        String errorKeyTeleservice = validateLiens( teleservices );
-        String errorKeyLiens = validateLiens( liens );
+        String errorKeyCard = verifyCard( _complementaryData.getCard( ).getIdXml( ) );
+        String errorKeyTeleservice = validateLinks( teleservices );
+        String errorKeyLinks = validateLinks( links );
 
-        if ( StringUtils.isNotBlank( errorKeyFiche ) )
+        if ( StringUtils.isNotBlank( errorKeyCard ) )
         {
-            result = AdminMessageService.getMessageUrl( request, errorKeyFiche, AdminMessage.TYPE_STOP );
+            result = AdminMessageService.getMessageUrl( request, errorKeyCard, AdminMessage.TYPE_STOP );
         }
         else if ( StringUtils.isNotBlank( errorKeyTeleservice ) )
         {
             result = AdminMessageService.getMessageUrl( request, errorKeyTeleservice, AdminMessage.TYPE_STOP );
         }
-        else if ( StringUtils.isNotBlank( errorKeyLiens ) )
+        else if ( StringUtils.isNotBlank( errorKeyLinks ) )
         {
-            result = AdminMessageService.getMessageUrl( request, errorKeyLiens, AdminMessage.TYPE_STOP );
+            result = AdminMessageService.getMessageUrl( request, errorKeyLinks, AdminMessage.TYPE_STOP );
         }
 
         if ( result != null )
         {
-            // in case of error, stop the treatment
+            // in case of error, stop the process
             return result;
         }
 
-        Long id = _dilaComplementaryDataService.create( _donneesComplementaires );
+        Long id = _dilaComplementaryDataService.create( _complementaryData );
 
         for ( ComplementaryDataLinkDTO teleservice : teleservices )
         {
@@ -482,45 +485,45 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
             _dilaComplementaryDataLinkService.create( teleservice );
         }
 
-        for ( ComplementaryDataLinkDTO lien : liens )
+        for ( ComplementaryDataLinkDTO link : links )
         {
-            lien.setIdComplementaryData( id );
-            _dilaComplementaryDataLinkService.create( lien );
+            link.setIdComplementaryData( id );
+            _dilaComplementaryDataLinkService.create( link );
         }
 
-        return JSP_MANAGE_DONNEE_COMPLEMENTAIRE;
+        return JSP_MANAGE_COMPLEMENTARY_DATA;
     }
 
     /**
-     * Create a donnees complementaires
+     * Modify a complemantary data
      * @param request the page request
-     * @return the ManageFicheLocale page or an {@link AdminMessage}
+     * @return the ManageComplementaryData page or an {@link AdminMessage}
      */
-    public String doModifyDonneeComplementaire( HttpServletRequest request )
+    public String doModifyComplementaryData( HttpServletRequest request )
     {
         String result = null;
 
-        populate( _donneesComplementaires, request );
+        populate( _complementaryData, request );
 
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
-        List<ComplementaryDataLinkDTO> liens = getExistingLiens( request );
+        List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
 
-        if ( StringUtils.isEmpty( _donneesComplementaires.getBottomBlock(  ) ) ||
-                StringUtils.isEmpty( _donneesComplementaires.getColumnBlock(  ) ) )
+        if ( StringUtils.isEmpty( _complementaryData.getBottomBlock( ) )
+                || StringUtils.isEmpty( _complementaryData.getColumnBlock( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        String errorKeyTeleservice = validateLiens( teleservices );
-        String errorKeyLiens = validateLiens( liens );
+        String errorKeyTeleservice = validateLinks( teleservices );
+        String errorKeyLinks = validateLinks( links );
 
         if ( StringUtils.isNotBlank( errorKeyTeleservice ) )
         {
             result = AdminMessageService.getMessageUrl( request, errorKeyTeleservice, AdminMessage.TYPE_STOP );
         }
-        else if ( StringUtils.isNotBlank( errorKeyLiens ) )
+        else if ( StringUtils.isNotBlank( errorKeyLinks ) )
         {
-            result = AdminMessageService.getMessageUrl( request, errorKeyLiens, AdminMessage.TYPE_STOP );
+            result = AdminMessageService.getMessageUrl( request, errorKeyLinks, AdminMessage.TYPE_STOP );
         }
 
         if ( result != null )
@@ -529,93 +532,93 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
             return result;
         }
 
-        _dilaComplementaryDataService.update( _donneesComplementaires );
+        _dilaComplementaryDataService.update( _complementaryData );
 
-        _dilaComplementaryDataLinkService.deleteFromComplementaryData( _donneesComplementaires.getId(  ),
-            ComplementaryLinkTypeEnum.TELESERVICE );
+        _dilaComplementaryDataLinkService.deleteFromComplementaryData( _complementaryData.getId( ),
+                ComplementaryLinkTypeEnum.TELESERVICE );
 
         for ( ComplementaryDataLinkDTO teleservice : teleservices )
         {
-            teleservice.setIdComplementaryData( _donneesComplementaires.getId(  ) );
+            teleservice.setIdComplementaryData( _complementaryData.getId( ) );
             _dilaComplementaryDataLinkService.create( teleservice );
         }
 
-        _dilaComplementaryDataLinkService.deleteFromComplementaryData( _donneesComplementaires.getId(  ),
-            ComplementaryLinkTypeEnum.LEARN_MORE );
+        _dilaComplementaryDataLinkService.deleteFromComplementaryData( _complementaryData.getId( ),
+                ComplementaryLinkTypeEnum.LEARN_MORE );
 
-        for ( ComplementaryDataLinkDTO lien : liens )
+        for ( ComplementaryDataLinkDTO link : links )
         {
-            lien.setIdComplementaryData( _donneesComplementaires.getId(  ) );
-            _dilaComplementaryDataLinkService.create( lien );
+            link.setIdComplementaryData( _complementaryData.getId( ) );
+            _dilaComplementaryDataLinkService.create( link );
         }
 
-        return JSP_MANAGE_DONNEE_COMPLEMENTAIRE;
+        return JSP_MANAGE_COMPLEMENTARY_DATA;
     }
 
     /**
-     * Delete a DILA donnee complementaire.
+     * Delete a DILA complementary data.
      * @param request The Http request
      * @return url return
      * @throws AccessDeniedException AccessDeniedException
      */
-    public String doDeleteDonneeComplementaire( HttpServletRequest request )
-        throws AccessDeniedException
+    public String doDeleteComplementaryData( HttpServletRequest request ) throws AccessDeniedException
     {
         String id = request.getParameter( DilaConstants.MARK_ID );
 
         if ( StringUtils.isEmpty( id ) || !StringUtils.isNumeric( id ) )
         {
-            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, DilaConstants.MESSAGE_ERROR_OCCUR,
+                    AdminMessage.TYPE_STOP );
         }
 
         _dilaComplementaryDataLinkService.deleteFromComplementaryData( Long.valueOf( id ),
-            ComplementaryLinkTypeEnum.TELESERVICE );
+                ComplementaryLinkTypeEnum.TELESERVICE );
         _dilaComplementaryDataLinkService.deleteFromComplementaryData( Long.valueOf( id ),
-            ComplementaryLinkTypeEnum.LEARN_MORE );
+                ComplementaryLinkTypeEnum.LEARN_MORE );
         _dilaComplementaryDataService.delete( Long.valueOf( id ) );
 
         return AppPathService.getBaseUrl( request ) + DilaConstants.JSP_MANAGE_DONNEES;
     }
 
     /**
-     * Check validity of fiche id
+     * Check validity of card id
      * @param id the id to check
      * @return the error key or null
      */
-    private String verifyFiche( String id )
+    private String verifyCard( String id )
     {
         String result = null;
 
-        if ( StringUtils.isBlank( _donneesComplementaires.getCard(  ).getIdXml(  ) ) ||
-                ( _donneesComplementaires.getCard(  ).getIdXml(  ).length(  ) > 255 ) )
+        if ( StringUtils.isBlank( _complementaryData.getCard( ).getIdXml( ) )
+                || ( _complementaryData.getCard( ).getIdXml( ).length( ) > 255 ) )
         {
             result = "dila.create_donnee.error.ficheFormat";
         }
-        else if ( _dilaComplementaryDataService.cardHasComplement( _donneesComplementaires.getCard(  ).getIdXml(  ) ) )
+        else if ( _dilaComplementaryDataService.cardHasComplement( _complementaryData.getCard( ).getIdXml( ) ) )
         {
             result = "dila.create_donnee.error.ficheExistante";
         }
         else
         {
-            XmlDTO ficheLien = null;
+            XmlDTO cardLink = null;
 
-            if ( _donneesComplementaires.getCard(  ).getIdXml(  ).startsWith( "F" ) )
+            if ( _complementaryData.getCard( ).getIdXml( ).startsWith( "F" ) )
             {
                 // Search in XML folder
-                List<String> availableTypes = new ArrayList<String>(  );
-                availableTypes.add( ResourceTypeEnum.CARD.getLabel(  ) );
+                List<String> availableTypes = new ArrayList<String>( );
+                availableTypes.add( ResourceTypeEnum.CARD.getLabel( ) );
 
-                ficheLien = _dilaXmlService.findByIdAndTypesAndAudience( _donneesComplementaires.getCard(  ).getIdXml(  ),
-                        availableTypes, _donneesComplementaires.getIdAudience(  ) );
+                cardLink = _dilaXmlService.findByIdAndTypesAndAudience( _complementaryData.getCard( ).getIdXml( ),
+                        availableTypes, _complementaryData.getIdAudience( ) );
             }
 
-            if ( ficheLien == null )
+            if ( cardLink == null )
             {
                 result = "dila.create_donnee.error.ficheIntrouvable";
             }
             else
             {
-                _donneesComplementaires.setCard( ficheLien );
+                _complementaryData.setCard( cardLink );
             }
         }
 
@@ -630,15 +633,15 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
     private List<ComplementaryDataLinkDTO> getExistingTeleservices( HttpServletRequest request )
     {
         Integer nbTeleservice = Integer.valueOf( request.getParameter( PARAMETER_TELESERVICE_ID ) );
-        List<ComplementaryDataLinkDTO> teleservices = new ArrayList<ComplementaryDataLinkDTO>(  );
+        List<ComplementaryDataLinkDTO> teleservices = new ArrayList<ComplementaryDataLinkDTO>( );
 
         for ( int i = 1; i <= nbTeleservice; i++ )
         {
-            String titre = request.getParameter( "teleservice_title_" + i );
+            String title = request.getParameter( "teleservice_title_" + i );
             String url = request.getParameter( "teleservice_url_" + i );
 
-            ComplementaryDataTeleserviceDTO teleservice = new ComplementaryDataTeleserviceDTO(  );
-            teleservice.setTitle( titre );
+            ComplementaryDataTeleserviceDTO teleservice = new ComplementaryDataTeleserviceDTO( );
+            teleservice.setTitle( title );
             teleservice.setURL( url );
             teleservice.setPosition( i );
 
@@ -653,41 +656,41 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
      * @param request the page request
      * @return the populate list of {@link ComplementaryDataTeleserviceDTO}
      */
-    private List<ComplementaryDataLinkDTO> getExistingLiens( HttpServletRequest request )
+    private List<ComplementaryDataLinkDTO> getExistingLinks( HttpServletRequest request )
     {
-        Integer nbLien = Integer.valueOf( request.getParameter( PARAMETER_LIEN_ID ) );
-        List<ComplementaryDataLinkDTO> liens = new ArrayList<ComplementaryDataLinkDTO>(  );
+        Integer nbLinks = Integer.valueOf( request.getParameter( PARAMETER_LINK_ID ) );
+        List<ComplementaryDataLinkDTO> links = new ArrayList<ComplementaryDataLinkDTO>( );
 
-        for ( int i = 1; i <= nbLien; i++ )
+        for ( int i = 1; i <= nbLinks; i++ )
         {
-            String titre = request.getParameter( "lien_title_" + i );
+            String title = request.getParameter( "lien_title_" + i );
             String url = request.getParameter( "lien_url_" + i );
 
-            ComplementaryDataLearnMoreDTO lien = new ComplementaryDataLearnMoreDTO(  );
-            lien.setTitle( titre );
-            lien.setURL( url );
-            lien.setPosition( i );
+            ComplementaryDataLearnMoreDTO link = new ComplementaryDataLearnMoreDTO( );
+            link.setTitle( title );
+            link.setURL( url );
+            link.setPosition( i );
 
-            liens.add( lien );
+            links.add( link );
         }
 
-        return liens;
+        return links;
     }
 
     /**
-     * Check the list of liens
-     * @param liens list to check
+     * Check the list of links
+     * @param links list to check
      * @return error key or null
      */
-    private String validateLiens( List<ComplementaryDataLinkDTO> liens )
+    private String validateLinks( List<ComplementaryDataLinkDTO> links )
     {
         String result = null;
 
-        for ( ComplementaryDataLinkDTO lien : liens )
+        for ( ComplementaryDataLinkDTO link : links )
         {
-            if ( StringUtils.isBlank( lien.getTitle(  ) ) )
+            if ( StringUtils.isBlank( link.getTitle( ) ) )
             {
-                if ( lien.getType(  ).equals( ComplementaryLinkTypeEnum.TELESERVICE ) )
+                if ( link.getType( ).equals( ComplementaryLinkTypeEnum.TELESERVICE ) )
                 {
                     result = "dila.create_donnee.error.teleserviceTitre";
                 }
@@ -698,9 +701,9 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
 
                 break;
             }
-            else if ( StringUtils.isBlank( lien.getURL(  ) ) )
+            else if ( StringUtils.isBlank( link.getURL( ) ) )
             {
-                if ( lien.getType(  ).equals( ComplementaryLinkTypeEnum.TELESERVICE ) )
+                if ( link.getType( ).equals( ComplementaryLinkTypeEnum.TELESERVICE ) )
                 {
                     result = "dila.create_donnee.error.teleserviceURL";
                 }
@@ -718,29 +721,29 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
 
     /**
      * Filter list with param
-     * @param listDonneesComplementaires original list
-     * @param strDonneesName fiche title
-     * @param strId fiche id
+     * @param listComplementaryData original list
+     * @param strDataName card title
+     * @param strId card id
      * @return filtered list
      */
-    private List<ComplementaryDataDTO> filtrer( List<ComplementaryDataDTO> listDonneesComplementaires,
-        String strDonneesName, String strId )
+    private List<ComplementaryDataDTO> filtrer( List<ComplementaryDataDTO> listComplementaryData, String strDataName,
+            String strId )
     {
-        List<ComplementaryDataDTO> result = new ArrayList<ComplementaryDataDTO>(  );
+        List<ComplementaryDataDTO> result = new ArrayList<ComplementaryDataDTO>( );
 
-        for ( ComplementaryDataDTO donnee : listDonneesComplementaires )
+        for ( ComplementaryDataDTO data : listComplementaryData )
         {
-            if ( StringUtils.isNotBlank( strDonneesName ) && !donnee.getCard(  ).getTitle(  ).equals( strDonneesName ) )
+            if ( StringUtils.isNotBlank( strDataName ) && !data.getCard( ).getTitle( ).equals( strDataName ) )
             {
                 continue;
             }
 
-            if ( StringUtils.isNotBlank( strId ) && !donnee.getCard(  ).getIdXml(  ).equals( strId ) )
+            if ( StringUtils.isNotBlank( strId ) && !data.getCard( ).getIdXml( ).equals( strId ) )
             {
                 continue;
             }
 
-            result.add( donnee );
+            result.add( data );
         }
 
         return result;
@@ -753,10 +756,10 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
      */
     private void setDataInModel( HttpServletRequest request, Map<String, Object> model )
     {
-        List<AudienceDTO> audienceList = _dilaAudienceService.findAll(  );
-        ReferenceList listTypeContenu = ListUtils.toReferenceList( audienceList, "id", "label", null );
-        model.put( MARK_AUDIENCE, listTypeContenu );
-        model.put( MARK_LOCALE, getLocale(  ) );
+        List<AudienceDTO> audienceList = _dilaAudienceService.findAll( );
+        ReferenceList listContentType = ListUtils.toReferenceList( audienceList, "id", "label", null );
+        model.put( MARK_AUDIENCE, listContentType );
+        model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
     }
 
@@ -767,15 +770,13 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
      */
     private String getTemplate( Map<String, Object> model )
     {
-        if ( ActionTypeEnum.CREATE.getValue(  ).equals( _strAction ) )
+        if ( ActionTypeEnum.CREATE.getValue( ).equals( _strAction ) )
         {
-            return AppTemplateService.getTemplate( TEMPLATE_CREATE_DONNEE_COMPLEMENTAIRE, getLocale(  ), model )
-                                     .getHtml(  );
+            return AppTemplateService.getTemplate( TEMPLATE_CREATE_COMPLEMENTARY_DATA, getLocale( ), model ).getHtml( );
         }
         else
         {
-            return AppTemplateService.getTemplate( TEMPLATE_MODIFY_DONNEE_COMPLEMENTAIRE, getLocale(  ), model )
-                                     .getHtml(  );
+            return AppTemplateService.getTemplate( TEMPLATE_MODIFY_COMPLEMENTARY_DATA, getLocale( ), model ).getHtml( );
         }
     }
 }

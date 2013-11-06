@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,57 +52,57 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
 {
     /** Serial ID */
     private static final long serialVersionUID = -4819383738721769830L;
-    private static final String SQL_QUERY_NEW_PK = "SELECT max(id) FROM dila_donnees_complementaires";
-    private static final String SQL_QUERY_SELECT_ALL = "SELECT donnee.id, xml.id_xml, xml.title" +
-        " FROM dila_donnees_complementaires donnee, dila_xml xml WHERE donnee.fk_fiche_nationale_id = xml.id" +
-        " ORDER BY donnee.id ASC";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_donnees_complementaires " +
-        "( id, bloc_bas, bloc_colonne, fk_fiche_nationale_id, fk_audience_id ) VALUES ( ?, ?, ?, ?, ? )";
-    private static final String SQL_QUERY_FIND_EXISTING_CARD = " SELECT id FROM dila_donnees_complementaires " +
-        "WHERE fk_fiche_nationale_id = ?";
-    private static final String SQL_QUERY_FIND_BY_ID = " SELECT donnee.bloc_bas, donnee.bloc_colonne, xml.id_xml, donnee.fk_audience_id " +
-        " FROM dila_donnees_complementaires donnee, dila_xml xml WHERE donnee.id = ? AND donnee.fk_fiche_nationale_id = xml.id";
-    private static final String SQL_QUERY_UPDATE = " UPDATE dila_donnees_complementaires " +
-        "SET bloc_bas = ?, bloc_colonne = ? WHERE id = ?";
-    private static final String SQL_QUERY_DELETE = " DELETE FROM dila_donnees_complementaires WHERE id = ?";
-    private static final String SQL_QUERY_FIND_BY_CARD_AND_AUDIENCE = "SELECT id, bloc_bas, bloc_colonne " +
-        " FROM dila_donnees_complementaires WHERE fk_fiche_nationale_id = ? AND fk_audience_id = ?";
+    private static final String SQL_QUERY_NEW_PK = "SELECT max(id) FROM dila_complementary_data";
+    private static final String SQL_QUERY_SELECT_ALL = "SELECT donnee.id, xml.id_xml, xml.title"
+            + " FROM dila_complementary_data donnee, dila_xml xml WHERE donnee.xml_id = xml.id"
+            + " ORDER BY donnee.id ASC";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_complementary_data "
+            + "( id, bottom_block, column_block, xml_id, audience_id ) VALUES ( ?, ?, ?, ?, ? )";
+    private static final String SQL_QUERY_FIND_EXISTING_CARD = " SELECT id FROM dila_complementary_data "
+            + "WHERE xml_id = ?";
+    private static final String SQL_QUERY_FIND_BY_ID = " SELECT donnee.bottom_block, donnee.column_block, xml.id_xml, donnee.audience_id "
+            + " FROM dila_complementary_data donnee, dila_xml xml WHERE donnee.id = ? AND donnee.xml_id = xml.id";
+    private static final String SQL_QUERY_UPDATE = " UPDATE dila_complementary_data "
+            + "SET bottom_block = ?, column_block = ? WHERE id = ?";
+    private static final String SQL_QUERY_DELETE = " DELETE FROM dila_complementary_data WHERE id = ?";
+    private static final String SQL_QUERY_FIND_BY_CARD_AND_AUDIENCE = "SELECT id, bottom_block, column_block "
+            + " FROM dila_complementary_data WHERE xml_id = ? AND audience_id = ?";
 
     /**
      * Generates a new primary key
      * @return The new primary key
      */
-    private Long newPrimaryKey(  )
+    private Long newPrimaryKey( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         Long nKey = 1L;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             // if the table is empty
             nKey = daoUtil.getLong( 1 ) + 1L;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
 
     @Override
-    public List<ComplementaryDataDTO> findAll(  )
+    public List<ComplementaryDataDTO> findAll( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<ComplementaryDataDTO> result = new ArrayList<ComplementaryDataDTO>(  );
+        List<ComplementaryDataDTO> result = new ArrayList<ComplementaryDataDTO>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            ComplementaryDataDTO donnee = new ComplementaryDataDTO(  );
-            XmlDTO fiche = new XmlDTO(  );
+            ComplementaryDataDTO donnee = new ComplementaryDataDTO( );
+            XmlDTO fiche = new XmlDTO( );
 
             donnee.setId( daoUtil.getLong( 1 ) );
             fiche.setIdXml( daoUtil.getString( 2 ) );
@@ -114,7 +113,7 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
             result.add( donnee );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return result;
     }
@@ -124,19 +123,19 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        dto.setId( newPrimaryKey(  ) );
+        dto.setId( newPrimaryKey( ) );
 
-        daoUtil.setLong( 1, dto.getId(  ) );
-        daoUtil.setString( 2, dto.getBottomBlock(  ) );
-        daoUtil.setString( 3, dto.getColumnBlock(  ) );
-        daoUtil.setLong( 4, dto.getCard(  ).getId(  ) );
-        daoUtil.setLong( 5, dto.getIdAudience(  ) );
+        daoUtil.setLong( 1, dto.getId( ) );
+        daoUtil.setString( 2, dto.getBottomBlock( ) );
+        daoUtil.setString( 3, dto.getColumnBlock( ) );
+        daoUtil.setLong( 4, dto.getCard( ).getId( ) );
+        daoUtil.setLong( 5, dto.getIdAudience( ) );
 
-        daoUtil.executeUpdate(  );
+        daoUtil.executeUpdate( );
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
-        return dto.getId(  );
+        return dto.getId( );
     }
 
     @Override
@@ -146,16 +145,16 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
 
         daoUtil.setString( 1, id );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         boolean result = false;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             result = true;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return result;
     }
@@ -168,20 +167,20 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
 
         ComplementaryDataDTO result = null;
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            result = new ComplementaryDataDTO(  );
+            result = new ComplementaryDataDTO( );
 
             result.setId( id );
             result.setBottomBlock( daoUtil.getString( 1 ) );
             result.setColumnBlock( daoUtil.getString( 2 ) );
-            result.getCard(  ).setIdXml( daoUtil.getString( 3 ) );
+            result.getCard( ).setIdXml( daoUtil.getString( 3 ) );
             result.setIdAudience( daoUtil.getLong( 4 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return result;
     }
@@ -191,12 +190,12 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
-        daoUtil.setString( 1, donneesComplementaires.getBottomBlock(  ) );
-        daoUtil.setString( 2, donneesComplementaires.getColumnBlock(  ) );
-        daoUtil.setLong( 3, donneesComplementaires.getId(  ) );
+        daoUtil.setString( 1, donneesComplementaires.getBottomBlock( ) );
+        daoUtil.setString( 2, donneesComplementaires.getColumnBlock( ) );
+        daoUtil.setLong( 3, donneesComplementaires.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -205,8 +204,8 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
 
         daoUtil.setLong( 1, id );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -217,17 +216,17 @@ public class ComplementaryDataDAO implements IComplementaryDataDAO, Serializable
                 PluginService.getPlugin( DilaPlugin.PLUGIN_NAME ) );
         daoUtil.setLong( 1, ficheId );
         daoUtil.setLong( 2, audienceId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            donneeComplementaireDTO = new ComplementaryDataDTO(  );
+            donneeComplementaireDTO = new ComplementaryDataDTO( );
             donneeComplementaireDTO.setId( daoUtil.getLong( 1 ) );
             donneeComplementaireDTO.setBottomBlock( daoUtil.getString( 2 ) );
             donneeComplementaireDTO.setColumnBlock( daoUtil.getString( 3 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return donneeComplementaireDTO;
     }

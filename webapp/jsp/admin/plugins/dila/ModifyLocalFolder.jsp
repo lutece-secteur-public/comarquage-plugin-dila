@@ -4,5 +4,5 @@
 <%
     dilaFicheLocale.init( request, fr.paris.lutece.plugins.dila.web.LocalCardJspBean.RIGHT_MANAGE_LOCAL_CARD);
 %>
-<%= dilaFicheLocale.getCreateDossierLocal( request ) %>
+<%=dilaFicheLocale.getModifyLocalFolder( request )%>
 <%@ include file="../../AdminFooter.jsp" %>

@@ -4,5 +4,5 @@
 <%
     dilaDonneeComplementaire.init( request, fr.paris.lutece.plugins.dila.web.ComplementaryDataJspBean.RIGHT_MANAGE_COMPLEMENTARY_DATA);
 %>
-<%= dilaDonneeComplementaire.getCreateDonneeComplementaire( request ) %>
+<%=dilaDonneeComplementaire.getManageComplementaryData( request )%>
 <%@ include file="../../AdminFooter.jsp" %>

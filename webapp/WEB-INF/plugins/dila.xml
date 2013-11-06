@@ -45,7 +45,7 @@
             <feature-title>dila.adminFeature.fiche-locale_management.name</feature-title>
             <feature-description>dila.adminFeature.fiche-locale_management.description</feature-description>
             <feature-level>2</feature-level>
-            <feature-url>jsp/admin/plugins/dila/ManageFicheLocale.jsp</feature-url>
+            <feature-url>jsp/admin/plugins/dila/ManageLocalCard.jsp</feature-url>
             <feature-icon-url>images/admin/skin/plugins/dila/dila.png</feature-icon-url>
             <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=dila</feature-documentation-url>
         </admin-feature>
@@ -54,7 +54,7 @@
             <feature-title>dila.adminFeature.donnee-complementaire_management.name</feature-title>
             <feature-description>dila.adminFeature.donnee-complementaire_management.description</feature-description>
             <feature-level>2</feature-level>
-            <feature-url>jsp/admin/plugins/dila/ManageDonneeComplementaire.jsp</feature-url>
+            <feature-url>jsp/admin/plugins/dila/ManageComplementaryData.jsp</feature-url>
             <feature-icon-url>images/admin/skin/plugins/dila/dila.png</feature-icon-url>
             <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=dila</feature-documentation-url>
         </admin-feature>

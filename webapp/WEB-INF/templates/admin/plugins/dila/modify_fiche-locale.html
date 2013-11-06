@@ -1,10 +1,10 @@
 <#include "/admin/util/editor/editor.html" />
 
 <#macro columnActionsFicheLocale item >
-        <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/dila/ModifyFicheLocale.jsp?id_fiche_locale=${item.id!}" title="modifier">
+        <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/dila/ModifyLocalCard.jsp?id_fiche_locale=${item.id!}" title="modifier">
             <i class="icon-edit icon-white"></i>
         </a>
-        <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/dila/DeleteFicheLocale.jsp?id_fiche_locale=${item.id!}" title="supprimer">
+        <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/dila/DeleteLocalCard.jsp?id_fiche_locale=${item.id!}" title="supprimer">
             <i class="icon-trash icon-white"></i>
         </a>
 </#macro>
@@ -12,13 +12,13 @@
 <script type="text/javascript">
 function doVerifyDossierParent (dossierId)
 {
-    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoVerifyDossierParent.jsp");
+    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoVerifyParentFolder.jsp");
     $("#ficheLocaleForm").submit();
 }
     
 function doVerifyFicheSoeur (ficheId)
 {
-    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoVerifyFicheSoeur.jsp");
+    $("#ficheLocaleForm").attr("action", "jsp/admin/plugins/dila/DoVerifySiblingCard.jsp");
     $("#ficheLocaleForm").submit();
 }
 
@@ -39,7 +39,7 @@ function doDeleteChapter ()
 
 <div class="row-fluid">
     <div class="span12">
-        <form id="ficheLocaleForm" action="jsp/admin/plugins/dila/DoModifyFicheLocale.jsp" class="form-horizontal" method="post">
+        <form id="ficheLocaleForm" action="jsp/admin/plugins/dila/DoModifyLocalCard.jsp" class="form-horizontal" method="post">
         <input type="hidden" name="chapterId" id="chapterId" value="${chapterId}" />
         
         <fieldset>
@@ -156,7 +156,7 @@ function doDeleteChapter ()
                     <i class="icon-ok icon-white"></i>
                     <span class="hidden-phone">#i18n{portal.util.labelValidate}</span>
                 </button>                       
-                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageFicheLocale.jsp">            
+                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageLocalCard.jsp">            
                     <i class="icon-remove-circle"></i>
                     <span class="hidden-phone">#i18n{portal.util.labelBack}</span>
                 </a>                          

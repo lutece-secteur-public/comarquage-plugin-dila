@@ -51,13 +51,13 @@ public class LocalFolderLinkDAO implements ILocalFolderLinkDAO, Serializable
 {
     /** Serial ID */
     private static final long serialVersionUID = 3635002841395718887L;
-    private static final String SQL_QUERY_NEW_PK = "SELECT max(id_lien_dossier_local) FROM dila_lien_dossier_local";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_lien_dossier_local "
-            + "( id_lien_dossier_local, titre, position, id_fiche, fk_dossier_local_id ) VALUES ( ?, ? ,?, ?, ?)";
-    private static final String SQL_QUERY_DELETE_BY_FOLDER_ID = " DELETE FROM dila_lien_dossier_local "
-            + "WHERE fk_dossier_local_id = ?";
-    private static final String SQL_QUERY_SELECT_BY_FOLDER_ID = " SELECT titre, position, id_fiche FROM dila_lien_dossier_local "
-            + "WHERE fk_dossier_local_id = ? ORDER BY position";
+    private static final String SQL_QUERY_NEW_PK = "SELECT max(id) FROM dila_local_folder_link";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO dila_local_folder_link "
+            + "( id, title, position, card_id, local_folder_id ) VALUES ( ?, ? ,?, ?, ?)";
+    private static final String SQL_QUERY_DELETE_BY_FOLDER_ID = " DELETE FROM dila_local_folder_link "
+            + "WHERE local_folder_id = ?";
+    private static final String SQL_QUERY_SELECT_BY_FOLDER_ID = " SELECT title, position, card_id FROM dila_local_folder_link "
+            + "WHERE local_folder_id = ? ORDER BY position";
 
     /**
      * Generates a new primary key

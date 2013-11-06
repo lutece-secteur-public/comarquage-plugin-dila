@@ -1,8 +1,8 @@
 <#macro columnActionsFicheLocale item >
-        <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/dila/ModifyDossierLocal.jsp?id_fiche_locale=${item.id!}" title="modifier">
+        <a class="btn btn-primary btn-mini" href="jsp/admin/plugins/dila/ModifyLocalFolder.jsp?id_fiche_locale=${item.id!}" title="modifier">
             <i class="icon-edit icon-white"></i>
         </a>
-        <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/dila/DeleteDossierLocal.jsp?id_fiche_locale=${item.id!}" title="supprimer">
+        <a class="btn btn-danger btn-mini" href="jsp/admin/plugins/dila/DeleteLocalFolder.jsp?id_fiche_locale=${item.id!}" title="supprimer">
             <i class="icon-trash icon-white"></i>
         </a>
 </#macro>
@@ -10,25 +10,25 @@
 <script type="text/javascript">
 function doVerifyThemeParent (dossierId)
 {
-    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyThemeParent.jsp");
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyParentTheme.jsp");
     $("#dossierForm").submit();
 }
 
 function doVerifyDossierFrere (dossierId)
 {
-    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyDossierFrere.jsp");
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifySiblingFolder.jsp");
     $("#dossierForm").submit();
 }
 
 function doAddLink ()
 {
-    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoAddLien.jsp");
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoAddLink.jsp");
     $("#dossierForm").submit();
 }
 
 function doDeleteLink ()
 {
-    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoDeleteLien.jsp");
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoDeleteLink.jsp");
     $("#dossierForm").submit();
 }
 
@@ -36,7 +36,7 @@ function doVerifyFicheLink (refId)
 {
     var value = $("#link_reference_"+refId).val();
     $("#referenceId").val(value);
-    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyFicheLien.jsp");
+    $("#dossierForm").attr("action", "jsp/admin/plugins/dila/DoVerifyCardLink.jsp");
     $("#dossierForm").submit();
 }
 
@@ -46,7 +46,7 @@ function doVerifyFicheLink (refId)
 
 <div class="row-fluid">
     <div class="span12">
-        <form id="dossierForm" action="jsp/admin/plugins/dila/DoModifyDossierLocal.jsp" class="form-horizontal" method="post">
+        <form id="dossierForm" action="jsp/admin/plugins/dila/DoModifyLocalFolder.jsp" class="form-horizontal" method="post">
         <input type="hidden" name="linkId" id="linkId" value="${linkId}" />
         <input type="hidden" name="referenceId" id="referenceId" />
         
@@ -176,7 +176,7 @@ function doVerifyFicheLink (refId)
                     <i class="icon-ok icon-white"></i>
                     <span class="hidden-phone">#i18n{portal.util.labelValidate}</span>
                 </button>                       
-                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageFicheLocale.jsp">            
+                <a target="_top" class="btn" href="jsp/admin/plugins/dila/ManageLocalCard.jsp">            
                     <i class="icon-remove-circle"></i>
                     <span class="hidden-phone">#i18n{portal.util.labelBack}</span>
                 </a>                          
