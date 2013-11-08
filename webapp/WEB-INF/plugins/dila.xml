@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>dila</name>
     <class>fr.paris.lutece.plugins.dila.service.DilaPlugin</class>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>dila.plugin.description</description>
     <documentation/>
     <installation/>
