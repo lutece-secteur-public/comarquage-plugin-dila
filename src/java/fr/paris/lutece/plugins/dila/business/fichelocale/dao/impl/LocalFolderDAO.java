@@ -230,6 +230,7 @@ public class LocalFolderDAO implements ILocalFolderDAO, Serializable
             localFolder.setLocalDTO( local );
             localFolder.setSiblingFolderId( daoUtil.getString( 3 ) );
             localFolder.setPosition( daoUtil.getInt( 4 ) );
+            localFolder.setParentThemeId( parentId );
             resultList.add( localFolder );
         }
 

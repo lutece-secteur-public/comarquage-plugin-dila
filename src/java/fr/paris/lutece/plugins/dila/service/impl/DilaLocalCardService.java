@@ -37,20 +37,17 @@ import fr.paris.lutece.plugins.dila.business.fichelocale.dao.ILocalCardDAO;
 import fr.paris.lutece.plugins.dila.business.fichelocale.dto.LocalCardDTO;
 import fr.paris.lutece.plugins.dila.service.IDilaLocalCardService;
 
-import org.apache.commons.lang.StringUtils;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import java.io.Serializable;
-
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import javax.xml.parsers.DocumentBuilder;
+
+import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 
 /**
@@ -113,15 +110,15 @@ public class DilaLocalCardService implements IDilaLocalCardService, Serializable
         {
             NodeList cards = document.getElementsByTagName( CARD_TAG );
             Element newCard = document.createElement( CARD_TAG );
-            newCard.setAttribute( ID_ATTRIBUTE, currentCard.getLocalDTO(  ).getId(  ).toString(  ) );
-            newCard.setTextContent( currentCard.getLocalDTO(  ).getTitle(  ) );
+            newCard.setAttribute( ID_ATTRIBUTE, currentCard.getLocalDTO( ).getId( ).toString( ) );
+            newCard.setTextContent( currentCard.getLocalDTO( ).getTitle( ) );
 
-            if ( StringUtils.isEmpty( currentCard.getSiblingCardId(  ) ) )
+            if ( StringUtils.isEmpty( currentCard.getSiblingCardId( ) ) )
             {
-                if ( cards.getLength(  ) > 0 )
+                if ( cards.getLength( ) > 0 )
                 {
-                    Element cardElement = (Element) cards.item( cards.getLength(  ) - 1 );
-                    cardElement.getParentNode(  ).appendChild( newCard );
+                    Element cardElement = (Element) cards.item( cards.getLength( ) - 1 );
+                    cardElement.getParentNode( ).appendChild( newCard );
                 }
                 else
                 {
@@ -132,14 +129,14 @@ public class DilaLocalCardService implements IDilaLocalCardService, Serializable
             {
                 boolean hasToShift = false;
 
-                for ( int i = 0; i < cards.getLength(  ); i++ )
+                for ( int i = 0; i < cards.getLength( ); i++ )
                 {
                     Element cardElement = (Element) cards.item( i );
                     String seq = cardElement.getAttribute( SEQ_ATTRIBUTE );
 
-                    if ( cardElement.getAttribute( ID_ATTRIBUTE ).equals( currentCard.getSiblingCardId(  ) ) )
+                    if ( cardElement.getAttribute( ID_ATTRIBUTE ).equals( currentCard.getSiblingCardId( ) ) )
                     {
-                        if ( currentCard.getPosition(  ) == 1 )
+                        if ( currentCard.getPosition( ) == 1 )
                         {
                             if ( seq != null )
                             {
@@ -147,7 +144,7 @@ public class DilaLocalCardService implements IDilaLocalCardService, Serializable
                                 cardElement.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                             }
 
-                            cardElement.getParentNode(  ).insertBefore( newCard, cardElement );
+                            cardElement.getParentNode( ).insertBefore( newCard, cardElement );
                         }
                         else
                         {
@@ -156,7 +153,7 @@ public class DilaLocalCardService implements IDilaLocalCardService, Serializable
                                 newCard.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                             }
 
-                            cardElement.getParentNode(  ).insertBefore( newCard, cardElement.getNextSibling(  ) );
+                            cardElement.getParentNode( ).insertBefore( newCard, cardElement.getNextSibling( ) );
                         }
 
                         i++;
@@ -167,9 +164,15 @@ public class DilaLocalCardService implements IDilaLocalCardService, Serializable
                         cardElement.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                     }
                 }
+                //if card was not added, we add it at the end
+                if ( !hasToShift )
+                {
+                    Element cardElement = (Element) cards.item( cards.getLength( ) - 1 );
+                    cardElement.getParentNode( ).insertBefore( newCard, null );
+                }
             }
 
-            document.getDocumentElement(  ).normalize(  );
+            document.getDocumentElement( ).normalize( );
         }
 
         return document;

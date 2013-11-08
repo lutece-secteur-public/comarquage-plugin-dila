@@ -37,18 +37,16 @@ import fr.paris.lutece.plugins.dila.business.fichelocale.dao.ILocalFolderDAO;
 import fr.paris.lutece.plugins.dila.business.fichelocale.dto.LocalFolderDTO;
 import fr.paris.lutece.plugins.dila.service.IDilaLocalFolderService;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import java.io.Serializable;
-
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import javax.xml.parsers.DocumentBuilder;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 
 /**
@@ -124,22 +122,22 @@ public class DilaLocalFolderService implements IDilaLocalFolderService, Serializ
         {
             NodeList folders = document.getElementsByTagName( FOLDER_TAG );
             Element newFolder = document.createElement( FOLDER_TAG );
-            newFolder.setAttribute( ID_ATTRIBUTE, currentFolder.getLocalDTO(  ).getId(  ).toString(  ) );
+            newFolder.setAttribute( ID_ATTRIBUTE, currentFolder.getLocalDTO( ).getId( ).toString( ) );
 
             Element newTitle = document.createElement( TITLE_TAG );
-            newTitle.setTextContent( currentFolder.getLocalDTO(  ).getTitle(  ) );
+            newTitle.setTextContent( currentFolder.getLocalDTO( ).getTitle( ) );
             newFolder.appendChild( newTitle );
 
             boolean hasToShift = false;
 
-            for ( int i = 0; i < folders.getLength(  ); i++ )
+            for ( int i = 0; i < folders.getLength( ); i++ )
             {
                 Element folderElement = (Element) folders.item( i );
                 String seq = folderElement.getAttribute( SEQ_ATTRIBUTE );
 
-                if ( folderElement.getAttribute( ID_ATTRIBUTE ).equals( currentFolder.getSiblingFolderId(  ) ) )
+                if ( folderElement.getAttribute( ID_ATTRIBUTE ).equals( currentFolder.getSiblingFolderId( ) ) )
                 {
-                    if ( currentFolder.getPosition(  ) == 1 )
+                    if ( currentFolder.getPosition( ) == 1 )
                     {
                         if ( seq != null )
                         {
@@ -147,7 +145,7 @@ public class DilaLocalFolderService implements IDilaLocalFolderService, Serializ
                             folderElement.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                         }
 
-                        folderElement.getParentNode(  ).insertBefore( newFolder, folderElement );
+                        folderElement.getParentNode( ).insertBefore( newFolder, folderElement );
                     }
                     else
                     {
@@ -156,7 +154,7 @@ public class DilaLocalFolderService implements IDilaLocalFolderService, Serializ
                             newFolder.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                         }
 
-                        folderElement.getParentNode(  ).insertBefore( newFolder, folderElement.getNextSibling(  ) );
+                        folderElement.getParentNode( ).insertBefore( newFolder, folderElement.getNextSibling( ) );
                     }
 
                     i++;
@@ -167,8 +165,14 @@ public class DilaLocalFolderService implements IDilaLocalFolderService, Serializ
                     folderElement.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                 }
             }
+            //if folder was not added, we add it at the end
+            if ( !hasToShift )
+            {
+                Element folderElement = (Element) folders.item( folders.getLength( ) - 1 );
+                folderElement.getParentNode( ).insertBefore( newFolder, null );
+            }
 
-            document.getDocumentElement(  ).normalize(  );
+            document.getDocumentElement( ).normalize( );
         }
 
         return document;
