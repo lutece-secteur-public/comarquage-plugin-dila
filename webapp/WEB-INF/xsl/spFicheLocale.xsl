@@ -4,7 +4,6 @@
     exclude-result-prefixes="xsl dc">
 
     <xsl:import href="spFichePrincipale.xsl" />
-    <xsl:import href="spNoeud.xsl" />
 
     <xsl:output method="xml" encoding="ISO-8859-15"
         cdata-section-elements="script" indent="yes" />
@@ -14,10 +13,11 @@
         </xsl:variable>
         <xsl:choose>
             <xsl:when test="$type = 'Dossier'">
+                <xsl:import href="spNoeud.xsl" />
                 <xsl:apply-templates mode="Noeud-dossier"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates mode="Fiche" />
+                <xsl:apply-templates />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>

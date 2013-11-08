@@ -34,7 +34,9 @@
                         <xsl:with-param name="text"><xsl:value-of select="Titre"/></xsl:with-param>
                     </xsl:call-template>
                 </h5>
-                <xsl:text> - </xsl:text>
+                <xsl:if test="@type">
+                    <xsl:text> - </xsl:text>
+                </xsl:if>
                 <xsl:value-of select="@type"/>
                 <xsl:if test="Source">
                     <xsl:variable name="file">

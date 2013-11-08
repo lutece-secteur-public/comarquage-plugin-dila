@@ -25,7 +25,7 @@
         cdata-section-elements="script" indent="yes" />
 
     <!-- Publication -->
-    <xsl:template match="/Publication" mode="Fiche">
+    <xsl:template match="/Publication">
         <xsl:call-template name="getBarre10Themes" />
         <xsl:apply-templates select="FilDAriane" />
         <xsl:call-template name="getTitre" />
@@ -129,7 +129,7 @@
 
     <xsl:template name="affBlocBas" mode="Publication">
         <xsl:if test="count(BlocBas) > 0">
-            <div class="spPublicationBB" id="sp-bloc-bas">
+            <div class="well" id="sp-bloc-bas">
                 <xsl:value-of select="BlocBas" disable-output-escaping="yes" />
             </div>
         </xsl:if>

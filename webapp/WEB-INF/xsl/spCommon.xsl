@@ -161,6 +161,8 @@
             </xsl:if>
         </xsl:variable>
         <xsl:choose>
+            <xsl:when test="$desc = ''">
+            </xsl:when>
             <xsl:when test="substring($desc,string-length($desc)-1) = '.'">
                 <xsl:value-of select="$desc" />
                 <xsl:text>..</xsl:text>

@@ -74,7 +74,7 @@
                 <xsl:when test="item">
                     <xsl:for-each select="item">
                         <li class="spPublicationActualite">
-                            <h4>
+                            <h5>
                                 <xsl:call-template name="getSiteLink">
                                     <xsl:with-param name="href">
                                         <xsl:value-of select="link" />
@@ -86,7 +86,7 @@
                                         <xsl:value-of select="title" />
                                     </xsl:with-param>
                                 </xsl:call-template>
-                            </h4>
+                            </h5>
                             <xsl:text> - </xsl:text>
                             <xsl:call-template name="transformRssDate">
                                 <xsl:with-param name="date">
