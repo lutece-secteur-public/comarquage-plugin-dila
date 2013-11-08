@@ -63,13 +63,17 @@ import org.jdom2.input.SAXBuilder;
  */
 public class DilaBatchXMLService implements IDilaBatchXMLService
 {
-    private static final String RESSOURCE_TYPE = "Ressource";
 
     /**
      * List of XML file that will not be indexed
      */
     public static final List<String> listXMLNotSupported = Arrays.asList( "themes.xml", "redirections.xml",
             "journal.xml" );
+
+    /**
+     * Type of resource
+     */
+    private static final String RESSOURCE_TYPE = "Ressource";
 
     /**
      * SAX builder

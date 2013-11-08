@@ -119,7 +119,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
     private LocalCardDTO _cardBean;
     private LocalFolderDTO _folderBean;
     private String _strAction;
-    private DataTableManager<LocalDTO> _dataTableLocal;
+    private transient DataTableManager<LocalDTO> _dataTableLocal;
 
     // Services
     private IDilaLocalFolderService _dilaLocalFolderService = SpringContextService.getBean( "dilaLocalFolderService" );
