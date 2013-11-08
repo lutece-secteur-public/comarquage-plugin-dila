@@ -22,8 +22,8 @@
 
     <!-- Specific plugin js file -->
     <javascript-files>
-        <javascript-files-scope>portal</javascript-files-scope>
         <javascript-file>dila/xtcore.js</javascript-file>
+        <javascript-file>dila/statistics-marker.js</javascript-file>
     </javascript-files>
     
     <!-- Xpage configuration -->
