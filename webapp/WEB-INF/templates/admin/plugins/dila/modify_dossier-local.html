@@ -61,6 +61,14 @@ function doVerifyFicheLink (refId)
          <fieldset>
             <legend>#i18n{dila.dossierLocal.emplacement}</legend>
                 <div class="control-group">
+                    <label for="workgroup" class="control-label">#i18n{dila.dossierLocal.audience} * :</label>
+                    <div class="controls">
+                        <#if audiences?has_content>
+                            <@comboSorted name="localDTO.idAudience" default_value="${dossierLocal.localDTO.idAudience!}" items=audiences />
+                        </#if>
+                    </div>
+                </div>
+                <div class="control-group">
                     <label for="parentThemeId" class="control-label">#i18n{dila.dossierLocal.themeParent} * :</label>
                     <div class="controls">
                         <div class="input-prepend input-append">
@@ -114,20 +122,12 @@ function doVerifyFicheLink (refId)
                     </div>
                 </div>
                 <div class="control-group">
-                    <label for="workgroup" class="control-label">#i18n{dila.dossierLocal.audience} * :</label>
+                    <label for="presentation" class="control-label">#i18n{dila.dossierLocal.presentationDossier} * :</label> 
+                    
                     <div class="controls">
-                        <#if audiences?has_content>
-                            <@comboSorted name="localDTO.idAudience" default_value="${dossierLocal.localDTO.idAudience!}" items=audiences />
-                        </#if>
+                        <textarea name="presentation" id="presentation" rows="10" cols="60">${dossierLocal.presentation!}</textarea>
                     </div>
                 </div>
-                    <div class="control-group">
-                        <label for="presentation" class="control-label">#i18n{dila.dossierLocal.presentationDossier} * :</label> 
-                        
-                        <div class="controls">
-                            <textarea name="presentation" id="presentation" rows="10" cols="60">${dossierLocal.presentation!}</textarea>
-                        </div>
-                    </div>
             </fieldset>
                         
             <fieldset>

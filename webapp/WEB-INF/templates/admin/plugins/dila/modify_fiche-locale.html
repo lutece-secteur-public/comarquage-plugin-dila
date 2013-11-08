@@ -53,6 +53,14 @@ function doDeleteChapter ()
          <fieldset>
             <legend>#i18n{dila.create_fichelocale.emplacementFiche}</legend>
                 <div class="control-group">
+                    <label for="workgroup" class="control-label">#i18n{dila.create_fichelocale.audience} * :</label>
+                    <div class="controls">
+                        <#if audiences?has_content>
+                            <@comboSorted name="localDTO.idAudience" default_value="${ficheLocale.localDTO.idAudience!}" items=audiences />
+                        </#if>
+                    </div>
+                </div>            
+                <div class="control-group">
                     <label for="parentFolderId" class="control-label">#i18n{dila.create_fichelocale.dossierParent} * :</label>
                     <div class="controls">
                         <div class="input-prepend input-append">
@@ -103,14 +111,6 @@ function doDeleteChapter ()
                     <div class="controls">
                         <input id="localDTO.author" name="localDTO.author" size="60" value="${ficheLocale.localDTO.author!}"
                             maxlength="100" type="text">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="workgroup" class="control-label">#i18n{dila.create_fichelocale.audience} * :</label>
-                    <div class="controls">
-                        <#if audiences?has_content>
-                            <@comboSorted name="localDTO.idAudience" default_value="${ficheLocale.localDTO.idAudience!}" items=audiences />
-                        </#if>
                     </div>
                 </div>
             </fieldset>
