@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
 	<properties>
-		<title>Plugin DILA Comarquage</title>
+		<title>Plugin DILA Comarquage : Overview</title>
 	</properties>
 	<body>
 		<section name="Plugin DILA Comarquage">
 			<subsection name="Introduction">
+				<p>
+					The plugin Dila allows any site to get informations about their users
+					rights and administrative processes.
+				</p>
+				<p>
+					This information is delivered by
+					<a href="http://www.dila.premier-ministre.gouv.fr/">Dila (Direction de l'Information Légale et
+						Administrative)</a> in the form of XML streams.
+				</p>
+			</subsection>
+			<subsection name="Features">
+			     <p>
+			         This plugin offers different features to display the XML streams coming from Dila, or to modify them : 
+			         <ul>
+			             <li>Display national cards and folders (XML streams)</li>
+			             <li>Display local cards and folders</li>
+			             <li>Manage stylesheets used to display local and national cards</li>
+			             <li>Add complementary data to national cards</li>
+			             <li>Create and modify local cards or folders</li>
+			             <li>Indexing local and national cards to find them through the site search engine</li>
+			         </ul>
+			     </p>
 			</subsection>
 		</section>
 	</body>

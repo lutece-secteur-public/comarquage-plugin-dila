@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>Plugin DILA Comarquage : Configuration</title>
+	</properties>
+	<body>
+		<section name="Configuration">
+			<subsection name="Properties">
+				<p>
+					The plugin uses properties in order to customize some aspects
+					such as where to get the XML streams, where to store them ...
+				</p>
+				<table>
+					<tr>
+						<th>Property</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							dila.insee
+						</td>
+						<td>
+							The INSEE number of the organism using the plugin. This
+							information
+							is used to get local information such as the address
+							of the
+							institution you want to contact.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							xmlDirectory.locales.communes and
+							xmlDirectory.locales.organismes
+						</td>
+						<td>
+							These properties specify where to find the local information
+							to be
+							used as "local pivots".
+						</td>
+					</tr>
+					<tr>
+						<td>
+							individual.archive.url, association.archive.url,
+							professional.archive.url and
+							local.data.archive.url
+						</td>
+						<td>
+							These properties specify where to get the archives containing
+							the XML
+							streams to be used by the plugin.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							individual.archive.dir.path.extract.final,
+							association.archive.dir.path.extract.final,
+							professional.archive.dir.path.extract.final and
+							local.data.archive.dir.path.extract.final
+						</td>
+						<td>
+							The directories used to store the XML streams. The temporary
+							storage directories can also be specified.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							dila.parser.xpath.public. and dila.parser.xpath.local.
+						</td>
+						<td>
+							The elements used for indexing national and local cards through
+							Solr.
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							...
+						</td>
+					</tr>
+				</table>
+			</subsection>
+		</section>
+	</body>
+</document>
