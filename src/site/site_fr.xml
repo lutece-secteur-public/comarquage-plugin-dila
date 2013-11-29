@@ -10,6 +10,11 @@
 		<menu name="Configuration">
           <item name="Configuration" href="configuration.html" />
         </menu>
+        <menu name="Batch d'import">
+          <item name="Compilation" href="batch.html#Assembly" />
+          <item name="Configuration" href="batch.html#Configuration" />
+          <item name="Ex&eacute;cution" href="batch.html#Run" />
+        </menu>
 		<menu ref="reports" />
 	</body>
 </project>

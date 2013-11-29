@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>Plugin DILA Comarquage : Import batch</title>
+	</properties>
+	<body>
+		<section name="Import batch">
+			<subsection name="Assembly">
+				<p>
+					In order to generate a package containing all the files necessary
+					to
+					launch the import batch, you need to use the command
+					<b>mvn assembly</b>
+				</p>
+				<p>
+					This will generate the archive
+					<b>batch-dila-import-xml-&lt;VERSION&gt;.tar.gz</b>
+					. You can extract the archive in any folder on your server.
+				</p>
+			</subsection>
+			<subsection name="Configuration">
+				<p>
+					Before running the batch, you can configure it by modifying the
+					file conf/configuration.properties
+				</p>
+				<table>
+					<tr>
+						<th>Property</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							individual.archive.url, association.archive.url,
+							professional.archive.url and
+							local.data.archive.url
+						</td>
+						<td>
+							These properties specify where to get the archives containing
+							the XML streams to download.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							individual.archive.name, association.archive.name,
+							professional.archive.name and
+							local.data.archive.name
+						</td>
+						<td>
+							These properties specify the names of the archives to
+							download.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							archives.dir.path.tmp
+						</td>
+						<td>
+							Directory where to store the downloaded archives.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							individual.archive.dir.path.extract.final,
+							association.archive.dir.path.extract.final,
+							professional.archive.dir.path.extract.final and
+							local.data.archive.dir.path.extract.final
+						</td>
+						<td>
+							The directories used to store the XML streams. The temporary
+							storage directories can also be specified (properties ending with
+							tmp instead of final).
+						</td>
+					</tr>
+					<tr>
+						<td>
+							jdbc.url
+						</td>
+						<td>
+							Database host to use
+						</td>
+					</tr>
+					<tr>
+						<td>
+							jdbc.username and jdbc.password
+						</td>
+						<td>
+							Database user and password
+						</td>
+					</tr>
+					<tr>
+						<td>
+							proxy.host, proxy.port, proxy.username and proxy.password
+						</td>
+						<td>
+							Proxy information, leave blank if no proxy is used.
+						</td>
+					</tr>
+				</table>
+				N.B. : make sure the directories used to store the temporary and final data is not read-only.
+			</subsection>
+			<subsection name="Run">
+				Once you've extracted the archive generated through maven assembly and
+				configured it using the properties described above, you can launch
+				the script bin/batch-dila-import-xml.sh.
+			</subsection>
+		</section>
+	</body>
+</document>
