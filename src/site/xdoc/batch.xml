@@ -10,7 +10,7 @@
 					In order to generate a package containing all the files necessary
 					to
 					launch the import batch, you need to use the command
-					<b>mvn assembly</b>
+					<b>mvn assembly:assembly</b>
 				</p>
 				<p>
 					This will generate the archive
@@ -55,7 +55,7 @@
 							archives.dir.path.tmp
 						</td>
 						<td>
-							Directory where to store the downloaded archives.
+							Absolute Directory where to store the downloaded archives.
 						</td>
 					</tr>
 					<tr>
@@ -66,7 +66,7 @@
 							local.data.archive.dir.path.extract.final
 						</td>
 						<td>
-							The directories used to store the XML streams. The temporary
+							The absolute directories used to store the XML streams. The temporary
 							storage directories can also be specified (properties ending with
 							tmp instead of final).
 						</td>
