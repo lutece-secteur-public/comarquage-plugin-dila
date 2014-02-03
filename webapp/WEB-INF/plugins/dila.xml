@@ -51,8 +51,8 @@
         </admin-feature>
         <admin-feature>
             <feature-id>DILA_COMPLEMENTARY_DATA_MANAGEMENT</feature-id>
-            <feature-title>dila.adminFeature.donnee-complementaire_management.name</feature-title>
-            <feature-description>dila.adminFeature.donnee-complementaire_management.description</feature-description>
+            <feature-title>dila.adminFeature.donnees-complementaires_management.name</feature-title>
+            <feature-description>dila.adminFeature.donnees-complementaires_management.description</feature-description>
             <feature-level>2</feature-level>
             <feature-url>jsp/admin/plugins/dila/ManageComplementaryData.jsp</feature-url>
             <feature-icon-url>images/admin/skin/plugins/dila/dila.png</feature-icon-url>
