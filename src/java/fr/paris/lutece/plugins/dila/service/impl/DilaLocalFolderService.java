@@ -44,6 +44,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.parsers.DocumentBuilder;
 
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -139,7 +140,7 @@ public class DilaLocalFolderService implements IDilaLocalFolderService, Serializ
                 {
                     if ( currentFolder.getPosition( ) == 1 )
                     {
-                        if ( seq != null )
+                        if ( StringUtils.isNotBlank( seq ) )
                         {
                             newFolder.setAttribute( SEQ_ATTRIBUTE, "" + Integer.parseInt( seq ) );
                             folderElement.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
@@ -149,7 +150,7 @@ public class DilaLocalFolderService implements IDilaLocalFolderService, Serializ
                     }
                     else
                     {
-                        if ( seq != null )
+                        if ( StringUtils.isNotBlank( seq ) )
                         {
                             newFolder.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                         }
@@ -160,7 +161,7 @@ public class DilaLocalFolderService implements IDilaLocalFolderService, Serializ
                     i++;
                     hasToShift = true;
                 }
-                else if ( hasToShift && ( seq != null ) )
+                else if ( hasToShift && ( StringUtils.isNotBlank( seq ) ) )
                 {
                     folderElement.setAttribute( SEQ_ATTRIBUTE, "" + ( Integer.parseInt( seq ) + 1 ) );
                 }

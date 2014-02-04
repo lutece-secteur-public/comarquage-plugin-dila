@@ -264,25 +264,29 @@ public final class XMLConvertor
 
             for ( String breadcrumb : breadcrumbs )
             {
-                if ( theme == null )
+                //avoid empty breadcrumb
+                if ( StringUtils.isNotBlank( breadcrumb ) )
                 {
-                    theme = breadcrumb;
+
+                    if ( theme == null )
+                    {
+                        theme = breadcrumb;
+                    }
+
+                    result.append( LINE_BEGIN_NIVEAU.replace( "<%NIVEAU_ID%>", breadcrumb ) );
+
+                    if ( StringUtils.isNumeric( breadcrumb ) )
+                    {
+                        result.append( _dilaLocalService.findTitleByIdAndTypeAndAudience( Long.valueOf( breadcrumb ),
+                                DilaLocalTypeEnum.FOLDER.getId( ), folder.getLocalDTO( ).getIdAudience( ) ) );
+                    }
+                    else
+                    {
+                        result.append( _dilaXmlService.findTitleById( breadcrumb ) );
+                    }
+                    result.append( LINE_END_NIVEAU );
                 }
 
-                result.append( LINE_BEGIN_NIVEAU.replace( "<%NIVEAU_ID%>", breadcrumb ) );
-
-                //be aware about "Vacuous truth" of StringUtils.isNumeric("")
-                if ( StringUtils.isNotBlank( breadcrumb ) && StringUtils.isNumeric( breadcrumb ) )
-                {
-                    result.append( _dilaLocalService.findTitleByIdAndTypeAndAudience( Long.valueOf( breadcrumb ),
-                            DilaLocalTypeEnum.FOLDER.getId( ), folder.getLocalDTO( ).getIdAudience( ) ) );
-                }
-                else
-                {
-                    result.append( _dilaXmlService.findTitleById( breadcrumb ) );
-                }
-
-                result.append( LINE_END_NIVEAU );
             }
         }
 
