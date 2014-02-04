@@ -371,18 +371,18 @@
                  <xsl:value-of select="$IMAGES" />
                  <xsl:choose>
                      <!-- Comment faire si -->
-                     <xsl:when test="$id = 'F14128'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F14128.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F16225'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F16225.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F17556'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F17556.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F14485'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F14485.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F16507'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F16507.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F1700'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F1700.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F15913'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F15913.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F17904'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F17904.png</xsl:text></xsl:when>
-                     <xsl:when test="$id = 'F17649'"><xsl:text>images/plugins/dila/vdd/comment-faire-si/F17649.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F14128'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F14128.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F16225'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F16225.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F17556'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F17556.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F14485'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F14485.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F16507'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F16507.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F1700'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F1700.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F15913'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F15913.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F17904'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F17904.png</xsl:text></xsl:when>
+                     <xsl:when test="$id = 'F17649'"><xsl:text>images/local/skin/plugins/dila/vdd/comment-faire-si/F17649.png</xsl:text></xsl:when>
                      <xsl:otherwise>
                          <!-- Thèmes principaux --> 
-                         <xsl:text>images/plugins/dila/vdd/</xsl:text><xsl:value-of
+                         <xsl:text>images/local/skin/plugins/dila/vdd/</xsl:text><xsl:value-of
                 select="$id" /><xsl:text>.png</xsl:text>
                      </xsl:otherwise>
                  </xsl:choose>
@@ -1551,7 +1551,7 @@
                     width="32" height="32">
                     <xsl:attribute name="src">
                         <xsl:value-of select="$IMAGES" />
-                        <xsl:text>images/plugins/dila/fleche.png</xsl:text>
+                        <xsl:text>images/local/skin/plugins/dila/fleche.png</xsl:text>
                     </xsl:attribute>
                 </img>
             </a>

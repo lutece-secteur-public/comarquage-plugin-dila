@@ -309,7 +309,7 @@
 			<xsl:choose>
 				<xsl:when test="@type = 'note'">
 					<xsl:attribute name="src">
-                        <xsl:text>images/plugins/dila/pictos/pct-a-noter.png</xsl:text>
+                        <xsl:text>images/local/skin/plugins/dila/pictos/pct-a-noter.png</xsl:text>
                     </xsl:attribute>
 					<xsl:attribute name="alt">
                         <xsl:text>A noter</xsl:text>
@@ -317,7 +317,7 @@
 				</xsl:when>
 				<xsl:when test="@type = 'savoir'">
 					<xsl:attribute name="src">
-                        <xsl:text>images/plugins/dila/pictos/pct-a-savoir.png</xsl:text>
+                        <xsl:text>images/local/skin/plugins/dila/pictos/pct-a-savoir.png</xsl:text>
                     </xsl:attribute>
 					<xsl:attribute name="alt">
                         <xsl:text>A savoir</xsl:text>
@@ -326,7 +326,7 @@
 				<xsl:when test="@type = 'attention'">
 					<xsl:attribute name="src">
                         <xsl:value-of select="$IMAGES" />
-                        <xsl:text>images/plugins/dila/pictos/pct-attention.png</xsl:text>
+                        <xsl:text>images/local/skin/plugins/dila/pictos/pct-attention.png</xsl:text>
                     </xsl:attribute>
 					<xsl:attribute name="alt">
                         <xsl:text>Attention</xsl:text>
@@ -334,7 +334,7 @@
 				</xsl:when>
 				<xsl:when test="@type = 'info'">
 					<xsl:attribute name="src">
-                        <xsl:text>images/plugins/dila/pictos/pct-a-savoir.png</xsl:text>
+                        <xsl:text>images/local/skin/plugins/dila/pictos/pct-a-savoir.png</xsl:text>
                     </xsl:attribute>
 					<xsl:attribute name="alt">
                         <xsl:text>Sachez que</xsl:text>
