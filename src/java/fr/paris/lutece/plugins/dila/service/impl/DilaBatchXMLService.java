@@ -67,7 +67,7 @@ public class DilaBatchXMLService implements IDilaBatchXMLService
     /**
      * List of XML file that will not be indexed
      */
-    public static final List<String> listXMLNotSupported = Arrays.asList( "themes.xml", "redirections.xml",
+    public static final List<String> listXMLNotSupported = Arrays.asList( "arborescence.xml", "redirections.xml",
             "journal.xml" );
 
     /**

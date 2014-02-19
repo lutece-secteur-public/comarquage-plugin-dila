@@ -18,28 +18,30 @@
         <xsl:if test="$CATEGORIE = 'particuliers'">
             <xsl:variable name="file">
                 <xsl:value-of select="$XMLURL" />
-                <xsl:text>Themes.xml</xsl:text>
+                <xsl:text>arborescence.xml</xsl:text>
             </xsl:variable>
             <div class="span12 spBarre10Themes">
-                <xsl:for-each select="document($file)/Noeud/Descendance/Fils">
-                    <xsl:variable name="titre">
-                        <xsl:value-of select="TitreContextuel" />
-                    </xsl:variable>
-                    <div class="span1 spBarre10ThemesFils">
-                        <xsl:call-template name="getPublicationLink">
-                            <xsl:with-param name="href">
-                                <xsl:value-of select="@lien" />
-                            </xsl:with-param>
-                            <xsl:with-param name="title">
-                                <xsl:value-of select="$titre" />
-                            </xsl:with-param>
-                            <xsl:with-param name="text">
-                                <xsl:call-template name="imageOfATheme">
-                                    <xsl:with-param name="id" select="@lien" />
-                                </xsl:call-template>
-                            </xsl:with-param>
-                        </xsl:call-template>
-                    </div>
+                <xsl:for-each select="document($file)/Arborescence/Item">
+	                <xsl:if test="@type = 'Theme'">
+	                    <xsl:variable name="titre">
+	                        <xsl:value-of select="Titre" />
+	                    </xsl:variable>
+	                    <div class="span1 spBarre10ThemesFils">
+	                        <xsl:call-template name="getPublicationLink">
+	                            <xsl:with-param name="href">
+	                                <xsl:value-of select="@ID" />
+	                            </xsl:with-param>
+	                            <xsl:with-param name="title">
+	                                <xsl:value-of select="$titre" />
+	                            </xsl:with-param>
+	                            <xsl:with-param name="text">
+	                                <xsl:call-template name="imageOfATheme">
+	                                    <xsl:with-param name="id" select="@ID" />
+	                                </xsl:call-template>
+	                            </xsl:with-param>
+	                        </xsl:call-template>
+	                    </div>
+                    </xsl:if>
                 </xsl:for-each>
             </div>
         </xsl:if>

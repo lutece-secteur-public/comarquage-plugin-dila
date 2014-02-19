@@ -48,12 +48,12 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
-
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 
 
 /**
@@ -73,18 +73,16 @@ public class DilaApp implements XPageApplication
     private static final String MARK_URL_PROFESSIONALS = "urlPME";
     private static final String MARK_URL_ASSOCIATIONS = "urlAssociations";
     private static final String PARAMETER_XML_FILE = "xmlFile";
-    private static final String PARAMETER_THEMES = "Themes";
-    private static final String PARAMETRER_THEMES_ASSO = "N20";
     private IDilaCacheService _dilaCacheService = SpringContextService.getBean( "dilaCacheService" );
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
-        throws UserNotSignedException, SiteMessageException
+    public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws UserNotSignedException,
+            SiteMessageException
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         String xmlName = request.getParameter( PARAMETER_XML_FILE );
         String strCategory = request.getParameter( MARKER_CATEGORY );
         strCategory = WordUtils.capitalize( strCategory );
@@ -93,22 +91,29 @@ public class DilaApp implements XPageApplication
 
         if ( StringUtils.isNotBlank( strCategory ) && ( AudienceCategoryEnum.fromLabel( strCategory ) != null ) )
         {
-            Long lCategoryId = AudienceCategoryEnum.fromLabel( strCategory ).getId(  );
+            AudienceCategoryEnum enumCategory = AudienceCategoryEnum.fromLabel( strCategory );
 
             if ( StringUtils.isBlank( xmlName ) )
             {
-                if ( lCategoryId.equals( AudienceCategoryEnum.ASSOCIATIONS.getId(  ) ) )
+                String prefix = null;
+                switch ( enumCategory )
                 {
-                    xmlName = PARAMETRER_THEMES_ASSO;
+                case ASSOCIATIONS:
+                    prefix = DilaConstants.ASSOCIATION_PREFIX;
+                    break;
+                case PROFESSIONNALS:
+                    prefix = DilaConstants.PROFESSIONAL_PREFIX;
+                    break;
+                case INDIVIDUALS:
+                default:
+                    prefix = DilaConstants.INDIVIDUAL_PREFIX;
+                    break;
                 }
-                else
-                {
-                    xmlName = PARAMETER_THEMES;
-                }
+                xmlName = AppPropertiesService.getProperty( prefix + DilaConstants.PROPERTY_HOME_CARD );
             }
 
-            String cacheKey = CacheKeyUtils.generateCacheKey( lCategoryId, xmlName );
-            dilaData = _dilaCacheService.getRessource( cacheKey, request.getLocale(  ) );
+            String cacheKey = CacheKeyUtils.generateCacheKey( enumCategory.getId( ), xmlName );
+            dilaData = _dilaCacheService.getRessource( cacheKey, request.getLocale( ) );
             model.put( MARK_NO_DATA, false );
         }
         else
@@ -123,9 +128,9 @@ public class DilaApp implements XPageApplication
         model.put( MARKER_DATA, dilaData );
         model.put( MARKER_INSEE, AppPropertiesService.getProperty( DilaConstants.PROPERTY_INSEE ) );
 
-        XPage page = new XPage(  );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_DILA, request.getLocale(  ), model );
-        page.setContent( template.getHtml(  ) );
+        XPage page = new XPage( );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_DILA, request.getLocale( ), model );
+        page.setContent( template.getHtml( ) );
         page.setTitle( DilaPlugin.PLUGIN_NAME );
         page.setPathLabel( DilaPlugin.PLUGIN_NAME );
 

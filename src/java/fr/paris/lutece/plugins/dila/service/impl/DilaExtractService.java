@@ -40,6 +40,13 @@ import fr.paris.lutece.plugins.dila.utils.filter.FilenameFilterArchive;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -49,13 +56,6 @@ import org.apache.commons.compress.compressors.bzip2.BZip2Utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 
 /**
@@ -71,10 +71,10 @@ public class DilaExtractService implements IDilaExtractService
     /**
      * Archives filter
      */
-    private FilenameFilterArchive _filenameFilterArchive = new FilenameFilterArchive(  );
+    private FilenameFilterArchive _filenameFilterArchive = new FilenameFilterArchive( );
 
     @Override
-    public void extractAll(  ) throws DilaException
+    public void extractAll( ) throws DilaException
     {
         AppLogService.info( "Begin extract" );
 
@@ -99,34 +99,36 @@ public class DilaExtractService implements IDilaExtractService
             // List archives
             for ( File file : listFileZip )
             {
-                AppLogService.debug( "Processing archive : " + file.getName(  ) );
+                AppLogService.debug( "Processing archive : " + file.getName( ) );
 
                 // Define extract directory
-                String strArchiveName = file.getName(  );
+                String strArchiveName = file.getName( );
                 String strDirPathExtract = null;
                 String strDirPathCopy = null;
 
-                if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_INDIVIDUALS )
-                                             .equals( strArchiveName ) )
+                if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_INDIVIDUALS ).equals(
+                        strArchiveName ) )
                 {
                     AppLogService.debug( "Archive type : individual" );
                     strDirPathExtract = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_TMP_INDIVIDUALS );
                     strDirPathCopy = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_FINAL_INDIVIDUALS );
                 }
-                else if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_ASSO ).equals( strArchiveName ) )
+                else if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_ASSO ).equals(
+                        strArchiveName ) )
                 {
                     AppLogService.debug( "Archive type : association" );
                     strDirPathExtract = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_TMP_ASSO );
                     strDirPathCopy = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_FINAL_ASSO );
                 }
-                else if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_PME ).equals( strArchiveName ) )
+                else if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_PME ).equals(
+                        strArchiveName ) )
                 {
                     AppLogService.debug( "Archive type : professional" );
                     strDirPathExtract = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_TMP_PME );
                     strDirPathCopy = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_FINAL_PME );
                 }
-                else if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_LOCALES )
-                                                  .equals( strArchiveName ) )
+                else if ( AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_NAME_LOCALES ).equals(
+                        strArchiveName ) )
                 {
                     AppLogService.debug( "Archive type : local data" );
                     strDirPathExtract = AppPropertiesService.getProperty( DilaConstants.PROPERTY_XML_TMP_LOCALES );
@@ -144,11 +146,11 @@ public class DilaExtractService implements IDilaExtractService
                 }
                 catch ( IOException e )
                 {
-                    throw new DilaException( e.getMessage(  ) );
+                    throw new DilaException( e.getMessage( ) );
                 }
                 catch ( Exception e )
                 {
-                    throw new DilaException( e.getMessage(  ) );
+                    throw new DilaException( e.getMessage( ) );
                 }
             }
         }
@@ -158,13 +160,13 @@ public class DilaExtractService implements IDilaExtractService
 
     @Override
     public void extract( File file, String strArchiveName, String strDirPathExtract, String strDirPathCopy )
-        throws Exception
+            throws Exception
     {
         if ( StringUtils.isNotBlank( strDirPathExtract ) )
         {
             File dirExtract = new File( strDirPathExtract );
 
-            if ( ( dirExtract.exists(  ) ) )
+            if ( ( dirExtract.exists( ) ) )
             {
                 FileUtils.forceDelete( dirExtract );
             }
@@ -181,7 +183,7 @@ public class DilaExtractService implements IDilaExtractService
         if ( strArchiveName.endsWith( DilaConstants.EXTENSION_ZIP ) )
         {
             // Extract archive
-            extractArchive( file.getAbsolutePath(  ), strDirPathExtract );
+            extractArchive( file.getAbsolutePath( ), strDirPathExtract );
             copyFiles( strDirPathExtract, strDirPathCopy, false );
             deleteArchiveFile( file );
         }
@@ -194,7 +196,7 @@ public class DilaExtractService implements IDilaExtractService
             {
                 // Uncompress
                 BufferedInputStream bis = new BufferedInputStream( new FileInputStream( file ) );
-                String strUncompressedFilename = BZip2Utils.getUncompressedFilename( file.getName(  ) );
+                String strUncompressedFilename = BZip2Utils.getUncompressedFilename( file.getName( ) );
                 String strOutputPath = strDirPathExtract + File.separator + strUncompressedFilename;
                 bzis = new BZip2CompressorInputStream( bis );
 
@@ -202,8 +204,8 @@ public class DilaExtractService implements IDilaExtractService
                 bos = new BufferedOutputStream( fos );
                 IOUtils.copy( bzis, bos );
 
-                bzis.close(  );
-                bos.close(  );
+                bzis.close( );
+                bos.close( );
                 // Extract archive
                 extractArchive( strOutputPath, strDirPathExtract );
                 copyFiles( strDirPathExtract, strDirPathCopy, true );
@@ -211,7 +213,8 @@ public class DilaExtractService implements IDilaExtractService
             }
             catch ( Exception e )
             {
-                throw new DilaException( "Error during extract of " + file.getName(  ) );
+                AppLogService.debug( e.getMessage( ) );
+                throw new DilaException( "Error during extract of " + file.getName( ) );
             }
             finally
             {
@@ -238,7 +241,7 @@ public class DilaExtractService implements IDilaExtractService
         {
             File dirZip = new File( strArchivesDirPath );
 
-            if ( !dirZip.isDirectory(  ) )
+            if ( !dirZip.isDirectory( ) )
             {
                 bValid = false;
             }
@@ -262,22 +265,21 @@ public class DilaExtractService implements IDilaExtractService
      * @param strDirPathExtract the extract path dir
      * @throws Exception on batch error
      */
-    private void extractArchive( String strArchive, String strDirPathExtract )
-        throws Exception
+    private void extractArchive( String strArchive, String strDirPathExtract ) throws Exception
     {
         BufferedOutputStream out = null;
 
         try
         {
             BufferedInputStream bis = new BufferedInputStream( new FileInputStream( strArchive ) );
-            ArchiveInputStream in = new ArchiveStreamFactory(  ).createArchiveInputStream( bis );
-            ArchiveEntry entry = in.getNextEntry(  );
+            ArchiveInputStream in = new ArchiveStreamFactory( ).createArchiveInputStream( bis );
+            ArchiveEntry entry = in.getNextEntry( );
 
             while ( entry != null )
             {
-                File entryFile = new File( strDirPathExtract, entry.getName(  ) );
+                File entryFile = new File( strDirPathExtract, entry.getName( ) );
 
-                if ( entry.isDirectory(  ) && !entryFile.exists(  ) )
+                if ( entry.isDirectory( ) && !entryFile.exists( ) )
                 {
                     FileUtils.forceMkdir( entryFile );
                 }
@@ -285,21 +287,21 @@ public class DilaExtractService implements IDilaExtractService
                 {
                     out = new BufferedOutputStream( new FileOutputStream( entryFile ) );
                     IOUtils.copy( in, out );
-                    out.close(  );
+                    out.close( );
                 }
 
-                entry = in.getNextEntry(  );
+                entry = in.getNextEntry( );
             }
 
-            in.close(  );
+            in.close( );
         }
         catch ( IOException e )
         {
-            throw new DilaException( e.getMessage(  ) );
+            throw new DilaException( e.getMessage( ) );
         }
         catch ( ArchiveException e )
         {
-            throw new DilaException( e.getMessage(  ) );
+            throw new DilaException( e.getMessage( ) );
         }
         finally
         {
@@ -314,17 +316,16 @@ public class DilaExtractService implements IDilaExtractService
      * @param copySubFolders if need to copy all subfolders
      * @throws IOException occurs during treatment
      */
-    private void copyFiles( String srcDir, String destDir, boolean copySubFolders )
-        throws IOException
+    private void copyFiles( String srcDir, String destDir, boolean copySubFolders ) throws IOException
     {
         File source = new File( srcDir );
         File dest = new File( destDir );
 
         if ( copySubFolders )
         {
-            for ( File f : source.listFiles(  ) )
+            for ( File f : source.listFiles( ) )
             {
-                if ( f.isDirectory(  ) )
+                if ( f.isDirectory( ) )
                 {
                     FileUtils.moveDirectory( f, dest );
                 }
@@ -346,7 +347,7 @@ public class DilaExtractService implements IDilaExtractService
      */
     private void deleteArchiveFile( File file ) throws IOException
     {
-        if ( !file.delete(  ) )
+        if ( !file.delete( ) )
         {
             throw new IOException( "Erreur lors de la suppression du fichier." );
         }

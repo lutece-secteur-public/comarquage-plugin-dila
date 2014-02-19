@@ -130,13 +130,16 @@ public final class DilaConstants
     public static final String JSP_DELETE_DONNEE = "jsp/admin/plugins/dila/DoDeleteComplementaryData.jsp";
     public static final String JSP_MANAGE_DONNEES = "jsp/admin/plugins/dila/ManageComplementaryData.jsp";
     public static final String CACHE_KEY_SEPARATOR = "_";
-    public static final String DEFAULT_XML = "Themes";
     public static final String XML_EXTENSION = ".xml";
     public static final String XPAGE_REFERER = "jsp/site/Portal.jsp?page=dila&categorie=";
     public static final String XPAGE_REFERER_XMLFILE = "&xmlFile=";
     public static final String XPAGE_PARTICULIERS = "jsp/site/Portal.jsp?page=dila&categorie=particuliers";
     public static final String XPAGE_PME = "jsp/site/Portal.jsp?page=dila&categorie=professionnels";
     public static final String XPAGE_ASSO = "jsp/site/Portal.jsp?page=dila&categorie=associations";
+    public static final String INDIVIDUAL_PREFIX = "individual";
+    public static final String ASSOCIATION_PREFIX = "association";
+    public static final String PROFESSIONAL_PREFIX = "professional";
+    public static final String PROPERTY_HOME_CARD = ".home.card";
 
     /**
      * Utility class

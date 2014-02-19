@@ -169,7 +169,14 @@ public class DilaCacheService extends AbstractCacheableService implements IDilaC
         }
         else
         {
-            if ( DilaConstants.DEFAULT_XML.equals( cardId ) )
+            String individualDefault = AppPropertiesService.getProperty( DilaConstants.INDIVIDUAL_PREFIX
+                    + DilaConstants.PROPERTY_HOME_CARD );
+            String associationDefault = AppPropertiesService.getProperty( DilaConstants.ASSOCIATION_PREFIX
+                    + DilaConstants.PROPERTY_HOME_CARD );
+            String professionalDefault = AppPropertiesService.getProperty( DilaConstants.PROFESSIONAL_PREFIX
+                    + DilaConstants.PROPERTY_HOME_CARD );
+            if ( individualDefault.equals( cardId ) || associationDefault.equals( cardId )
+                    || professionalDefault.equals( cardId ) )
             {
                 if ( audienceEnum.equals( AudienceCategoryEnum.PROFESSIONNALS ) )
                 {

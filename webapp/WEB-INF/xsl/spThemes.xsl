@@ -28,21 +28,21 @@
     <!-- Rubriques principales -->
     <xsl:template name="noeudThemes">
         <div class="span3" style="margin-left:0px;">
-            <xsl:if test="count(/Noeud/CommentFaire) > 0">
+            <xsl:if test="count(/Arborescence/CommentFaire) > 0">
                 <div class="well">
                     <h4>Comment faire si ...</h4>
-                    <xsl:for-each select="/Noeud/CommentFaire">
+                    <xsl:for-each select="/Arborescence/CommentFaire">
                         <xsl:call-template name="commentFaire" />
                     </xsl:for-each>
                 </div>
             </xsl:if>
-            <xsl:if test="count(/Noeud/Fiche) &gt; 0">
+            <xsl:if test="count(/Arborescence/Fiche) &gt; 0">
                 <div class="well">
                     <h4>Fiches locales</h4>
-                    <xsl:for-each select="/Noeud/Fiche[position() &lt; 11]">
+                    <xsl:for-each select="/Arborescence/Fiche[position() &lt; 11]">
                         <xsl:call-template name="ficheLocale" />
                     </xsl:for-each>
-                    <xsl:if test="count(/Noeud/Fiche) > 10">
+                    <xsl:if test="count(/Arborescence/Fiche) > 10">
                         <xsl:element name="a">
                             <xsl:attribute name="href">
                                         <xsl:text>jsp/site/Portal.jsp?page=dilaLocal&amp;categorie=</xsl:text>
@@ -60,7 +60,7 @@
         </div>
         <div class="span9">
             <div class="well">
-                <xsl:for-each select="/Noeud/Descendance/Fils">
+                <xsl:for-each select="/Arborescence/Item">
                     <xsl:call-template name="mainTheme" />
                 </xsl:for-each>
             </div>
@@ -69,47 +69,49 @@
 
     <!-- Thème principal -->
     <xsl:template name="mainTheme">
-        <xsl:variable name="href">
-            <xsl:value-of select="$XMLURL" />
-            <xsl:value-of select="@lien" />
-            <xsl:text>.xml</xsl:text>
-        </xsl:variable>
-        <xsl:variable name="titre">
-            <xsl:apply-templates select="TitreContextuel" />
-        </xsl:variable>
-        <div class="noeudThemesFils">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="pull-left">
-                        <xsl:call-template name="imageOfATheme">
-                            <xsl:with-param name="id" select="@lien" />
-                        </xsl:call-template>
-                    </div>
-                    <a class="brand">
-                        <xsl:attribute name="title">
-                            <xsl:value-of select="normalize-space($titre)" />
-                        </xsl:attribute>
-                        <xsl:attribute name="href">
-                            <xsl:value-of select="$REFERER" />
-                            <xsl:value-of select="@lien" />
-                        </xsl:attribute>
-                        <xsl:copy-of select="$titre" />
-                    </a>
-                </div>
-            </div>
-            <xsl:call-template name="sousTheme">
-                <xsl:with-param name="nameFile">
-                    <xsl:value-of select="$href" />
-                </xsl:with-param>
-            </xsl:call-template>
-        </div>
+    	<xsl:if test="@type = 'Theme'">
+	        <xsl:variable name="href">
+	            <xsl:value-of select="$XMLURL" />
+	            <xsl:value-of select="@ID" />
+	            <xsl:text>.xml</xsl:text>
+	        </xsl:variable>
+	        <xsl:variable name="titre">
+	            <xsl:value-of select="Titre" />
+	        </xsl:variable>
+	        <div class="noeudThemesFils">
+	            <div class="navbar">
+	                <div class="navbar-inner">
+	                    <div class="pull-left">
+	                        <xsl:call-template name="imageOfATheme">
+	                            <xsl:with-param name="id" select="@ID" />
+	                        </xsl:call-template>
+	                    </div>
+	                    <a class="brand">
+	                        <xsl:attribute name="title">
+	                            <xsl:value-of select="normalize-space($titre)" />
+	                        </xsl:attribute>
+	                        <xsl:attribute name="href">
+	                            <xsl:value-of select="$REFERER" />
+	                            <xsl:value-of select="@ID" />
+	                        </xsl:attribute>
+	                        <xsl:copy-of select="$titre" />
+	                    </a>
+	                </div>
+	            </div>
+	            <xsl:call-template name="sousTheme">
+	                <xsl:with-param name="nameFile">
+	                    <xsl:value-of select="$href" />
+	                </xsl:with-param>
+	            </xsl:call-template>
+	        </div>
+        </xsl:if>
     </xsl:template>
 
     <!-- Sous-thème d'un thème principal -->
     <xsl:template name="sousTheme">
         <xsl:param name="nameFile" />
         <xsl:variable name="Titre">
-            <xsl:value-of select="TitreContextuel" />
+            <xsl:value-of select="Titre" />
         </xsl:variable>
         <xsl:for-each select="document($nameFile)/Publication/SousTheme">
             <xsl:call-template name="sousThemeLien">
