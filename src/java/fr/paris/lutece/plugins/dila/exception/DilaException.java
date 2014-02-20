@@ -50,4 +50,12 @@ public class DilaException extends Exception
     {
         super( strMessage );
     }
+    /**
+     * Manage daemon error
+     * @param strMessage the message
+     */
+    public DilaException( String strMessage, Exception e )
+    {
+        super( strMessage, e );
+    }
 }

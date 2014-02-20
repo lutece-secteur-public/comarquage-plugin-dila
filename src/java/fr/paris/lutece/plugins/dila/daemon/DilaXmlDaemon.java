@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.dila.daemon;
 
+import org.apache.log4j.Logger;
+
 import fr.paris.lutece.plugins.dila.exception.DilaException;
 import fr.paris.lutece.plugins.dila.service.IDilaDownloadService;
 import fr.paris.lutece.plugins.dila.service.IDilaExtractService;
@@ -46,6 +48,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
  */
 public class DilaXmlDaemon extends Daemon
 {
+    private static final Logger LOGGER = Logger.getLogger( DilaXmlDaemon.class );
     private IDilaDownloadService _dilaDownloadService;
     private IDilaExtractService _dilaExtractService;
     private IDilaIndexationService _dilaIndexationService;
@@ -70,6 +73,7 @@ public class DilaXmlDaemon extends Daemon
         }
         catch ( DilaException e )
         {
+            LOGGER.error( "Error during Dila Daemon execution", e );
             sb.append( e.getMessage(  ) );
             sb.append( "\n" );
         }

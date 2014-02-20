@@ -110,11 +110,15 @@ public class DilaIndexationService implements IDilaIndexationService
                     }
                     catch ( JDOMException jdom )
                     {
-                        throw new DilaException( "Error during file " + file.getName(  ) + " parsing." );
+                        throw new DilaException( "Error during file " + file.getName(  ) + " parsing.", jdom );
                     }
                     catch ( IOException ioe )
                     {
-                        throw new DilaException( "Error during file " + file.getName(  ) + " management." );
+                        throw new DilaException( "Error during file " + file.getName(  ) + " management.", ioe );
+                    }
+                    catch ( Exception e )
+                    {
+                        throw new DilaException( "Error during file " + file.getName(  ) + " indexation : "+e.getMessage( ), e );
                     }
                 }
             }
