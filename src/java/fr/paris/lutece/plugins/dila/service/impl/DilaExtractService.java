@@ -56,6 +56,7 @@ import org.apache.commons.compress.compressors.bzip2.BZip2Utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -63,6 +64,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DilaExtractService implements IDilaExtractService
 {
+    private static final Logger LOGGER = Logger.getLogger( DilaExtractService.class );
     /**
      * Directory path to archives
      */
@@ -236,6 +238,7 @@ public class DilaExtractService implements IDilaExtractService
         if ( StringUtils.isBlank( strArchivesDirPath ) )
         {
             bValid = false;
+            LOGGER.error( "Invalid parameter : blank archive dir path "+ strArchivesDirPath);
         }
         else
         {
@@ -244,6 +247,7 @@ public class DilaExtractService implements IDilaExtractService
             if ( !dirZip.isDirectory( ) )
             {
                 bValid = false;
+                LOGGER.error( "Invalid parameter : archive dir "+ strArchivesDirPath +" is not a directory" );
             }
             else
             {
@@ -252,6 +256,7 @@ public class DilaExtractService implements IDilaExtractService
                 if ( ( listFileZip == null ) || ( listFileZip.length < 1 ) )
                 {
                     bValid = false;
+                    LOGGER.error( "Invalid parameter : archive dir "+ strArchivesDirPath +" is empty" );
                 }
             }
         }
