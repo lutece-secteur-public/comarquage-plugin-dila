@@ -93,7 +93,7 @@ function doDeleteChapter ()
                 <div class="control-group">
                     <label for="title" class="control-label">#i18n{dila.create_fichelocale.titre} * :</label>
                     <div class="controls">
-                        <input maxlength="100" size="100" name="localDTO.title" value="${ficheLocale.localDTO.title!}"
+                        <input maxlength="255" size="100" name="localDTO.title" value="${ficheLocale.localDTO.title!}"
                             id="localDTO.title" type="text">
                     </div>
                 </div>
@@ -101,7 +101,7 @@ function doDeleteChapter ()
                     <label class="control-label" for="author">#i18n{dila.create_fichelocale.createur} * :</label>
                     <div class="controls">
                         <input id="localDTO.author" name="localDTO.author" size="60" value="${ficheLocale.localDTO.author!}"
-                            maxlength="100" type="text">
+                            maxlength="255" type="text">
                     </div>
                 </div>
             </fieldset>
@@ -114,7 +114,7 @@ function doDeleteChapter ()
                             <div class="control-group">
                                 <label for="chapter_title_${chapter.position}" class="control-label">#i18n{dila.create_fichelocale.titreChapitre} * :</label> 
                                 <div class="controls">
-                                    <input maxlength="50" size="60" name="chapter_title_${chapter.position}" id="chapter_title_${chapter.position}" type="text" value="${chapter.title!}">
+                                    <input maxlength="255" size="60" name="chapter_title_${chapter.position}" id="chapter_title_${chapter.position}" type="text" value="${chapter.title!}">
                                 </div>
                             </div>
                             <div class="control-group">

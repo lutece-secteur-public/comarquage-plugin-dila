@@ -118,7 +118,7 @@ function doVerifyFicheLink (refId)
                     <label class="control-label" for="author">#i18n{dila.dossierLocal.createur} * :</label>
                     <div class="controls">
                         <input id="localDTO.author" name="localDTO.author" size="60" value="${dossierLocal.localDTO.author!}"
-                            maxlength="100" type="text">
+                            maxlength="255" type="text">
                     </div>
                 </div>
                 <div class="control-group">
@@ -138,7 +138,7 @@ function doVerifyFicheLink (refId)
                         <label for="link_title_${link.position}" class="control-label">#i18n{dila.dossierLocal.titreLien} :</label>
                         <div class="controls">
                             <input id="link_title_${link.position}" name="link_title_${link.position}" size="60"
-                                maxlength="100" type="text" value="${link.title!}">
+                                maxlength="255" type="text" value="${link.title!}">
                         </div>
                     </div>
                     <div class="control-group">
