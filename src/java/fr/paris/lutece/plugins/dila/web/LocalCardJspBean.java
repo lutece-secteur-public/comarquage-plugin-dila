@@ -603,7 +603,7 @@ public class LocalCardJspBean extends PluginAdminPageJspBean
         {
             _cardBean.getLocalDTO( ).setBreadCrumb(
                     _cardBean.getLocalParentFolder( ).getLocalDTO( ).getBreadCrumb( ) + ";"
-                            + _cardBean.getLocalParentFolder( ).getId( ) );
+                            + _cardBean.getLocalParentFolder( ).getLocalDTO( ).getId( ) );
         }
         else
         {
