@@ -448,12 +448,6 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
         List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
 
-        if ( StringUtils.isEmpty( _complementaryData.getBottomBlock( ) )
-                || StringUtils.isEmpty( _complementaryData.getColumnBlock( ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
-
         String errorKeyCard = verifyCard( _complementaryData.getCard( ).getIdXml( ) );
         String errorKeyTeleservice = validateLinks( teleservices );
         String errorKeyLinks = validateLinks( links );
@@ -507,12 +501,6 @@ public class ComplementaryDataJspBean extends PluginAdminPageJspBean
 
         List<ComplementaryDataLinkDTO> teleservices = getExistingTeleservices( request );
         List<ComplementaryDataLinkDTO> links = getExistingLinks( request );
-
-        if ( StringUtils.isEmpty( _complementaryData.getBottomBlock( ) )
-                || StringUtils.isEmpty( _complementaryData.getColumnBlock( ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
 
         String errorKeyTeleservice = validateLinks( teleservices );
         String errorKeyLinks = validateLinks( links );
