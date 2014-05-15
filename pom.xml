@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>plugin-dila</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.1.1</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>Lutece DILA Comarquage Plugin</name>
 
     <repositories>
@@ -70,9 +70,9 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/tags/plugin-dila-1.1.1</connection>
-        <developerConnection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/tags/plugin-dila-1.1.1</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/tags/plugin-dila-1.1.1</url>
+        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-dila</connection>
+        <developerConnection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/cms/plugin-dila</developerConnection>
+        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/cms/plugin-dila</url>
     </scm>
 
 </project>
