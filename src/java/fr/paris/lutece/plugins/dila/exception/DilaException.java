@@ -53,6 +53,7 @@ public class DilaException extends Exception
     /**
      * Manage daemon error
      * @param strMessage the message
+     * @param e Exception
      */
     public DilaException( String strMessage, Exception e )
     {

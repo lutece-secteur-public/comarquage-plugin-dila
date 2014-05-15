@@ -238,7 +238,7 @@ public class DilaExtractService implements IDilaExtractService
         if ( StringUtils.isBlank( strArchivesDirPath ) )
         {
             bValid = false;
-            LOGGER.error( "Invalid parameter : blank archive dir path "+ strArchivesDirPath);
+            LOGGER.error( "Invalid parameter : blank archive dir path " + strArchivesDirPath );
         }
         else
         {
