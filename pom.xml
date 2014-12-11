@@ -46,13 +46,13 @@
             <version>4.3</version>
         </dependency>
         
-       <!-- Apache common compress -->
+       <!-- Apache common compress 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
             <version>1.5</version>
         </dependency>
-        
+        -->
         <!-- JDOM -->
         <dependency>
             <groupId>org.jdom</groupId>
