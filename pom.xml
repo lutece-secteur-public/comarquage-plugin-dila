@@ -70,9 +70,9 @@
     </properties>
 
     <scm>
-        <connection>scm:git:https://github.com/lutece-platform/lutece-cms-plugin-dila.git</connection>
-        <developerConnection>scm:git:https://github.com/lutece-platform/lutece-cms-plugin-dila.git</developerConnection>
-        <url>https://github.com/lutece-platform/lutece-cms-plugin-dila.git</url>
+        <connection>scm:git:https://github.com/lutece-secteur-public/plugin-dila.git</connection>
+        <developerConnection>scm:git:https://github.com/lutece-secteur-public/plugin-dila.git</developerConnection>
+        <url>https://github.com/lutece-secteur-public/plugin-dila.git</url>
     </scm>
 
 </project>
